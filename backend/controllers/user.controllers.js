@@ -20,3 +20,24 @@ exports.getUserById = async (req, res) => {
 		}
 	});
 };
+
+exports.createUser = async (req, res) => {
+	const { fullName, email, password } = req.body;
+
+	const newUser = await new UserModel({
+		fullName,
+		email,
+		password,
+	});
+
+	newUser
+		.save()
+		.then((response) =>
+			res.json({
+				status: true,
+				message: 'Successfully created a new user',
+				response,
+			}),
+		)
+		.catch((err) => res.json({ message: err }));
+};
