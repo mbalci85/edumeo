@@ -10,3 +10,13 @@ exports.getAllUsers = async (req, res) => {
 		res.status(500).json(error);
 	}
 };
+
+exports.getUserById = async (req, res) => {
+	await UserModel.findById({ _id: req.params.userid }, (err, data) => {
+		if (err) {
+			res.json({ message: err });
+		} else {
+			res.json(data);
+		}
+	});
+};
