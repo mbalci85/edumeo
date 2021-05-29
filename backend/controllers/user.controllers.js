@@ -51,17 +51,16 @@ exports.createUser = async (req, res) => {
 exports.signIn = async (req, res) => {
 	const { email, password } = req.body;
 
-	const token = jwt.sign(
-		{ name: email, role: data.role },
-		process.env.ACCESS_TOKEN_SECRET,
-		{
-			expiresIn: '1h',
-		},
-	);
-
 	await UserModel.findOne({ email })
 		.then(async (data) => {
 			if (await bcrypt.compare(password, data.password)) {
+				const token = jwt.sign(
+					{ name: email, role: data.role },
+					process.env.ACCESS_TOKEN_SECRET,
+					{
+						expiresIn: '1h',
+					},
+				);
 				res.json({
 					status: true,
 					fullName: data.fullName,

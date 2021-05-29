@@ -12,13 +12,23 @@
 	margin: 30px;
 }
 
+.home-page-title {
+	font-size: 60px;
+}
+
+.home-page-links {
+	display: flex;
+	text-decoration: none;
+	color: #b5b5b5;
+}
+
 .sign-up-form {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: left;
 	margin: 20px;
-	border: solid 2px black;
+	border: solid 1px gray;
 	border-radius: 5px;
 	padding: 10px 20px 60px 20px;
 	box-shadow: 2px 3px gray;
@@ -34,10 +44,18 @@
 	padding-left: 5px;
 }
 
+.password-not-match {
+	color: red;
+}
+
+.email-exists {
+	color: red;
+}
+
 .register-btn {
 	margin: 25px auto;
-	width: 50%;
-	font-size: 18px;
+	width: 100%;
+	font-size: 16px;
 	padding: 5px 0;
 	border: none;
 	border-radius: 5px;
@@ -46,4 +64,5 @@
 
 .log-in-link {
 	color: coral;
+	text-decoration: none;
 }
