@@ -22,6 +22,11 @@
 	color: #b5b5b5;
 }
 
+.home-page-welcome-message {
+	margin-top: 10%;
+	font-size: 75px;
+}
+
 .sign-up-form {
 	display: flex;
 	flex-direction: column;
@@ -65,4 +70,10 @@
 .log-in-link {
 	color: coral;
 	text-decoration: none;
+}
+
+.wrong-email-password {
+	text-align: center;
+	color: red;
+	margin-top: 15px;
 }

@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import './App.css';
 
-const Login = () => {
+const Login = ({ welcomeMessage, pageLinks }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [wrongPasswordEmail, setWrongPasswordEmail] = useState(false);
 
 	const history = useHistory();
+
+	useEffect(() => {
+		welcomeMessage(false);
+		pageLinks(false);
+	}, [welcomeMessage, pageLinks]);
 
 	const logIn = async (e) => {
 		e.preventDefault();
@@ -19,9 +25,12 @@ const Login = () => {
 			.then((res) => res.data)
 			.catch((err) => console.log(err));
 		if (response.status) {
+			localStorage.setItem('token', JSON.stringify(response.token));
+			localStorage.setItem('userInfo', JSON.stringify(response));
+
 			history.push('/dashboard');
 		} else {
-			alert('Wrong Email or password');
+			setWrongPasswordEmail(true);
 		}
 	};
 
@@ -51,9 +60,14 @@ const Login = () => {
 				<p style={{ textAlign: 'center' }}>
 					Don't have an account?{' '}
 					<a href="/register" className="log-in-link">
-						<span>Sign Up</span>
+						Sign Up
 					</a>
 				</p>
+				{wrongPasswordEmail ? (
+					<small className="wrong-email-password">
+						Wrong email or password!!!
+					</small>
+				) : null}
 			</form>
 		</div>
 	);
