@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 
 const WelcomePage = ({ welcomeMessage, pageLinks, logOut }) => {
 	const [name, setName] = useState('');
+	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
-		setName(JSON.parse(localStorage.getItem('userInfo')).fullName);
+		if (userInfo) {
+			setName(JSON.parse(localStorage.getItem('userInfo')).fullName);
+		}
 		welcomeMessage(false);
 		pageLinks(false);
 		logOut(false);
-	}, [welcomeMessage, pageLinks, logOut]);
+	}, [welcomeMessage, pageLinks, logOut, userInfo]);
 
 	return <div>Welcome {name}</div>;
 };

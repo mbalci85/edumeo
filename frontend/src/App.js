@@ -10,6 +10,7 @@ const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
 	const [showPageLinks, setShowPageLinks] = useState(true);
 	const [logOut, setLogOut] = useState(true);
+	const [dashboardLink, setDashboardLink] = useState(false);
 
 	return (
 		<div className="container">
@@ -22,11 +23,17 @@ const App = () => {
 						className="home-page-links"
 						onClick={() => {
 							setShowWelcomeMessage(true);
-							setShowPageLinks(true);
+
+							if (logOut) {
+								setShowPageLinks(true);
+							} else {
+								setDashboardLink(true);
+							}
 						}}
 					>
 						Home{' '}
 					</Link>
+
 					{showPageLinks ? (
 						<>
 							<Link to="/register" className="home-page-links">
@@ -38,25 +45,31 @@ const App = () => {
 						</>
 					) : null}
 					{!logOut ? (
-						<Link
-							to="/"
-							className="home-page-links"
-							onClick={() => {
-								setShowWelcomeMessage(true);
-								setShowPageLinks(true);
-								setLogOut(true);
-								localStorage.setItem('token', []);
-								localStorage.setItem('userInfo', {});
-							}}
-						>
-							{' '}
-							| Log Out
-						</Link>
+						<>
+							<Link to="/dashboard" className="home-page-links">
+								| Go to Dashboard
+							</Link>
+							<Link
+								to="/"
+								className="home-page-links"
+								onClick={() => {
+									setShowWelcomeMessage(true);
+									setShowPageLinks(true);
+									setLogOut(true);
+									localStorage.setItem('token', []);
+									localStorage.setItem('userInfo', {});
+								}}
+							>
+								{' '}
+								| Log Out
+							</Link>
+						</>
 					) : null}
 				</div>
 				{showWelcomeMessage ? (
 					<h1 className="home-page-welcome-message">Welcome to Edumeo!</h1>
 				) : null}
+
 				<Route
 					exact
 					path="/login"
@@ -77,9 +90,10 @@ const App = () => {
 						/>
 					)}
 				/>
+
 				<Route
 					exact
-					path="/dashboard"
+					path="/dashboard/"
 					render={() => (
 						<WelcomePage
 							welcomeMessage={setShowWelcomeMessage}
