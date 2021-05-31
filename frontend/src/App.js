@@ -10,7 +10,8 @@ const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
 	const [showPageLinks, setShowPageLinks] = useState(true);
 	const [logOut, setLogOut] = useState(true);
-	const [dashboardLink, setDashboardLink] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [dashboardLink, setDashboardLink] = useState(true);
 
 	return (
 		<div className="container">
@@ -22,13 +23,13 @@ const App = () => {
 						to="/"
 						className="home-page-links"
 						onClick={() => {
-							setShowWelcomeMessage(true);
-
 							if (logOut) {
 								setShowPageLinks(true);
-							} else {
+								setDashboardLink(false);
+							} else if (isLoggedIn) {
 								setDashboardLink(true);
 							}
+							setShowWelcomeMessage(true);
 						}}
 					>
 						Home{' '}
@@ -44,26 +45,32 @@ const App = () => {
 							</Link>
 						</>
 					) : null}
+
+					{isLoggedIn && dashboardLink ? (
+						<Link
+							to="/dashboard"
+							className="home-page-links"
+							onClick={() => setDashboardLink(true)}
+						>
+							| Go to Dashboard
+						</Link>
+					) : null}
+
 					{!logOut ? (
-						<>
-							<Link to="/dashboard" className="home-page-links">
-								| Go to Dashboard
-							</Link>
-							<Link
-								to="/"
-								className="home-page-links"
-								onClick={() => {
-									setShowWelcomeMessage(true);
-									setShowPageLinks(true);
-									setLogOut(true);
-									localStorage.setItem('token', []);
-									localStorage.setItem('userInfo', {});
-								}}
-							>
-								{' '}
-								| Log Out
-							</Link>
-						</>
+						<Link
+							to="/"
+							className="home-page-links"
+							onClick={() => {
+								setShowWelcomeMessage(true);
+								setShowPageLinks(true);
+								setLogOut(true);
+								localStorage.setItem('token', []);
+								localStorage.setItem('userInfo', {});
+							}}
+						>
+							{' '}
+							| Log Out
+						</Link>
 					) : null}
 				</div>
 				{showWelcomeMessage ? (
@@ -93,12 +100,14 @@ const App = () => {
 
 				<Route
 					exact
-					path="/dashboard/"
+					path="/dashboard"
 					render={() => (
 						<WelcomePage
 							welcomeMessage={setShowWelcomeMessage}
 							pageLinks={setShowPageLinks}
 							logOut={setLogOut}
+							logIn={setIsLoggedIn}
+							dashboardLink={setDashboardLink}
 						/>
 					)}
 				/>

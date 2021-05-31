@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-const WelcomePage = ({ welcomeMessage, pageLinks, logOut }) => {
+const WelcomePage = ({
+	welcomeMessage,
+	pageLinks,
+	logOut,
+	logIn,
+	dashboardLink,
+}) => {
 	const [name, setName] = useState('');
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -11,7 +17,9 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logOut }) => {
 		welcomeMessage(false);
 		pageLinks(false);
 		logOut(false);
-	}, [welcomeMessage, pageLinks, logOut, userInfo]);
+		logIn(true);
+		dashboardLink(false);
+	}, [welcomeMessage, pageLinks, logOut, userInfo, logIn, dashboardLink]);
 
 	return <div>Welcome {name}</div>;
 };
