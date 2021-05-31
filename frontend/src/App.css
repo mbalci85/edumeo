@@ -77,3 +77,11 @@
 	color: red;
 	margin-top: 15px;
 }
+
+.registration-msg {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10%;
+}

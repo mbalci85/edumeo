@@ -109,8 +109,8 @@ const RegistrationForm = ({ welcomeMessage, pageLinks }) => {
 				</div>
 			) : null}
 			{registered ? (
-				<div>
-					<h3>You have registered successfully</h3>
+				<div className="registration-msg">
+					<h3>You have registered successfully</h3> <br />
 					<h4>
 						<a href="/login" className="log-in-link">
 							Click here

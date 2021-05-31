@@ -24,7 +24,6 @@ const Login = ({ welcomeMessage, pageLinks }) => {
 			})
 			.then((res) => res.data)
 			.catch((err) => console.log(err));
-
 		if (response.status) {
 			localStorage.setItem('token', JSON.stringify(response.token));
 			localStorage.setItem('userInfo', JSON.stringify(response));

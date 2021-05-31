@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import Login from './Login';
 
@@ -9,9 +9,17 @@ import WelcomePage from './WelcomePage';
 const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
 	const [showPageLinks, setShowPageLinks] = useState(true);
-	const [logOut, setLogOut] = useState(true);
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
-	const [dashboardLink, setDashboardLink] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [dashboardLink, setDashboardLink] = useState(false);
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		if (token) {
+			setShowPageLinks(false);
+			setIsLoggedIn(true);
+			setDashboardLink(true);
+		}
+	}, [isLoggedIn]);
 
 	return (
 		<div className="container">
@@ -23,10 +31,9 @@ const App = () => {
 						to="/"
 						className="home-page-links"
 						onClick={() => {
-							if (logOut) {
+							if (isLoggedIn === false) {
 								setShowPageLinks(true);
-								setDashboardLink(false);
-							} else if (isLoggedIn) {
+							} else {
 								setDashboardLink(true);
 							}
 							setShowWelcomeMessage(true);
@@ -46,24 +53,25 @@ const App = () => {
 						</>
 					) : null}
 
-					{isLoggedIn && dashboardLink ? (
+					{isLoggedIn === true && dashboardLink === true ? (
 						<Link
 							to="/dashboard"
 							className="home-page-links"
-							onClick={() => setDashboardLink(true)}
+							onClick={() => setDashboardLink(false)}
 						>
 							| Go to Dashboard
 						</Link>
 					) : null}
 
-					{!logOut ? (
+					{isLoggedIn === true ? (
 						<Link
 							to="/"
 							className="home-page-links"
 							onClick={() => {
 								setShowWelcomeMessage(true);
 								setShowPageLinks(true);
-								setLogOut(true);
+								setIsLoggedIn(false);
+								setDashboardLink(false);
 								localStorage.setItem('token', []);
 								localStorage.setItem('userInfo', {});
 							}}
@@ -105,7 +113,6 @@ const App = () => {
 						<WelcomePage
 							welcomeMessage={setShowWelcomeMessage}
 							pageLinks={setShowPageLinks}
-							logOut={setLogOut}
 							logIn={setIsLoggedIn}
 							dashboardLink={setDashboardLink}
 						/>
