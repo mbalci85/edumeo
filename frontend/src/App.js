@@ -11,15 +11,18 @@ const App = () => {
 	const [showPageLinks, setShowPageLinks] = useState(true);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [dashboardLink, setDashboardLink] = useState(false);
+	const [token, setToken] = useState([]);
 
 	useEffect(() => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			setShowPageLinks(false);
-			setIsLoggedIn(true);
-			setDashboardLink(true);
-		}
-	}, [isLoggedIn]);
+		setTimeout(() => {
+			setToken(localStorage.getItem('token'));
+			if (token.length !== 0) {
+				setShowPageLinks(false);
+				setIsLoggedIn(true);
+				setDashboardLink(true);
+			}
+		}, 0.000001);
+	}, [token]);
 
 	return (
 		<div className="container">
@@ -95,16 +98,19 @@ const App = () => {
 						/>
 					)}
 				/>
-				<Route
-					exact
-					path="/register"
-					render={() => (
-						<RegistrationForm
-							welcomeMessage={setShowWelcomeMessage}
-							pageLinks={setShowPageLinks}
-						/>
-					)}
-				/>
+
+				{token.length === 0 ? (
+					<Route
+						exact
+						path="/register"
+						render={() => (
+							<RegistrationForm
+								welcomeMessage={setShowWelcomeMessage}
+								pageLinks={setShowPageLinks}
+							/>
+						)}
+					/>
+				) : null}
 
 				<Route
 					exact
