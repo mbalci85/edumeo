@@ -12,6 +12,7 @@ const App = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [dashboardLink, setDashboardLink] = useState(false);
 	const [token, setToken] = useState([]);
+	const [signOutMessage, setSignOutMessage] = useState(false);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -75,6 +76,7 @@ const App = () => {
 								setShowPageLinks(true);
 								setIsLoggedIn(false);
 								setDashboardLink(false);
+								setSignOutMessage(true);
 								localStorage.setItem('token', []);
 								localStorage.setItem('userInfo', {});
 							}}
@@ -84,20 +86,35 @@ const App = () => {
 						</Link>
 					) : null}
 				</div>
+
+				{signOutMessage === true ? (
+					<div>
+						<small>
+							You have signed out successfully. You might need to refresh
+							the page
+						</small>
+					</div>
+				) : null}
+
 				{showWelcomeMessage ? (
 					<h1 className="home-page-welcome-message">Welcome to Edumeo!</h1>
 				) : null}
 
-				<Route
-					exact
-					path="/login"
-					render={() => (
-						<Login
-							welcomeMessage={setShowWelcomeMessage}
-							pageLinks={setShowPageLinks}
-						/>
-					)}
-				/>
+				{token.length === 0 ? (
+					<Route
+						exact
+						path="/login"
+						render={() => (
+							<Login
+								welcomeMessage={setShowWelcomeMessage}
+								pageLinks={setShowPageLinks}
+								signOutMessage={setSignOutMessage}
+							/>
+						)}
+					/>
+				) : (
+					<Route path="/" />
+				)}
 
 				{token.length === 0 ? (
 					<Route
@@ -107,10 +124,13 @@ const App = () => {
 							<RegistrationForm
 								welcomeMessage={setShowWelcomeMessage}
 								pageLinks={setShowPageLinks}
+								signOutMessage={setSignOutMessage}
 							/>
 						)}
 					/>
-				) : null}
+				) : (
+					<Route path="/" />
+				)}
 
 				<Route
 					exact

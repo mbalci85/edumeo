@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import axios from 'axios';
 import './App.css';
 
-const Login = ({ welcomeMessage, pageLinks }) => {
+const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [wrongPasswordEmail, setWrongPasswordEmail] = useState(false);
@@ -13,7 +13,8 @@ const Login = ({ welcomeMessage, pageLinks }) => {
 	useEffect(() => {
 		welcomeMessage(false);
 		pageLinks(false);
-	}, [welcomeMessage, pageLinks]);
+		signOutMessage(false);
+	}, [welcomeMessage, pageLinks, signOutMessage]);
 
 	const logIn = async (e) => {
 		e.preventDefault();

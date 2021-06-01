@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const RegistrationForm = ({ welcomeMessage, pageLinks }) => {
+const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [fullName, setFullName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -14,7 +14,8 @@ const RegistrationForm = ({ welcomeMessage, pageLinks }) => {
 	useEffect(() => {
 		welcomeMessage(false);
 		pageLinks(false);
-	}, [welcomeMessage, pageLinks]);
+		signOutMessage(false);
+	}, [welcomeMessage, pageLinks, signOutMessage]);
 
 	const register = (e) => {
 		e.preventDefault();
