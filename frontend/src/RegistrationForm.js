@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import { Link } from 'react-router-dom';
 
 const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [fullName, setFullName] = useState('');
@@ -113,9 +114,9 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 				<div className="registration-msg">
 					<h3>You have registered successfully</h3> <br />
 					<h4>
-						<a href="/login" className="log-in-link">
-							Click here
-						</a>{' '}
+						<Link to="/login" className="log-in-link">
+							Click here{' '}
+						</Link>{' '}
 						to log in
 					</h4>
 				</div>
