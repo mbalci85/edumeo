@@ -13,6 +13,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [registered, setRegistered] = useState(false);
 	const [blankFullName, setBlankFullName] = useState(false);
 	const [passwordLength, setPasswordLength] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		welcomeMessage(false);
@@ -43,7 +44,10 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 										email,
 										password,
 									})
-									.then((res) => res.data)
+									.then((res) => {
+										setIsLoading(false);
+										return res.data;
+									})
 									.catch((err) => console.log(err));
 								localStorage.setItem(
 									'token',
@@ -66,6 +70,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 			setBlankFullName(true);
 		}
 		e.preventDefault();
+		setIsLoading(true);
 	};
 
 	return (
@@ -133,6 +138,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						<button type="submit" className="register-btn">
 							Register
 						</button>
+						{isLoading ? <small>Registering....</small> : null}
 						<p>
 							If you have already registered, click{' '}
 							<a href="/login" className="log-in-link">
