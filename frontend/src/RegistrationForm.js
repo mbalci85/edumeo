@@ -11,6 +11,8 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [passwordNotMatch, setPasswordNotMatch] = useState(false);
 	const [emailExists, setEmailExists] = useState(false);
 	const [registered, setRegistered] = useState(false);
+	const [blankFullName, setBlankFullName] = useState(false);
+	const [passwordLength, setPasswordLength] = useState(false);
 
 	useEffect(() => {
 		welcomeMessage(false);
@@ -19,36 +21,51 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	}, [welcomeMessage, pageLinks, signOutMessage]);
 
 	const register = (e) => {
-		e.preventDefault();
-		if (password === confirmPassword) {
-			axios
-				.post('http://localhost:5000/users/signup', {
-					fullName,
-					email,
-					password,
-				})
-				.then(async (res) => {
-					if (!res.data.status) {
-						setEmailExists(true);
-						setPassword('');
-						setConfirmPassword('');
-						setPasswordNotMatch(false);
-					} else {
-						setRegistered(true);
-						const response = await axios
-							.post('http://localhost:5000/users/signin', {
-								email,
-								password,
-							})
-							.then((res) => res.data)
-							.catch((err) => console.log(err));
-						localStorage.setItem('token', JSON.stringify(response.token));
-						localStorage.setItem('userInfo', JSON.stringify(response));
-					}
-				});
+		if (fullName.trim() !== '') {
+			if (password.length > 5) {
+				if (password === confirmPassword) {
+					axios
+						.post('http://localhost:5000/users/signup', {
+							fullName,
+							email,
+							password,
+						})
+						.then(async (res) => {
+							if (!res.data.status) {
+								setEmailExists(true);
+								setPassword('');
+								setConfirmPassword('');
+								setPasswordNotMatch(false);
+							} else {
+								setRegistered(true);
+								const response = await axios
+									.post('http://localhost:5000/users/signin', {
+										email,
+										password,
+									})
+									.then((res) => res.data)
+									.catch((err) => console.log(err));
+								localStorage.setItem(
+									'token',
+									JSON.stringify(response.token),
+								);
+								localStorage.setItem(
+									'userInfo',
+									JSON.stringify(response),
+								);
+							}
+						});
+				} else {
+					setPasswordNotMatch(true);
+					setPasswordLength(false);
+				}
+			} else {
+				setPasswordLength(true);
+			}
 		} else {
-			setPasswordNotMatch(true);
+			setBlankFullName(true);
 		}
+		e.preventDefault();
 	};
 
 	return (
@@ -63,16 +80,24 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							placeholder="Enter your full name"
 							value={fullName}
 							onChange={(e) => setFullName(e.target.value)}
+							required
 						/>
+						{blankFullName ? (
+							<small className="register-form-validation-warning">
+								This field can not be blank
+							</small>
+						) : null}
 						<label htmlFor="email">Email</label>
 						<input
 							id="email"
+							type="email"
 							placeholder="Enter your email"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
+							required
 						/>
 						{emailExists ? (
-							<small className="email-exists">
+							<small className="register-form-validation-warning">
 								This email address exists. Enter another one!
 							</small>
 						) : null}
@@ -80,20 +105,27 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						<input
 							id="password"
 							type="password"
-							placeholder="Enter password"
+							placeholder="Enter your password"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
+							required
 						/>
+						{passwordLength ? (
+							<small className="register-form-validation-warning">
+								Enter at least 6 characters
+							</small>
+						) : null}
 						<label htmlFor="confirm-password">Confirm Password</label>
 						<input
 							id="confirm-password"
 							type="password"
-							placeholder="Confirm password"
+							placeholder="Confirm your password"
 							value={confirmPassword}
 							onChange={(e) => setConfirmPassword(e.target.value)}
+							required
 						/>
 						{passwordNotMatch ? (
-							<small className="password-not-match">
+							<small className="register-form-validation-warning">
 								Password does not match
 							</small>
 						) : null}
