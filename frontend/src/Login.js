@@ -7,6 +7,7 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [wrongPasswordEmail, setWrongPasswordEmail] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const history = useHistory();
 
@@ -18,12 +19,17 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 
 	const logIn = async (e) => {
 		e.preventDefault();
+		setIsLoading(true);
+		setWrongPasswordEmail(false);
 		const response = await axios
 			.post('http://localhost:5000/users/signin', {
 				email,
 				password,
 			})
-			.then((res) => res.data)
+			.then((res) => {
+				setIsLoading(false);
+				return res.data;
+			})
 			.catch((err) => console.log(err));
 		if (response.status) {
 			localStorage.setItem('token', JSON.stringify(response.token));
@@ -58,12 +64,19 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 				<button type="submit" className="register-btn">
 					Log In
 				</button>
-				<p style={{ textAlign: 'center' }}>
-					Don't have an account?{' '}
-					<a href="/register" className="log-in-link">
-						Sign Up
-					</a>
-				</p>
+				{isLoading ? (
+					<small className="login-form-loading-msg">
+						Checking your credentials ................
+					</small>
+				) : null}
+				{!isLoading ? (
+					<p style={{ textAlign: 'center' }}>
+						Don't have an account?{' '}
+						<a href="/register" className="log-in-link">
+							Sign Up
+						</a>
+					</p>
+				) : null}
 				{wrongPasswordEmail ? (
 					<small className="wrong-email-password">
 						Wrong email or password!!!

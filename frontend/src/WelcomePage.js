@@ -14,7 +14,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 		dashboardLink(false);
 	}, [welcomeMessage, pageLinks, userInfo, logIn, dashboardLink]);
 
-	return <div>Welcome {name}</div>;
+	return <div className="dashboard-welcome-msg">Welcome {name}</div>;
 };
 
 export default WelcomePage;

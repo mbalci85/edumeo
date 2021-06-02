@@ -27,6 +27,12 @@
 	font-size: 75px;
 }
 
+.homepage-signout-msg {
+	color: green;
+	font-weight: bold;
+	margin-top: 1%;
+}
+
 .sign-up-form {
 	display: flex;
 	flex-direction: column;
@@ -80,4 +86,15 @@
 	justify-content: center;
 	align-items: center;
 	margin-top: 10%;
+}
+
+.login-form-loading-msg {
+	color: red;
+	text-align: center;
+}
+
+.dashboard-welcome-msg {
+	color: green;
+	margin-top: 2%;
+	font-weight: bold;
 }

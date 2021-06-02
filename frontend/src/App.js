@@ -88,7 +88,7 @@ const App = () => {
 				</div>
 
 				{signOutMessage === true ? (
-					<div>
+					<div className="homepage-signout-msg">
 						<small>
 							You have signed out successfully. You might need to refresh
 							the page

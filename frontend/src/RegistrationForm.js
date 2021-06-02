@@ -138,13 +138,19 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						<button type="submit" className="register-btn">
 							Register
 						</button>
-						{isLoading ? <small>Registering....</small> : null}
-						<p>
-							If you have already registered, click{' '}
-							<a href="/login" className="log-in-link">
-								<span>Log In</span>
-							</a>
-						</p>
+						{isLoading ? (
+							<small className="register-form-validation-warning">
+								Registering....
+							</small>
+						) : null}
+						{!isLoading ? (
+							<p>
+								If you have already registered, click{' '}
+								<a href="/login" className="log-in-link">
+									<span>Log In</span>
+								</a>
+							</p>
+						) : null}
 					</form>
 				</div>
 			) : null}
