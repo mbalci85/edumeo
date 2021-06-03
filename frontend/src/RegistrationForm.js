@@ -22,6 +22,11 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	}, [welcomeMessage, pageLinks, signOutMessage]);
 
 	const register = (e) => {
+		setIsLoading(true);
+		setBlankFullName(false);
+		setEmailExists(false);
+		setPasswordNotMatch(false);
+		setPasswordLength(false);
 		if (fullName.trim() !== '') {
 			if (password.length > 5) {
 				if (password === confirmPassword) {
@@ -37,6 +42,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 								setPassword('');
 								setConfirmPassword('');
 								setPasswordNotMatch(false);
+								setIsLoading(false);
 							} else {
 								setRegistered(true);
 								const response = await axios
@@ -60,17 +66,27 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							}
 						});
 				} else {
+					setIsLoading(false);
 					setPasswordNotMatch(true);
 					setPasswordLength(false);
+					setBlankFullName(false);
+					setEmailExists(false);
 				}
 			} else {
+				setIsLoading(false);
 				setPasswordLength(true);
+				setBlankFullName(false);
+				setEmailExists(false);
+				setPasswordNotMatch(false);
 			}
 		} else {
+			setIsLoading(false);
 			setBlankFullName(true);
+			setEmailExists(false);
+			setPasswordNotMatch(false);
+			setPasswordLength(false);
 		}
 		e.preventDefault();
-		setIsLoading(true);
 	};
 
 	return (
@@ -140,7 +156,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						</button>
 						{isLoading ? (
 							<small className="register-form-validation-warning">
-								Registering....
+								Checking your credentials ................
 							</small>
 						) : null}
 						{!isLoading ? (
