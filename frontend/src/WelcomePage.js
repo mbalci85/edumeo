@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+// import axios from 'axios';
 
 const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [name, setName] = useState('');
@@ -17,6 +18,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 		dashboardLink(false);
 	}, [welcomeMessage, pageLinks, userInfo, logIn, dashboardLink]);
 
+	const publish = async (e) => {
+		e.preventDefault();
+	};
+
 	return (
 		<div>
 			<div className="dashboard-welcome-msg">
@@ -24,7 +29,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			</div>
 
 			<div>
-				<form className="post-form">
+				<form className="post-form" onSubmit={publish}>
 					<label htmlFor="title">Title</label>
 					<input
 						id="title"
@@ -41,6 +46,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						value={body}
 						onChange={(e) => setBody(e.target.value)}
 					/>
+					<button className="publish-btn">Publish</button>
 				</form>
 			</div>
 		</div>

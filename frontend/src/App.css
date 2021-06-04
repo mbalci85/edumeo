@@ -126,3 +126,13 @@
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	line-height: 1.6;
 }
+
+.publish-btn {
+	margin: 25px auto;
+	width: 40%;
+	font-size: 18px;
+	padding: 10px 0;
+	border: none;
+	border-radius: 5px;
+	background-color: #d1d2f3;
+}
