@@ -2,6 +2,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .container {
@@ -95,6 +96,33 @@
 
 .dashboard-welcome-msg {
 	color: green;
-	margin-top: 2%;
+	padding: 5%;
 	font-weight: bold;
+	text-align: center;
+}
+
+.post-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: left;
+}
+
+.post-form > label {
+	margin: 15px 0 10px 0;
+}
+
+.post-form > input {
+	width: 500px;
+	border: solid black 1px;
+	border-radius: 3px;
+	height: 28px;
+	padding-left: 5px;
+}
+
+.post-form > textarea {
+	height: 200px;
+	padding: 5px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	line-height: 1.6;
 }
