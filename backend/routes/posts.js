@@ -4,7 +4,11 @@ const router = express.Router();
 const postsControllers = require('../controllers/post.controllers');
 
 router.get('/posts', postsControllers.getAllPosts);
+router.get('/posts/:postid', postsControllers.getPostById);
+router.get('/posts/:title', postsControllers.getPostsByTitle);
 router.post('/posts', postsControllers.createPost);
 router.put('/posts/:postid', postsControllers.updatePost);
+router.delete('/posts/:postid', postsControllers.removePost);
+router.delete('/posts/delete/:postid', postsControllers.deletePost);
 
 module.exports = router;

@@ -11,11 +11,32 @@ exports.getAllPosts = async (req, res) => {
 	}
 };
 
+exports.getPostById = async (req, res) => {
+	await PostModel.findOne({ _id: req.params.postid }, (err, data) => {
+		if (err) {
+			res.json({ message: err });
+		} else {
+			res.json(data);
+		}
+	});
+};
+
+exports.getPostsByTitle = async (req, res) => {
+	await PostModel.find({ title: req.params.title }, (err, data) => {
+		if (err) {
+			res.json({ message: err });
+		} else {
+			res.json(data);
+		}
+	});
+};
+
 exports.createPost = async (req, res) => {
-	const { title, body, author } = req.body;
+	const { title, body, author, isDeleted } = req.body;
 	const newPost = new PostModel({
 		title,
 		body,
+		isDeleted,
 		author,
 	});
 	newPost.save().then((response) =>
@@ -36,6 +57,25 @@ exports.updatePost = async (req, res) => {
 	)
 		.then((data) =>
 			res.json({ message: 'Post is successfully updated', data }),
+		)
+		.catch((err) => res.json({ message: err }));
+};
+
+exports.removePost = async (req, res) => {
+	await PostModel.findByIdAndUpdate(
+		{ _id: req.params.postid },
+		{ isDeleted: true },
+	)
+		.then((data) =>
+			res.json({ message: 'Post is successfully removed', data }),
+		)
+		.catch((err) => res.json({ message: err }));
+};
+
+exports.deletePost = async (req, res) => {
+	await PostModel.findByIdAndDelete({ _id: req.params.postid })
+		.then((data) =>
+			res.json({ message: 'Post is successfully deleted', data }),
 		)
 		.catch((err) => res.json({ message: err }));
 };
