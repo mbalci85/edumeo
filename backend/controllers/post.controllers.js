@@ -28,3 +28,14 @@ exports.createPost = async (req, res) => {
 			.catch((error) => res.json({ status: false, message: error })),
 	);
 };
+
+exports.updatePost = async (req, res) => {
+	await PostModel.findByIdAndUpdate(
+		{ _id: req.params.postid },
+		{ $set: req.body },
+	)
+		.then((data) =>
+			res.json({ message: 'Post is successfully updated', data }),
+		)
+		.catch((err) => res.json({ message: err }));
+};
