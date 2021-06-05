@@ -10,11 +10,13 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [blankNote, setBlankNote] = useState(false);
 	const [createPostNote, setCreatePostNote] = useState(false);
 	const [posts, setPosts] = useState('');
+	const [userId, setUserId] = useState('');
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
 		if (userInfo) {
 			setName(JSON.parse(localStorage.getItem('userInfo')).fullName);
+			setUserId(JSON.parse(localStorage.getItem('userInfo')).id);
 		}
 		welcomeMessage(false);
 		pageLinks(false);
@@ -23,11 +25,19 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	}, [welcomeMessage, pageLinks, userInfo, logIn, dashboardLink]);
 
 	useEffect(() => {
+		let mounted = true;
+
 		axios
-			.get('http://localhost:5000/posts')
-			.then((res) => setPosts(res.data))
+			.get(`http://localhost:5000/posts/userid/${userId}`)
+			.then((res) => {
+				if (mounted) {
+					return setPosts(res.data);
+				}
+			})
 			.catch((err) => console.log(err));
-	}, [setPosts]);
+
+		return () => (mounted = false);
+	}, [userId]);
 
 	const createPost = (e) => {
 		e.preventDefault();
@@ -38,6 +48,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				.post('http://localhost:5000/posts', {
 					title,
 					body,
+					userId,
 				})
 				.then((res) => res.data)
 				.catch((err) => console.log(err));
@@ -83,17 +94,21 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 					/>
 					<button className="create-post-btn">Create Post</button>
 					{blankNote ? (
-						<small>Title or post body can not be blank</small>
+						<small className="create-post-failure-note">
+							Title or post body can not be blank
+						</small>
 					) : null}
 					{createPostNote ? (
-						<small>You have published your post successfully</small>
+						<small className="create-post-success-note">
+							You have created your post successfully
+						</small>
 					) : null}
 				</form>
 			</div>
 			<div className="dashboard-posts-list-container">
 				<h2 className="dashboard-posts-list-container-title">My Posts</h2>
 				<div>
-					<UserPosts posts={posts} />
+					<UserPosts posts={posts} userId={userId} />
 				</div>
 			</div>
 		</div>

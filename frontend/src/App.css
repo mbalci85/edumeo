@@ -140,6 +140,15 @@
 	background-color: #d1d2f3;
 }
 
+.create-post-failure-note {
+	color: red;
+	text-align: center;
+}
+.create-post-success-note {
+	color: green;
+	text-align: center;
+}
+
 .dashboard-posts-list-container {
 	text-align: center;
 }

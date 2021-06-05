@@ -28,6 +28,7 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 			})
 			.then((res) => {
 				setIsLoading(false);
+				console.log(res.data);
 				return res.data;
 			})
 			.catch((err) => console.log(err));

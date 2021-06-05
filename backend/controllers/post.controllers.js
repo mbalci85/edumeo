@@ -31,13 +31,24 @@ exports.getPostsByTitle = async (req, res) => {
 	});
 };
 
+exports.getPostsByUserId = async (req, res) => {
+	await PostModel.find({ userId: req.params.userid }, (err, data) => {
+		if (err) {
+			res.json({ message: err });
+		} else {
+			res.json(data);
+		}
+	});
+};
+
 exports.createPost = async (req, res) => {
-	const { title, body, author, isDeleted } = req.body;
+	const { title, body, author, isDeleted, userId } = req.body;
 	const newPost = new PostModel({
 		title,
 		body,
 		isDeleted,
 		author,
+		userId,
 	});
 	newPost.save().then((response) =>
 		res

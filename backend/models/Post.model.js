@@ -8,6 +8,7 @@ const PostSchema = new Schema(
 		body: { type: String, required: true },
 		author: { type: String },
 		isDeleted: { type: Boolean, default: false },
+		userId: { type: String },
 	},
 	{ timestamps: true },
 );

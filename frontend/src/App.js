@@ -134,7 +134,7 @@ const App = () => {
 
 				<Route
 					exact
-					path="/dashboard"
+					path="/dashboard/"
 					render={() => (
 						<WelcomePage
 							welcomeMessage={setShowWelcomeMessage}

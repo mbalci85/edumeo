@@ -1,11 +1,13 @@
 import React from 'react';
 import UserPost from './UserPost';
 
-const UserPosts = ({ posts }) => {
+const UserPosts = ({ posts, userId }) => {
 	return (
 		<div>
 			{posts.length !== 0 &&
-				posts.map((post) => <UserPost post={post} key={post._id} />)}
+				posts.map((post) => (
+					<UserPost post={post} key={post._id} userId={userId} />
+				))}
 		</div>
 	);
 };
