@@ -96,7 +96,7 @@
 
 .dashboard-welcome-msg {
 	color: green;
-	padding: 5%;
+	padding: 3%;
 	font-weight: bold;
 	text-align: center;
 }
@@ -106,6 +106,9 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: left;
+	width: 70%;
+	margin-left: 17%;
+	margin-bottom: 50px;
 }
 
 .post-form > label {
@@ -135,4 +138,8 @@
 	border: none;
 	border-radius: 5px;
 	background-color: #d1d2f3;
+}
+
+.dashboard-posts-list-container {
+	text-align: center;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import '../App.css';
 import axios from 'axios';
+import UserPosts from './UserPosts';
 
 const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [name, setName] = useState('');
@@ -8,6 +9,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [body, setBody] = useState('');
 	const [blankNote, setBlankNote] = useState(false);
 	const [publishNote, setPublishNote] = useState(false);
+	const [posts, setPosts] = useState('');
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
@@ -19,6 +21,13 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 		logIn(true);
 		dashboardLink(false);
 	}, [welcomeMessage, pageLinks, userInfo, logIn, dashboardLink]);
+
+	useEffect(() => {
+		axios
+			.get('http://localhost:5000/posts')
+			.then((res) => setPosts(res.data))
+			.catch((err) => console.log(err));
+	}, [setPosts]);
 
 	const publish = (e) => {
 		e.preventDefault();
@@ -80,6 +89,12 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						<small>You have published your post successfully</small>
 					) : null}
 				</form>
+			</div>
+			<div className="dashboard-posts-list-container">
+				<h3>My Posts</h3>
+				<div>
+					<UserPosts posts={posts} />
+				</div>
 			</div>
 		</div>
 	);

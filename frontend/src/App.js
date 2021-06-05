@@ -4,7 +4,7 @@ import Login from './Login';
 
 import './App.css';
 import RegistrationForm from './RegistrationForm';
-import WelcomePage from './WelcomePage';
+import WelcomePage from './User Dashboard/WelcomePage';
 
 const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
