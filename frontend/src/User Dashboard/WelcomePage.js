@@ -108,7 +108,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			<div className="dashboard-posts-list-container">
 				<h2 className="dashboard-posts-list-container-title">My Posts</h2>
 				<div>
-					<UserPosts posts={posts} userId={userId} />
+					<UserPosts posts={posts} />
 				</div>
 			</div>
 		</div>

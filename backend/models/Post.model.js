@@ -7,7 +7,7 @@ const PostSchema = new Schema(
 		title: { type: String, required: true },
 		body: { type: String, required: true },
 		author: { type: String },
-		isDeleted: { type: Boolean, default: false },
+		isPublished: { type: Boolean, default: false },
 		userId: { type: String },
 	},
 	{ timestamps: true },

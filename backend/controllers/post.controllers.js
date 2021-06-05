@@ -42,11 +42,11 @@ exports.getPostsByUserId = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
-	const { title, body, author, isDeleted, userId } = req.body;
+	const { title, body, author, isPublished, userId } = req.body;
 	const newPost = new PostModel({
 		title,
 		body,
-		isDeleted,
+		isPublished,
 		author,
 		userId,
 	});
@@ -72,10 +72,10 @@ exports.updatePost = async (req, res) => {
 		.catch((err) => res.json({ message: err }));
 };
 
-exports.removePost = async (req, res) => {
+exports.publishPost = async (req, res) => {
 	await PostModel.findByIdAndUpdate(
 		{ _id: req.params.postid },
-		{ isDeleted: true },
+		{ isPublished: true },
 	)
 		.then((data) =>
 			res.json({ message: 'Post is successfully removed', data }),
