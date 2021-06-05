@@ -130,7 +130,7 @@
 	line-height: 1.6;
 }
 
-.publish-btn {
+.create-post-btn {
 	margin: 25px auto;
 	width: 40%;
 	font-size: 18px;
@@ -142,4 +142,40 @@
 
 .dashboard-posts-list-container {
 	text-align: center;
+}
+
+.dashboard-posts-list-container-title {
+	margin: 40px 0;
+}
+
+.dashboard-all-posts-container {
+	display: inline-flex;
+}
+
+.dashboard-post-card-title {
+	color: coral;
+}
+
+.dashboard-post-card-container {
+	position: relative;
+	border: 1px solid;
+	border-radius: 3px;
+	padding: 10px;
+	margin: 10px;
+	width: 400px;
+	height: 300px;
+}
+
+.dashboard-post-card-btn-container {
+	position: absolute;
+	margin-left: 10%;
+	top: 240px;
+}
+
+.dashboard-post-card-btn {
+	margin: 5px;
+	border: none;
+	border-radius: 5px;
+	background-color: #d1d2f3;
+	padding: 10px;
 }

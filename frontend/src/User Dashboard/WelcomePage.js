@@ -8,7 +8,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [title, setTitle] = useState('');
 	const [body, setBody] = useState('');
 	const [blankNote, setBlankNote] = useState(false);
-	const [publishNote, setPublishNote] = useState(false);
+	const [createPostNote, setCreatePostNote] = useState(false);
 	const [posts, setPosts] = useState('');
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -29,10 +29,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			.catch((err) => console.log(err));
 	}, [setPosts]);
 
-	const publish = (e) => {
+	const createPost = (e) => {
 		e.preventDefault();
 		setBlankNote(false);
-		setPublishNote(false);
+		setCreatePostNote(false);
 		if (title.trim() !== '' && body.trim() !== '') {
 			axios
 				.post('http://localhost:5000/posts', {
@@ -43,7 +43,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				.catch((err) => console.log(err));
 			setTitle('');
 			setBody('');
-			setPublishNote(true);
+			setCreatePostNote(true);
 		} else {
 			setBlankNote(true);
 		}
@@ -56,7 +56,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			</div>
 
 			<div>
-				<form className="post-form" onSubmit={publish}>
+				<form className="post-form" onSubmit={createPost}>
 					<label htmlFor="title">Title</label>
 					<input
 						id="title"
@@ -65,7 +65,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						value={title}
 						onChange={(e) => {
 							setTitle(e.target.value);
-							setPublishNote(false);
+							setCreatePostNote(false);
 							setBlankNote(false);
 						}}
 					/>
@@ -77,21 +77,21 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						value={body}
 						onChange={(e) => {
 							setBody(e.target.value);
-							setPublishNote(false);
+							setCreatePostNote(false);
 							setBlankNote(false);
 						}}
 					/>
-					<button className="publish-btn">Publish</button>
+					<button className="create-post-btn">Create Post</button>
 					{blankNote ? (
 						<small>Title or post body can not be blank</small>
 					) : null}
-					{publishNote ? (
+					{createPostNote ? (
 						<small>You have published your post successfully</small>
 					) : null}
 				</form>
 			</div>
 			<div className="dashboard-posts-list-container">
-				<h3>My Posts</h3>
+				<h2 className="dashboard-posts-list-container-title">My Posts</h2>
 				<div>
 					<UserPosts posts={posts} />
 				</div>
