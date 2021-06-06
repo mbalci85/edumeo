@@ -94,6 +94,10 @@
 	text-align: center;
 }
 
+.dashboard-container {
+	width: 100%;
+}
+
 .dashboard-welcome-msg {
 	color: green;
 	padding: 3%;

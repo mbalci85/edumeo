@@ -55,13 +55,16 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			setTitle('');
 			setBody('');
 			setCreatePostNote(true);
+			setTimeout(() => {
+				window.location.reload();
+			}, 1250);
 		} else {
 			setBlankNote(true);
 		}
 	};
 
 	return (
-		<div>
+		<div className="dashboard-container">
 			<div className="dashboard-welcome-msg">
 				<h4>Welcome {name}</h4>
 			</div>
@@ -100,7 +103,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 					) : null}
 					{createPostNote ? (
 						<small className="create-post-success-note">
-							You have created your post successfully
+							You have created a post successfully
 						</small>
 					) : null}
 				</form>

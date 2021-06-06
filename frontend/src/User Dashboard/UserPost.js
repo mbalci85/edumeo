@@ -1,6 +1,19 @@
 import React from 'react';
+import axios from 'axios';
 
 const UserPost = ({ post }) => {
+	const deletePost = (id) => {
+		axios
+			.delete(`http://localhost:5000/posts/delete/${id}`)
+			.then((res) => res.data)
+			.catch((err) => {
+				console.log(err);
+			});
+
+		setTimeout(() => {
+			window.location.reload();
+		}, 500);
+	};
 	return (
 		<div className="dashboard-all-posts-container">
 			<div className="dashboard-post-card-container">
@@ -14,7 +27,11 @@ const UserPost = ({ post }) => {
 					<button type="button" className="dashboard-post-card-btn">
 						Update
 					</button>
-					<button type="button" className="dashboard-post-card-btn">
+					<button
+						type="button"
+						className="dashboard-post-card-btn"
+						onClick={() => deletePost(post._id)}
+					>
 						Delete
 					</button>
 					<input type="checkbox" id="checkbox" />

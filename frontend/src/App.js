@@ -79,6 +79,9 @@ const App = () => {
 								setSignOutMessage(true);
 								localStorage.setItem('token', []);
 								localStorage.setItem('userInfo', {});
+								setTimeout(() => {
+									window.location.reload();
+								}, 1750);
 							}}
 						>
 							{' '}
@@ -89,10 +92,7 @@ const App = () => {
 
 				{signOutMessage === true ? (
 					<div className="homepage-signout-msg">
-						<small>
-							You have signed out successfully. You might need to refresh
-							the page
-						</small>
+						<small>You have signed out successfully.</small>
 					</div>
 				) : null}
 
