@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import Login from './Login';
+import axios from 'axios';
 
 import './App.css';
 import RegistrationForm from './RegistrationForm';
 import WelcomePage from './User Dashboard/WelcomePage';
+import Posts from './Home Page /Posts';
 
 const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
@@ -13,6 +15,7 @@ const App = () => {
 	const [dashboardLink, setDashboardLink] = useState(false);
 	const [token, setToken] = useState([]);
 	const [signOutMessage, setSignOutMessage] = useState(false);
+	const [posts, setPosts] = useState('');
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -24,6 +27,15 @@ const App = () => {
 			}
 		}, 0.000001);
 	}, [token]);
+
+	useEffect(() => {
+		axios
+			.get('http://localhost:5000/posts/')
+			.then((res) => {
+				setPosts(res.data.filter((post) => post.isPublished));
+			})
+			.catch((err) => console.log(err));
+	}, []);
 
 	return (
 		<div className="container">
@@ -99,6 +111,8 @@ const App = () => {
 				{showWelcomeMessage ? (
 					<h1 className="home-page-welcome-message">Welcome to Edumeo!</h1>
 				) : null}
+
+				<Posts posts={posts} />
 
 				{token.length === 0 ? (
 					<Route
