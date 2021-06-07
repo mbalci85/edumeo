@@ -131,7 +131,6 @@
 	width: 100%;
 	height: 200px;
 	padding: 5px;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	line-height: 1.6;
 }
 
@@ -171,6 +170,12 @@
 	text-align: center;
 }
 
+.dashboard-post-card-body {
+	text-align: justify;
+	padding: 0 10px;
+	line-height: 1.4;
+}
+
 .dashboard-post-card-container {
 	position: relative;
 	border: 1px solid;
@@ -203,7 +208,7 @@
 
 .read-all-modal-go-back-btn-container {
 	margin-left: 33%;
-	margin-top: 35%;
+	margin-top: 25%;
 }
 
 .read-all-modal-go-back-btn {
@@ -213,4 +218,41 @@
 	background-color: #d1d2f3;
 	padding: 10px;
 	width: 40%;
+}
+
+.update-post-modal-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.update-post-modal-form > input {
+	border: solid black 1px;
+	border-radius: 3px;
+	height: 28px;
+	padding-left: 5px;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.update-post-modal-form > textarea {
+	width: 100%;
+	height: 333px;
+	padding: 5px;
+	line-height: 1.6;
+	margin-bottom: 30px;
+}
+
+.update-post-modal-form-btn {
+	border: none;
+	border-radius: 5px;
+	background-color: #d1d2f3;
+	padding: 10px;
+	width: 40%;
+}
+
+.update-post-modal-form-success-msg {
+	color: green;
+	margin: 15px 0;
 }
