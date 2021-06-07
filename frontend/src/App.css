@@ -168,6 +168,7 @@
 
 .dashboard-post-card-title {
 	color: coral;
+	text-align: center;
 }
 
 .dashboard-post-card-container {
@@ -182,14 +183,34 @@
 
 .dashboard-post-card-btn-container {
 	position: absolute;
-	margin-left: 10%;
+	margin-left: 20%;
 	top: 240px;
 }
 
 .dashboard-post-card-btn {
-	margin: 5px;
+	margin: 10px;
 	border: none;
 	border-radius: 5px;
 	background-color: #d1d2f3;
 	padding: 10px;
+}
+
+.read-all-modal-title {
+	color: coral;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.read-all-modal-go-back-btn-container {
+	margin-left: 33%;
+	margin-top: 35%;
+}
+
+.read-all-modal-go-back-btn {
+	margin: 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #d1d2f3;
+	padding: 10px;
+	width: 40%;
 }
