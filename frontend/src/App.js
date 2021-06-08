@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import axios from 'axios';
 
@@ -7,6 +7,7 @@ import './App.css';
 import RegistrationForm from './RegistrationForm';
 import WelcomePage from './User Dashboard/WelcomePage';
 import Posts from './Home Page /Posts';
+import Header from './Header';
 
 const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
@@ -15,7 +16,21 @@ const App = () => {
 	const [dashboardLink, setDashboardLink] = useState(false);
 	const [token, setToken] = useState([]);
 	const [signOutMessage, setSignOutMessage] = useState(false);
-	const [posts, setPosts] = useState('');
+	const [posts, setPosts] = useState([]);
+
+	useEffect(() => {
+		let mounted = true;
+		axios
+			.get('http://localhost:5000/posts/')
+			.then((res) => {
+				if (mounted) {
+					return setPosts(res.data.filter((post) => post.isPublished));
+				}
+			})
+			.catch((err) => console.log(err));
+
+		return () => (mounted = false);
+	}, []);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -28,138 +43,71 @@ const App = () => {
 		}, 0.000001);
 	}, [token]);
 
-	useEffect(() => {
-		axios
-			.get('http://localhost:5000/posts/')
-			.then((res) => {
-				setPosts(res.data.filter((post) => post.isPublished));
-			})
-			.catch((err) => console.log(err));
-	}, []);
-
 	return (
-		<div className="container">
-			<h1 className="home-page-title">EDUMEO</h1>
+		<Router>
+			<Header
+				showWelcomeMessage={showWelcomeMessage}
+				showPageLinks={showPageLinks}
+				isLoggedIn={isLoggedIn}
+				dashboardLink={dashboardLink}
+				signOutMessage={signOutMessage}
+				setShowWelcomeMessage={setShowWelcomeMessage}
+				setShowPageLinks={setShowPageLinks}
+				setIsLoggedIn={setIsLoggedIn}
+				setDashboardLink={setDashboardLink}
+				setSignOutMessage={setSignOutMessage}
+			/>
+			<Switch>
+				<div className="container">
+					<Route exact path="/" render={() => <Posts posts={posts} />} />
 
-			<Router>
-				<div className="home-page-links">
-					<Link
-						to="/"
-						className="home-page-links"
-						onClick={() => {
-							if (isLoggedIn === false) {
-								setShowPageLinks(true);
-							} else {
-								setDashboardLink(true);
-							}
-							setShowWelcomeMessage(true);
-						}}
-					>
-						Home{' '}
-					</Link>
-
-					{showPageLinks ? (
-						<>
-							<Link to="/register" className="home-page-links">
-								| Register |
-							</Link>
-							<Link to="/login" className="home-page-links">
-								Log In
-							</Link>
-						</>
-					) : null}
-
-					{isLoggedIn === true && dashboardLink === true ? (
-						<Link
-							to="/dashboard"
-							className="home-page-links"
-							onClick={() => setDashboardLink(false)}
-						>
-							| Go to Dashboard
-						</Link>
-					) : null}
-
-					{isLoggedIn === true ? (
-						<Link
-							to="/"
-							className="home-page-links"
-							onClick={() => {
-								setShowWelcomeMessage(true);
-								setShowPageLinks(true);
-								setIsLoggedIn(false);
-								setDashboardLink(false);
-								setSignOutMessage(true);
-								localStorage.setItem('token', []);
-								localStorage.setItem('userInfo', {});
-								setTimeout(() => {
-									window.location.reload();
-								}, 1750);
-							}}
-						>
-							{' '}
-							| Log Out
-						</Link>
-					) : null}
-				</div>
-
-				{signOutMessage === true ? (
-					<div className="homepage-signout-msg">
-						<small>You have signed out successfully.</small>
-					</div>
-				) : null}
-
-				{showWelcomeMessage ? (
-					<h1 className="home-page-welcome-message">Welcome to Edumeo!</h1>
-				) : null}
-
-				<Posts posts={posts} />
-
-				{token.length === 0 ? (
-					<Route
-						exact
-						path="/login"
-						render={() => (
-							<Login
-								welcomeMessage={setShowWelcomeMessage}
-								pageLinks={setShowPageLinks}
-								signOutMessage={setSignOutMessage}
-							/>
-						)}
-					/>
-				) : (
-					<Route path="/" />
-				)}
-
-				{token.length === 0 ? (
-					<Route
-						exact
-						path="/register"
-						render={() => (
-							<RegistrationForm
-								welcomeMessage={setShowWelcomeMessage}
-								pageLinks={setShowPageLinks}
-								signOutMessage={setSignOutMessage}
-							/>
-						)}
-					/>
-				) : (
-					<Route path="/" />
-				)}
-
-				<Route
-					exact
-					path="/dashboard/"
-					render={() => (
-						<WelcomePage
-							welcomeMessage={setShowWelcomeMessage}
-							pageLinks={setShowPageLinks}
-							logIn={setIsLoggedIn}
-							dashboardLink={setDashboardLink}
+					{token.length === 0 ? (
+						<Route
+							exact
+							path="/login"
+							render={() => (
+								<Login
+									welcomeMessage={setShowWelcomeMessage}
+									pageLinks={setShowPageLinks}
+									signOutMessage={setSignOutMessage}
+								/>
+							)}
 						/>
+					) : (
+						<Route path="/" />
 					)}
-				/>
-			</Router>
-		</div>
+
+					{token.length === 0 ? (
+						<Route
+							exact
+							path="/register"
+							render={() => (
+								<RegistrationForm
+									welcomeMessage={setShowWelcomeMessage}
+									pageLinks={setShowPageLinks}
+									signOutMessage={setSignOutMessage}
+								/>
+							)}
+						/>
+					) : (
+						<Route path="/" />
+					)}
+
+					<Route
+						exact
+						path="/dashboard/"
+						render={() => (
+							<WelcomePage
+								welcomeMessage={setShowWelcomeMessage}
+								pageLinks={setShowPageLinks}
+								logIn={setIsLoggedIn}
+								dashboardLink={setDashboardLink}
+							/>
+						)}
+					/>
+				</div>
+			</Switch>
+		</Router>
 	);
 };
 

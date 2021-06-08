@@ -9,7 +9,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [body, setBody] = useState('');
 	const [blankNote, setBlankNote] = useState(false);
 	const [createPostNote, setCreatePostNote] = useState(false);
-	const [posts, setPosts] = useState('');
+	const [posts, setPosts] = useState([]);
 	const [userId, setUserId] = useState('');
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
