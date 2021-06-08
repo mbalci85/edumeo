@@ -60,19 +60,25 @@ const UserPost = ({ post }) => {
 		<div className="dashboard-all-posts-container">
 			<div className="dashboard-post-card-container">
 				<h3 className="dashboard-post-card-title">{post.title}</h3> <br />
-				<p className="dashboard-post-card-body">
-					{post.body.split(' ').slice(0, 24).join(' ')}
-				</p>
-				<br />
 				{post.body.split(' ').length > 29 ? (
-					<button
-						type="button"
-						className="dashboard-post-card-btn"
-						onClick={() => setIsReadAllModalOpen(true)}
-					>
-						Read All
-					</button>
-				) : null}
+					<>
+						<p className="dashboard-post-card-body">
+							{post.body.split(' ').slice(0, 29).join(' ')}...
+						</p>
+						<br />
+						<button
+							type="button"
+							className="dashboard-post-card-read-more-btn"
+							onClick={() => setIsReadAllModalOpen(true)}
+						>
+							Read More
+						</button>
+					</>
+				) : (
+					<p className="dashboard-post-card-body">
+						{post.body.split(' ').slice(0, 29).join(' ')}
+					</p>
+				)}
 				<Modal
 					isOpen={isReadAllModalOpen}
 					onRequestClose={() => setIsReadAllModalOpen(false)}
@@ -153,6 +159,7 @@ const UserPost = ({ post }) => {
 					</Modal>
 					<button
 						type="button"
+						id="dashboard-post-card-delete-btn"
 						className="dashboard-post-card-btn"
 						onClick={() => deletePost(post._id)}
 					>
@@ -164,7 +171,12 @@ const UserPost = ({ post }) => {
 						checked={post.isPublished}
 						onChange={() => publishPost()}
 					/>
-					<label htmlFor="checkbox">Publish</label> <br />
+					<label
+						htmlFor="checkbox"
+						className="dashboard-post-card-publish-label"
+					>
+						Publish
+					</label>
 				</div>
 			</div>
 		</div>

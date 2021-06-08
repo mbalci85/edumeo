@@ -14,7 +14,7 @@ const Header = ({
 	setSignOutMessage,
 }) => {
 	return (
-		<div>
+		<div className="container">
 			<h1 className="home-page-title">EDUMEO</h1>
 
 			<div className="home-page-links">

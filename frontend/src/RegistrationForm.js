@@ -100,7 +100,10 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							id="fullname"
 							placeholder="Enter your full name"
 							value={fullName}
-							onChange={(e) => setFullName(e.target.value)}
+							onChange={(e) => {
+								setFullName(e.target.value);
+								setBlankFullName(false);
+							}}
 							required
 						/>
 						{blankFullName ? (
@@ -114,7 +117,10 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							type="email"
 							placeholder="Enter your email"
 							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							onChange={(e) => {
+								setEmail(e.target.value);
+								setEmailExists(false);
+							}}
 							required
 						/>
 						{emailExists ? (
@@ -128,7 +134,10 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							type="password"
 							placeholder="Enter your password"
 							value={password}
-							onChange={(e) => setPassword(e.target.value)}
+							onChange={(e) => {
+								setPassword(e.target.value);
+								setPasswordLength(false);
+							}}
 							required
 						/>
 						{passwordLength ? (
@@ -142,7 +151,10 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							type="password"
 							placeholder="Confirm your password"
 							value={confirmPassword}
-							onChange={(e) => setConfirmPassword(e.target.value)}
+							onChange={(e) => {
+								setConfirmPassword(e.target.value);
+								setPasswordNotMatch(false);
+							}}
 							required
 						/>
 						{passwordNotMatch ? (

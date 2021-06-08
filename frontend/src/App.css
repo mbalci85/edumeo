@@ -142,6 +142,11 @@
 	border: none;
 	border-radius: 5px;
 	background-color: #d1d2f3;
+	cursor: pointer;
+}
+
+.create-post-btn:hover {
+	background-color: rgb(62, 199, 62);
 }
 
 .create-post-failure-note {
@@ -195,9 +200,22 @@
 .dashboard-post-card-btn {
 	margin: 10px;
 	border: none;
-	border-radius: 5px;
+	border-radius: 4px;
 	background-color: #d1d2f3;
-	padding: 10px;
+	padding: 8px 15px;
+	cursor: pointer;
+}
+
+#dashboard-post-card-delete-btn:hover {
+	background-color: red;
+	color: white;
+}
+
+.dashboard-post-card-read-more-btn {
+	padding: 5px 9px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
 }
 
 .read-all-modal-title {
@@ -218,6 +236,7 @@
 	background-color: #d1d2f3;
 	padding: 10px;
 	width: 40%;
+	cursor: pointer;
 }
 
 .update-post-modal-form {
@@ -250,9 +269,19 @@
 	background-color: #d1d2f3;
 	padding: 10px;
 	width: 40%;
+	cursor: pointer;
 }
 
 .update-post-modal-form-success-msg {
 	color: green;
 	margin: 15px 0;
+}
+
+.dashboard-post-card-publish-label {
+	margin-left: 3px;
+	font-size: 14px;
+}
+
+#checkbox {
+	margin-left: 3px;
 }
