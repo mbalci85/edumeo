@@ -3,7 +3,7 @@ import SinglePost from './SinglePost';
 
 const Posts = ({ posts }) => {
 	return (
-		<div>
+		<div className="home-page-all-posts-container">
 			{posts.length !== 0 &&
 				posts.map((post) => <SinglePost post={post} key={post._id} />)}
 		</div>

@@ -51,7 +51,10 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 					id="email"
 					placeholder="Enter your email"
 					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					onChange={(e) => {
+						setEmail(e.target.value);
+						setWrongPasswordEmail(false);
+					}}
 				/>
 				<label htmlFor="password">Password</label>
 				<input
@@ -59,7 +62,10 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 					type="password"
 					placeholder="Enter password"
 					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					onChange={(e) => {
+						setPassword(e.target.value);
+						setWrongPasswordEmail(false);
+					}}
 				/>
 
 				<button type="submit" className="register-btn">

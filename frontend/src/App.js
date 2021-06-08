@@ -14,11 +14,12 @@ const App = () => {
 	const [showPageLinks, setShowPageLinks] = useState(true);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [dashboardLink, setDashboardLink] = useState(false);
-	const [token, setToken] = useState([]);
+	const [token, setToken] = useState('');
 	const [signOutMessage, setSignOutMessage] = useState(false);
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
+		localStorage.setItem('token', []);
 		let mounted = true;
 		axios
 			.get('http://localhost:5000/posts/')
@@ -35,7 +36,7 @@ const App = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setToken(localStorage.getItem('token'));
-			if (token.length !== 0) {
+			if (token && token.length !== 0) {
 				setShowPageLinks(false);
 				setIsLoggedIn(true);
 				setDashboardLink(true);
