@@ -9,6 +9,7 @@ const PostSchema = new Schema(
 		author: { type: String },
 		isPublished: { type: Boolean, default: false },
 		userId: { type: mongoose.Types.ObjectId, ref: 'users' },
+		imageUrls: { type: Array },
 	},
 	{ timestamps: true },
 );

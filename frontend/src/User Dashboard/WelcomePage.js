@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import UserPosts from './UserPosts';
+// import { Image } from 'cloudinary-react';
 
 const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [name, setName] = useState('');
@@ -11,6 +12,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [createPostNote, setCreatePostNote] = useState(false);
 	const [posts, setPosts] = useState([]);
 	const [userId, setUserId] = useState('');
+	const [uploadedMedia, setUploadedMedia] = useState([]);
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
@@ -56,11 +58,32 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			setBody('');
 			setCreatePostNote(true);
 			setTimeout(() => {
-				window.location.reload();
+				// window.location.reload();
 			}, 1250);
 		} else {
 			setBlankNote(true);
 		}
+
+		const formData = new FormData();
+
+		if (uploadedMedia.length !== 0) {
+			for (let i = 0; i < uploadedMedia.length; i++) {
+				const formsData = new FormData();
+				formsData.append('file', uploadedMedia[i]);
+				formsData.append('upload_preset', 'mbalci85');
+
+				axios
+					.post(
+						`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`,
+						formsData,
+					)
+					.then((res) => {
+						formData.append('images', res.data.url);
+					})
+					.catch((err) => console.log(err));
+			}
+		}
+		console.log(formData);
 	};
 
 	return (
@@ -74,6 +97,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 					<label htmlFor="title">Title</label>
 					<input
 						id="title"
+						className="post-form-post-title"
 						placeholder="Enter your title..."
 						type="text"
 						value={title}
@@ -95,9 +119,16 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 							setBlankNote(false);
 						}}
 					/>
-					<br />
-					<input type="file" />
+					<label id="post-form-add-file">Add Media</label>
+					<input
+						type="file"
+						multiple
+						id="post-form-add-file"
+						className="post-form-add-media"
+						onChange={(e) => setUploadedMedia(e.target.files)}
+					/>
 					<button className="create-post-btn">Create Post</button>
+
 					{blankNote ? (
 						<small className="create-post-failure-note">
 							Title or post body can not be blank

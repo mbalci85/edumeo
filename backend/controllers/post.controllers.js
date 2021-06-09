@@ -42,13 +42,14 @@ exports.getPostsByUserId = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
-	const { title, body, author, isPublished, userId } = req.body;
+	const { title, body, author, isPublished, userId, imageUrls } = req.body;
 	const newPost = new PostModel({
 		title,
 		body,
 		isPublished,
 		author,
 		userId,
+		imageUrls,
 	});
 	newPost.save().then((response) =>
 		res
