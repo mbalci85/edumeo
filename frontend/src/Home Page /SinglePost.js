@@ -22,7 +22,9 @@ const SinglePost = ({ post }) => {
 	}, [post.userId]);
 	return (
 		<div className="home-page-single-post-container">
-			<h4 className="home-page-post-title">{post.title}</h4>
+			<h3 className="home-page-post-title">{post.title}</h3>
+			<p>Author: {name}</p>
+			<br />
 
 			{post.body.split(' ').length > 50 ? (
 				<>
@@ -31,19 +33,19 @@ const SinglePost = ({ post }) => {
 					</p>
 					<button
 						type="button"
-						className="dashboard-post-card-read-more-btn"
+						className="home-page-post-read-more-btn"
 						onClick={() => setIsPostModalOpen(true)}
 					>
 						Read More
 					</button>
 				</>
 			) : (
-				<p className="dashboard-post-card-body">
+				<p className="home-page-post-body">
 					{post.body.split(' ').slice(0, 29).join(' ')}
 				</p>
 			)}
 			<br />
-			{name}
+
 			<Modal
 				isOpen={isPostModalOpen}
 				onRequestClose={() => setIsPostModalOpen(false)}
@@ -60,7 +62,20 @@ const SinglePost = ({ post }) => {
 						textAlign: 'justify',
 					},
 				}}
-			></Modal>
+			>
+				<h3 className="home-page-post-modal-title">{post.title}</h3>
+				<p>{post.body}</p>
+				<br />
+				<p>Author: {name}</p>
+				<div className="home-page-post-modal-go-back-btn-container">
+					<button
+						className="home-page-post-modal-go-back-btn"
+						onClick={() => setIsPostModalOpen(false)}
+					>
+						Go Back
+					</button>
+				</div>
+			</Modal>
 		</div>
 	);
 };

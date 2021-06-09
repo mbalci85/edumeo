@@ -19,7 +19,9 @@ const App = () => {
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
-		localStorage.setItem('token', []);
+		if (token === null) {
+			localStorage.setItem('token', []);
+		}
 		let mounted = true;
 		axios
 			.get('http://localhost:5000/posts/')
@@ -31,7 +33,7 @@ const App = () => {
 			.catch((err) => console.log(err));
 
 		return () => (mounted = false);
-	}, []);
+	}, [token]);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -94,18 +96,20 @@ const App = () => {
 						<Route path="/" />
 					)}
 
-					<Route
-						exact
-						path="/dashboard/"
-						render={() => (
-							<WelcomePage
-								welcomeMessage={setShowWelcomeMessage}
-								pageLinks={setShowPageLinks}
-								logIn={setIsLoggedIn}
-								dashboardLink={setDashboardLink}
-							/>
-						)}
-					/>
+					{token.length !== 0 ? (
+						<Route
+							exact
+							path="/dashboard/"
+							render={() => (
+								<WelcomePage
+									welcomeMessage={setShowWelcomeMessage}
+									pageLinks={setShowPageLinks}
+									logIn={setIsLoggedIn}
+									dashboardLink={setDashboardLink}
+								/>
+							)}
+						/>
+					) : null}
 				</div>
 			</Switch>
 		</Router>

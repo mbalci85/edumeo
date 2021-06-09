@@ -95,6 +95,8 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 							setBlankNote(false);
 						}}
 					/>
+					<br />
+					<input type="file" />
 					<button className="create-post-btn">Create Post</button>
 					{blankNote ? (
 						<small className="create-post-failure-note">

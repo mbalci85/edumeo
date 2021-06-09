@@ -12,8 +12,6 @@ const UserPost = ({ post }) => {
 
 	const postId = post._id;
 
-	console.log(post.isPublished);
-
 	const publishPost = async () => {
 		const publishedPost = {
 			isPublished: !post.isPublished,

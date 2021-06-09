@@ -28,13 +28,15 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 			})
 			.then((res) => {
 				setIsLoading(false);
-				console.log(res.data);
 				return res.data;
 			})
 			.catch((err) => console.log(err));
 		if (response.status) {
 			localStorage.setItem('token', JSON.stringify(response.token));
 			localStorage.setItem('userInfo', JSON.stringify(response));
+			setTimeout(() => {
+				window.location.reload();
+			}, 0.0001);
 
 			history.push('/dashboard');
 		} else {
