@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+Modal.setAppElement('#root');
 
 const SinglePost = ({ post }) => {
 	const [isPostModalOpen, setIsPostModalOpen] = useState(false);

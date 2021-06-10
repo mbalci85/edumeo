@@ -41,49 +41,53 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 		return () => (mounted = false);
 	}, [userId]);
 
-	const createPost = (e) => {
+	const createPost = async (e) => {
 		e.preventDefault();
 		setBlankNote(false);
 		setCreatePostNote(false);
+		const formData = new FormData();
 		if (title.trim() !== '' && body.trim() !== '') {
-			axios
-				.post('http://localhost:5000/posts', {
-					title,
-					body,
-					userId,
-				})
-				.then((res) => res.data)
-				.catch((err) => console.log(err));
-			setTitle('');
-			setBody('');
-			setCreatePostNote(true);
-			setTimeout(() => {
-				// window.location.reload();
-			}, 1250);
+			if (uploadedMedia.length !== 0) {
+				for (let i = 0; i < uploadedMedia.length; i++) {
+					const formsData = new FormData();
+					formsData.append('file', uploadedMedia[i]);
+					formsData.append('upload_preset', 'mbalci85');
+
+					await axios
+						.post(
+							`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`,
+							formsData,
+						)
+						.then((res) => formData.append('imageUrls', res.data.url))
+						.catch((err) => console.log(err));
+				}
+			}
 		} else {
 			setBlankNote(true);
 		}
 
-		const formData = new FormData();
+		const imageUrls = formData.getAll('imageUrls');
 
-		if (uploadedMedia.length !== 0) {
-			for (let i = 0; i < uploadedMedia.length; i++) {
-				const formsData = new FormData();
-				formsData.append('file', uploadedMedia[i]);
-				formsData.append('upload_preset', 'mbalci85');
+		await axios
+			.post('http://localhost:5000/posts', {
+				title,
+				body,
+				userId,
+				imageUrls,
+			})
+			.then((res) => console.log(res.data))
+			.catch((err) => console.log(err));
+		setTitle('');
+		setBody('');
+		setCreatePostNote(true);
+		setTimeout(() => {
+			window.location.reload();
+		}, 1250);
+		console.log(formData.getAll('title'));
+		console.log(formData.getAll('body'));
 
-				axios
-					.post(
-						`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`,
-						formsData,
-					)
-					.then((res) => {
-						formData.append('images', res.data.url);
-					})
-					.catch((err) => console.log(err));
-			}
-		}
-		console.log(formData);
+		console.log(formData.getAll('userId'));
+		console.log(formData.getAll('imageUrls'));
 	};
 
 	return (

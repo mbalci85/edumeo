@@ -71,10 +71,16 @@ const UserPost = ({ post }) => {
 						>
 							Read More
 						</button>
+						{post.imageUrls.map((image) => (
+							<img src={image} alt="pic" />
+						))}
 					</>
 				) : (
 					<p className="dashboard-post-card-body">
 						{post.body.split(' ').slice(0, 29).join(' ')}
+						{post.imageUrls.map((image) => (
+							<img src={image} alt="pic" height="100px" width="100px" />
+						))}
 					</p>
 				)}
 				<Modal
