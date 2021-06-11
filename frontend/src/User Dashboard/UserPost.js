@@ -146,6 +146,17 @@ const UserPost = ({ post }) => {
 				>
 					<h3 className="read-all-modal-title">{post.title}</h3>
 					<p>{post.body}</p>
+					<div className="read-all-modal-images-container">
+						{post.imageUrls.map((imageUrl, index) => (
+							<img
+								src={imageUrl}
+								alt="pic"
+								key={index}
+								className="read-all-modal-single-image"
+							/>
+						))}
+					</div>
+
 					<div className="read-all-modal-go-back-btn-container">
 						<button
 							className="read-all-modal-go-back-btn"

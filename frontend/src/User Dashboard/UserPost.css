@@ -68,9 +68,23 @@
 	margin-bottom: 20px;
 }
 
+.read-all-modal-images-container {
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 40px;
+}
+
+.read-all-modal-single-image {
+	height: 270px;
+	width: 320px;
+	margin: 10px;
+	border-radius: 3px;
+}
+
 .read-all-modal-go-back-btn-container {
 	margin-left: 33%;
-	margin-top: 25%;
+	margin-top: 15%;
 }
 
 .read-all-modal-go-back-btn {
