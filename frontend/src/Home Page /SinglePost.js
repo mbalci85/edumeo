@@ -25,7 +25,7 @@ const SinglePost = ({ post }) => {
 	return (
 		<div className="home-page-single-post-container">
 			<h3 className="home-page-post-title">{post.title}</h3>
-			<p>Author: {name}</p>
+			<h5>Author: {name}</h5>
 			<br />
 
 			{post.body.split(' ').length > 50 ? (
@@ -33,6 +33,39 @@ const SinglePost = ({ post }) => {
 					<p className="home-page-post-body">
 						{post.body.split(' ').slice(0, 49).join(' ')}...
 					</p>
+					<div className="home-page-post-images-container ">
+						{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
+							<img
+								src={imageUrl}
+								alt="pic"
+								key={index}
+								className="home-page-post-image"
+							/>
+						))}
+					</div>
+					<br />
+					<button
+						type="button"
+						className="home-page-post-read-more-btn"
+						onClick={() => setIsPostModalOpen(true)}
+					>
+						Read More
+					</button>
+				</>
+			) : post.body.split(' ').length < 50 && post.imageUrls.length > 5 ? (
+				<>
+					<p className="home-page-post-body">{post.body}</p>
+					<div className="home-page-post-images-container ">
+						{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
+							<img
+								src={imageUrl}
+								alt="pic"
+								key={index}
+								className="home-page-post-image"
+							/>
+						))}
+					</div>
+					<br />
 					<button
 						type="button"
 						className="home-page-post-read-more-btn"
@@ -42,9 +75,19 @@ const SinglePost = ({ post }) => {
 					</button>
 				</>
 			) : (
-				<p className="home-page-post-body">
-					{post.body.split(' ').slice(0, 29).join(' ')}
-				</p>
+				<>
+					<p className="home-page-post-body">{post.body}</p>
+					<div className="home-page-post-images-container">
+						{post.imageUrls.map((imageUrl, index) => (
+							<img
+								src={imageUrl}
+								alt="pic"
+								key={index}
+								className="home-page-post-image"
+							/>
+						))}
+					</div>
+				</>
 			)}
 			<br />
 
@@ -68,7 +111,18 @@ const SinglePost = ({ post }) => {
 				<h3 className="home-page-post-modal-title">{post.title}</h3>
 				<p>{post.body}</p>
 				<br />
-				<p>Author: {name}</p>
+				<h5>Author: {name}</h5>
+				<div className="home-page-post-modal-images-container">
+					{post.imageUrls.map((imageUrl, index) => (
+						<img
+							src={imageUrl}
+							alt="pic"
+							key={index}
+							className="home-page-post-modal-single-image"
+						/>
+					))}
+				</div>
+
 				<div className="home-page-post-modal-go-back-btn-container">
 					<button
 						className="home-page-post-modal-go-back-btn"

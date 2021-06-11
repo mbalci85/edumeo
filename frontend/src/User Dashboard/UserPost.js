@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import './UserPost.css';
+import ReactPlayer from 'react-player';
 Modal.setAppElement('#root');
 
 const UserPost = ({ post }) => {
@@ -60,14 +61,27 @@ const UserPost = ({ post }) => {
 			<div className="dashboard-post-card-container">
 				<h3 className="dashboard-post-card-title">{post.title}</h3>
 				<br />
-				{post.body.split(' ').length > 29 ? (
+				{post.body.split(' ').length > 50 ? (
 					<>
 						<p className="dashboard-post-card-body">
-							{post.body.split(' ').slice(0, 29).join(' ')}...
+							{post.body.split(' ').slice(0, 49).join(' ')}...{' '}
+							<small>
+								<a
+									href="https://"
+									className="dashboard-post-card-read-more-btn"
+									onClick={(e) => {
+										e.preventDefault();
+										setIsReadMoreModalOpen(true);
+									}}
+								>
+									continue reading &gt;
+								</a>
+							</small>
 						</p>
+
 						<br />
 						<div className="dashboard-post-card-images-container">
-							{post.imageUrls.slice(0, 2).map((imageUrl, index) => (
+							{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
 								<img
 									src={imageUrl}
 									alt="pic"
@@ -76,24 +90,41 @@ const UserPost = ({ post }) => {
 								/>
 							))}
 						</div>
+						{post.imageUrls.length > 5 ? (
+							<div>
+								<small>
+									<a
+										href="/#"
+										onClick={(e) => {
+											setIsReadMoreModalOpen(true);
+											e.preventDefault();
+										}}
+									>
+										Click here
+									</a>{' '}
+									to see more images{' '}
+								</small>
+							</div>
+						) : null}
 						<br />
-						<button
-							type="button"
-							className="dashboard-post-card-read-more-btn"
-							onClick={() => setIsReadMoreModalOpen(true)}
-						>
-							Read More
-						</button>
+						{post.videoUrl.length !== 0 ? (
+							<div className="dashboard-post-card-video-container">
+								<ReactPlayer
+									controls
+									url={post.videoUrl[0]}
+									height="280px"
+									width="500px"
+								/>
+							</div>
+						) : null}
 					</>
-				) : post.body.split(' ').length <= 29 &&
-				  post.imageUrls.length > 2 ? (
+				) : post.body.split(' ').length <= 49 &&
+				  post.imageUrls.length > 5 ? (
 					<>
-						<p className="dashboard-post-card-body">
-							{post.body.split(' ').slice(0, 29).join(' ')}
-						</p>
+						<p className="dashboard-post-card-body">{post.body}</p>
 						<br />
 						<div className="dashboard-post-card-images-container">
-							{post.imageUrls.slice(0, 2).map((imageUrl, index) => (
+							{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
 								<img
 									src={imageUrl}
 									alt="pic"
@@ -103,28 +134,57 @@ const UserPost = ({ post }) => {
 							))}
 						</div>
 						<br />
-						<button
-							type="button"
-							className="dashboard-post-card-read-more-btn"
-							onClick={() => setIsReadMoreModalOpen(true)}
-						>
-							Read More
-						</button>
+						<small>
+							<a
+								href="/#"
+								onClick={(e) => {
+									setIsReadMoreModalOpen(true);
+									e.preventDefault();
+								}}
+							>
+								Click here
+							</a>{' '}
+							to see more images{' '}
+						</small>
+						<br />
+						{post.videoUrl.length !== 0 ? (
+							<div className="dashboard-post-card-video-container">
+								<ReactPlayer
+									controls
+									url={post.videoUrl[0]}
+									height="280px"
+									width="500px"
+								/>
+							</div>
+						) : null}
 					</>
 				) : (
-					<p className="dashboard-post-card-body">
-						{post.body.split(' ').slice(0, 29).join(' ')}
-						<div className="dashboard-post-card-images-container">
-							{post.imageUrls.slice(0, 2).map((imageUrl, index) => (
-								<img
-									src={imageUrl}
-									alt="pic"
-									key={index}
-									className="dashboard-post-card-image"
+					<>
+						<p className="dashboard-post-card-body">
+							{post.body}
+							<br />
+							<div className="dashboard-post-card-images-container">
+								{post.imageUrls.map((imageUrl, index) => (
+									<img
+										src={imageUrl}
+										alt="pic"
+										key={index}
+										className="dashboard-post-card-image"
+									/>
+								))}
+							</div>
+						</p>
+						{post.videoUrl.length !== 0 ? (
+							<div className="dashboard-post-card-video-container">
+								<ReactPlayer
+									controls
+									url={post.videoUrl[0]}
+									height="280px"
+									width="500px"
 								/>
-							))}
-						</div>
-					</p>
+							</div>
+						) : null}
+					</>
 				)}
 
 				<Modal

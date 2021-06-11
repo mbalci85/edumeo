@@ -10,6 +10,7 @@ const PostSchema = new Schema(
 		isPublished: { type: Boolean, default: false },
 		userId: { type: mongoose.Types.ObjectId, ref: 'users' },
 		imageUrls: { type: Array },
+		videoUrl: { type: Array },
 	},
 	{ timestamps: true },
 );

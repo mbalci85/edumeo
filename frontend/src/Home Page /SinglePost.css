@@ -13,6 +13,19 @@
 	line-height: 1.5;
 }
 
+.home-page-post-images-container {
+	display: inline-flex;
+	margin-top: 10px;
+	justify-content: left;
+}
+
+.home-page-post-image {
+	margin: 10px 10px 30px 0;
+	border-radius: 3px;
+	height: 170px;
+	width: 200px;
+}
+
 .home-page-post-read-more-btn {
 	padding: 5px 9px;
 	border: none;
@@ -32,9 +45,23 @@
 	margin-bottom: 20px;
 }
 
+.home-page-post-modal-images-container {
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 40px;
+}
+
+.home-page-post-modal-single-image {
+	height: 270px;
+	width: 320px;
+	margin: 10px;
+	border-radius: 3px;
+}
+
 .home-page-post-modal-go-back-btn-container {
 	margin-left: 33%;
-	margin-top: 25%;
+	margin-top: 15%;
 }
 
 .home-page-post-modal-go-back-btn {

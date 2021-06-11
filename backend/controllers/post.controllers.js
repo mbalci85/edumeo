@@ -42,7 +42,8 @@ exports.getPostsByUserId = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
-	const { title, body, author, isPublished, userId, imageUrls } = req.body;
+	const { title, body, author, isPublished, userId, imageUrls, videoUrl } =
+		req.body;
 	const newPost = new PostModel({
 		title,
 		body,
@@ -50,6 +51,7 @@ exports.createPost = async (req, res) => {
 		author,
 		userId,
 		imageUrls,
+		videoUrl,
 	});
 	newPost.save().then((response) =>
 		res

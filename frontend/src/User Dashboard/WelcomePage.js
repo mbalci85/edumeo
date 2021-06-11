@@ -12,7 +12,8 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [createPostNote, setCreatePostNote] = useState(false);
 	const [posts, setPosts] = useState([]);
 	const [userId, setUserId] = useState('');
-	const [uploadedMedia, setUploadedMedia] = useState([]);
+	const [uploadedImages, setUploadedImages] = useState([]);
+	const [uploadedVideo, setUploadedVideo] = useState([]);
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
@@ -47,10 +48,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 		setCreatePostNote(false);
 		const formData = new FormData();
 		if (title.trim() !== '' && body.trim() !== '') {
-			if (uploadedMedia.length !== 0) {
-				for (let i = 0; i < uploadedMedia.length; i++) {
+			if (uploadedImages.length !== 0) {
+				for (let i = 0; i < uploadedImages.length; i++) {
 					const formsData = new FormData();
-					formsData.append('file', uploadedMedia[i]);
+					formsData.append('file', uploadedImages[i]);
 					formsData.append('upload_preset', 'mbalci85');
 
 					await axios
@@ -62,11 +63,25 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						.catch((err) => console.log(err));
 				}
 			}
+			if (uploadedVideo.length !== 0) {
+				const formVideoData = new FormData();
+				formVideoData.append('file', uploadedVideo);
+				formVideoData.append('upload_preset', 'mbalci85');
+
+				await axios
+					.post(
+						'https://api.cloudinary.com/v1_1/mustafabalci/auto/upload',
+						formVideoData,
+					)
+					.then((res) => formData.append('videoUrl', res.data.url))
+					.catch((err) => console.log(err));
+			}
 		} else {
 			setBlankNote(true);
 		}
 
 		const imageUrls = formData.getAll('imageUrls');
+		const videoUrl = formData.getAll('videoUrl');
 
 		await axios
 			.post('http://localhost:5000/posts', {
@@ -74,6 +89,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				body,
 				userId,
 				imageUrls,
+				videoUrl,
 			})
 			.then((res) => res.data)
 			.catch((err) => console.log(err));
@@ -118,14 +134,23 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 							setBlankNote(false);
 						}}
 					/>
-					<label id="post-form-add-file">Add Media</label>
+					<label id="post-form-add-file">Add Image(s)</label>
 					<input
 						type="file"
 						multiple
 						id="post-form-add-file"
 						className="post-form-add-media"
-						onChange={(e) => setUploadedMedia(e.target.files)}
+						onChange={(e) => setUploadedImages(e.target.files)}
 					/>
+
+					<label id="post-form-add-file">Add a Video</label>
+					<input
+						type="file"
+						id="post-form-add-file"
+						className="post-form-add-media"
+						onChange={(e) => setUploadedVideo(e.target.files[0])}
+					/>
+
 					<button className="create-post-btn">Create Post</button>
 
 					{blankNote ? (
