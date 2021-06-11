@@ -14,6 +14,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [userId, setUserId] = useState('');
 	const [uploadedImages, setUploadedImages] = useState([]);
 	const [uploadedVideo, setUploadedVideo] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
@@ -46,6 +47,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 		e.preventDefault();
 		setBlankNote(false);
 		setCreatePostNote(false);
+		setIsLoading(true);
 		const formData = new FormData();
 		if (title.trim() !== '' && body.trim() !== '') {
 			if (uploadedImages.length !== 0) {
@@ -91,7 +93,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				imageUrls,
 				videoUrl,
 			})
-			.then((res) => res.data)
+			.then((res) => {
+				setIsLoading(false);
+				return res.data;
+			})
 			.catch((err) => console.log(err));
 		setTitle('');
 		setBody('');
@@ -161,6 +166,12 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 					{createPostNote ? (
 						<small className="create-post-success-note">
 							You have created a post successfully
+						</small>
+					) : null}
+
+					{isLoading ? (
+						<small className="create-post-loading-msg">
+							Your post is being uploaded.............
 						</small>
 					) : null}
 				</form>

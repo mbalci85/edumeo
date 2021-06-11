@@ -68,6 +68,11 @@
 	text-align: center;
 }
 
+.create-post-loading-msg {
+	text-align: center;
+	color: red;
+}
+
 .dashboard-posts-list-container {
 	text-align: center;
 }
