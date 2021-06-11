@@ -1,0 +1,31 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 30px;
+}
+
+.home-page-title {
+	font-size: 60px;
+	color: #6b70f1;
+	font-weight: bold;
+}
+
+.home-page-links {
+	display: flex;
+	text-decoration: none;
+	color: #b5b5b5;
+}
+
+.home-page-welcome-message {
+	margin-top: 4%;
+	font-size: 33px;
+	color: #9da0ff;
+}
+
+.homepage-signout-msg {
+	color: green;
+	font-weight: bold;
+	margin-top: 1%;
+}

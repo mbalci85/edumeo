@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import UserPosts from './UserPosts';
-// import { Image } from 'cloudinary-react';
+import './WelcomePage.css';
 
 const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [name, setName] = useState('');
@@ -75,7 +75,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				userId,
 				imageUrls,
 			})
-			.then((res) => console.log(res.data))
+			.then((res) => res.data)
 			.catch((err) => console.log(err));
 		setTitle('');
 		setBody('');
@@ -83,11 +83,6 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 		setTimeout(() => {
 			window.location.reload();
 		}, 1250);
-		console.log(formData.getAll('title'));
-		console.log(formData.getAll('body'));
-
-		console.log(formData.getAll('userId'));
-		console.log(formData.getAll('imageUrls'));
 	};
 
 	return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.css';
+import './RegistrationForm.css';
 import { Link } from 'react-router-dom';
 
 const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
@@ -167,7 +167,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							Register
 						</button>
 						{isLoading ? (
-							<small className="register-form-validation-warning">
+							<small className="register-form-loading-msg">
 								Checking your credentials ................
 							</small>
 						) : null}

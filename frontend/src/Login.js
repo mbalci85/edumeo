@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
-import './App.css';
+import './Login.css';
 
 const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [email, setEmail] = useState('');
@@ -47,12 +47,14 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	return (
 		<div className="container">
 			<h1>Login Form</h1>
-			<form className="sign-up-form" onSubmit={logIn}>
+			<form className="login-form" onSubmit={logIn}>
 				<label htmlFor="email">Email</label>
 				<input
 					id="email"
 					placeholder="Enter your email"
 					value={email}
+					required
+					type="email"
 					onChange={(e) => {
 						setEmail(e.target.value);
 						setWrongPasswordEmail(false);
@@ -60,17 +62,18 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 				/>
 				<label htmlFor="password">Password</label>
 				<input
-					id="fullname"
+					id="password"
 					type="password"
 					placeholder="Enter password"
 					value={password}
+					required
 					onChange={(e) => {
 						setPassword(e.target.value);
 						setWrongPasswordEmail(false);
 					}}
 				/>
 
-				<button type="submit" className="register-btn">
+				<button type="submit" className="login-btn">
 					Log In
 				</button>
 				{isLoading ? (
@@ -81,7 +84,7 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 				{!isLoading ? (
 					<p style={{ textAlign: 'center' }}>
 						Don't have an account?{' '}
-						<a href="/register" className="log-in-link">
+						<a href="/register" className="sign-up-link">
 							Sign Up
 						</a>
 					</p>

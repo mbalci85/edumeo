@@ -1,0 +1,152 @@
+.dashboard-all-posts-container {
+	display: inline-flex;
+}
+
+.dashboard-post-card-container {
+	position: relative;
+	border: 1px solid;
+	border-radius: 3px;
+	padding: 10px;
+	margin: 10px;
+	width: 400px;
+	height: 500px;
+}
+
+.dashboard-post-card-title {
+	color: coral;
+	text-align: center;
+}
+
+.dashboard-post-card-body {
+	text-align: justify;
+	padding: 0 10px;
+	line-height: 1.4;
+}
+
+.dashboard-post-card-images-container {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.dashboard-post-card-image {
+	margin: 10px;
+	border-radius: 3px;
+	height: 140px;
+	width: 150px;
+}
+
+.dashboard-post-card-btn-container {
+	position: absolute;
+	margin-left: 20%;
+	top: 440px;
+}
+
+.dashboard-post-card-btn {
+	margin: 10px;
+	border: none;
+	border-radius: 4px;
+	background-color: #d1d2f3;
+	padding: 8px 15px;
+	cursor: pointer;
+}
+
+#dashboard-post-card-delete-btn:hover {
+	background-color: red;
+	color: white;
+}
+
+.dashboard-post-card-read-more-btn {
+	padding: 5px 9px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.read-all-modal-title {
+	color: coral;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.read-all-modal-go-back-btn-container {
+	margin-left: 33%;
+	margin-top: 25%;
+}
+
+.read-all-modal-go-back-btn {
+	margin: 20px;
+	border: none;
+	border-radius: 5px;
+	background-color: #d1d2f3;
+	padding: 10px;
+	width: 40%;
+	cursor: pointer;
+}
+
+.update-post-modal-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.update-post-modal-form > input {
+	border: solid black 1px;
+	border-radius: 3px;
+	height: 28px;
+	padding-left: 5px;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.update-post-modal-form > textarea {
+	width: 100%;
+	height: 333px;
+	padding: 5px;
+	line-height: 1.6;
+	margin-bottom: 30px;
+}
+
+.update-post-modal-form > input.update-post-modal-form-add-media {
+	float: left;
+	width: 50%;
+	padding: 3px;
+}
+
+.update-post-modal-form-add-media-note {
+	color: red;
+}
+
+.update-post-modal-form-images-container {
+	display: inline-block;
+	margin: 50px;
+	text-align: center;
+}
+
+.update-post-modal-form-image {
+	margin: 10px;
+	border-radius: 3px;
+}
+
+.update-post-modal-form-btn {
+	border: none;
+	border-radius: 5px;
+	background-color: #d1d2f3;
+	padding: 10px;
+	width: 40%;
+	cursor: pointer;
+}
+
+.update-post-modal-form-success-msg {
+	color: green;
+	margin: 15px 0;
+}
+
+.dashboard-post-card-publish-label {
+	margin-left: 3px;
+	font-size: 14px;
+}
+
+#checkbox {
+	margin-left: 3px;
+}
