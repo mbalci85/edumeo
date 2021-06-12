@@ -60,132 +60,84 @@ const UserPost = ({ post }) => {
 		<div className="dashboard-all-posts-container">
 			<div className="dashboard-post-card-container">
 				<h3 className="dashboard-post-card-title">{post.title}</h3>
-				<br />
-				{post.body.split(' ').length > 50 ? (
-					<>
-						<p className="dashboard-post-card-body">
-							{post.body.split(' ').slice(0, 49).join(' ')}...{' '}
-							<small>
-								<a
-									href="https://"
-									className="dashboard-post-card-read-more-btn"
-									onClick={(e) => {
-										e.preventDefault();
-										setIsReadMoreModalOpen(true);
-									}}
-								>
-									continue reading &gt;
-								</a>
-							</small>
-						</p>
 
-						<br />
-						<div className="dashboard-post-card-images-container">
-							{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
-								<img
-									src={imageUrl}
-									alt="pic"
-									key={index}
-									className="dashboard-post-card-image"
-								/>
-							))}
-						</div>
-						{post.imageUrls.length > 5 ? (
-							<div>
-								<small>
-									<a
-										href="/#"
-										onClick={(e) => {
-											setIsReadMoreModalOpen(true);
-											e.preventDefault();
-										}}
-									>
-										Click here
-									</a>{' '}
-									to see more images{' '}
-								</small>
-							</div>
-						) : null}
-						<br />
-						{post.videoUrl.length !== 0 ? (
-							<div className="dashboard-post-card-video-container">
-								<ReactPlayer
-									controls
-									url={post.videoUrl[0]}
-									height="280px"
-									width="500px"
-								/>
-							</div>
-						) : null}
-					</>
-				) : post.body.split(' ').length <= 49 &&
-				  post.imageUrls.length > 5 ? (
-					<>
-						<p className="dashboard-post-card-body">{post.body}</p>
-						<br />
-						<div className="dashboard-post-card-images-container">
-							{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
-								<img
-									src={imageUrl}
-									alt="pic"
-									key={index}
-									className="dashboard-post-card-image"
-								/>
-							))}
-						</div>
-						<br />
+				<br />
+
+				{post.body.split(' ').length > 50 ? (
+					<p className="dashboard-post-card-body">
+						{post.body.split(' ').slice(0, 49).join(' ')}...{' '}
 						<small>
 							<a
-								href="/#"
+								href="https://"
+								className="dashboard-post-card-read-more-btn"
 								onClick={(e) => {
-									setIsReadMoreModalOpen(true);
 									e.preventDefault();
+									setIsReadMoreModalOpen(true);
 								}}
 							>
-								Click here
-							</a>{' '}
-							to see more images{' '}
+								continue reading &gt;
+							</a>
 						</small>
-						<br />
-						{post.videoUrl.length !== 0 ? (
-							<div className="dashboard-post-card-video-container">
-								<ReactPlayer
-									controls
-									url={post.videoUrl[0]}
-									height="280px"
-									width="500px"
+					</p>
+				) : (
+					<p className="dashboard-post-card-body">{post.body}</p>
+				)}
+
+				<br />
+
+				{post.imageUrls.length > 5 ? (
+					<>
+						<div className="dashboard-post-card-images-container">
+							{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
+								<img
+									src={imageUrl}
+									alt="pic"
+									key={index}
+									className="dashboard-post-card-image"
 								/>
-							</div>
-						) : null}
+							))}
+						</div>
+
+						<div>
+							<small>
+								<a
+									href="/#"
+									onClick={(e) => {
+										setIsReadMoreModalOpen(true);
+										e.preventDefault();
+									}}
+								>
+									Click here
+								</a>{' '}
+								to see all images{' '}
+							</small>
+						</div>
 					</>
 				) : (
-					<>
-						<p className="dashboard-post-card-body">
-							{post.body}
-							<br />
-							<div className="dashboard-post-card-images-container">
-								{post.imageUrls.map((imageUrl, index) => (
-									<img
-										src={imageUrl}
-										alt="pic"
-										key={index}
-										className="dashboard-post-card-image"
-									/>
-								))}
-							</div>
-						</p>
-						{post.videoUrl.length !== 0 ? (
-							<div className="dashboard-post-card-video-container">
-								<ReactPlayer
-									controls
-									url={post.videoUrl[0]}
-									height="280px"
-									width="500px"
-								/>
-							</div>
-						) : null}
-					</>
+					<div className="dashboard-post-card-images-container">
+						{post.imageUrls.map((imageUrl, index) => (
+							<img
+								src={imageUrl}
+								alt="pic"
+								key={index}
+								className="dashboard-post-card-image"
+							/>
+						))}
+					</div>
 				)}
+
+				<br />
+
+				{post.videoUrl.length !== 0 ? (
+					<div className="dashboard-post-card-video-container">
+						<ReactPlayer
+							controls
+							url={post.videoUrl[0]}
+							height="280px"
+							width="500px"
+						/>
+					</div>
+				) : null}
 
 				<Modal
 					isOpen={isReadMoreModalOpen}
