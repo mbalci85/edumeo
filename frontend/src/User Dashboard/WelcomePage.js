@@ -57,10 +57,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 					formsData.append('upload_preset', 'mbalci85');
 
 					await axios
-						.post(
-							`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`,
-							formsData,
-						)
+						.post(`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`, formsData)
 						.then((res) => formData.append('imageUrls', res.data.url))
 						.catch((err) => console.log(err));
 				}
@@ -71,10 +68,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				formVideoData.append('upload_preset', 'mbalci85');
 
 				await axios
-					.post(
-						'https://api.cloudinary.com/v1_1/mustafabalci/auto/upload',
-						formVideoData,
-					)
+					.post('https://api.cloudinary.com/v1_1/mustafabalci/auto/upload', formVideoData)
 					.then((res) => formData.append('videoUrl', res.data.url))
 					.catch((err) => console.log(err));
 			}
@@ -107,19 +101,19 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	};
 
 	return (
-		<div className="dashboard-container">
-			<div className="dashboard-welcome-msg">
+		<div className='dashboard-container'>
+			<div className='dashboard-welcome-msg'>
 				<h4>Welcome {name}</h4>
 			</div>
 
 			<div>
-				<form className="post-form" onSubmit={createPost}>
-					<label htmlFor="title">Title</label>
+				<form className='post-form' onSubmit={createPost}>
+					<label htmlFor='title'>Title</label>
 					<input
-						id="title"
-						className="post-form-post-title"
-						placeholder="Enter your title..."
-						type="text"
+						id='title'
+						className='post-form-post-title'
+						placeholder='Enter your title...'
+						type='text'
 						value={title}
 						onChange={(e) => {
 							setTitle(e.target.value);
@@ -127,11 +121,11 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 							setBlankNote(false);
 						}}
 					/>
-					<label htmlFor="body">Post</label>
+					<label htmlFor='body'>Post</label>
 					<textarea
-						id="body"
-						placeholder="Enter your post body..."
-						type="text"
+						id='body'
+						placeholder='Enter your post body...'
+						type='text'
 						value={body}
 						onChange={(e) => {
 							setBody(e.target.value);
@@ -139,45 +133,33 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 							setBlankNote(false);
 						}}
 					/>
-					<label id="post-form-add-file">Add Image(s)</label>
+					<label id='post-form-add-image'>Add Image(s)</label>
 					<input
-						type="file"
+						type='file'
 						multiple
-						id="post-form-add-file"
-						className="post-form-add-media"
+						id='post-form-add-image'
+						className='post-form-add-media'
 						onChange={(e) => setUploadedImages(e.target.files)}
 					/>
 
-					<label id="post-form-add-file">Add a Video</label>
+					<label id='post-form-add-video'>Add a Video</label>
 					<input
-						type="file"
-						id="post-form-add-file"
-						className="post-form-add-media"
+						type='file'
+						id='post-form-add-video'
+						className='post-form-add-media'
 						onChange={(e) => setUploadedVideo(e.target.files[0])}
 					/>
 
-					<button className="create-post-btn">Create Post</button>
+					<button className='create-post-btn'>Create Post</button>
 
-					{blankNote ? (
-						<small className="create-post-failure-note">
-							Title or post body can not be blank
-						</small>
-					) : null}
-					{createPostNote ? (
-						<small className="create-post-success-note">
-							You have created a post successfully
-						</small>
-					) : null}
+					{blankNote ? <small className='create-post-failure-note'>Title or post body can not be blank</small> : null}
+					{createPostNote ? <small className='create-post-success-note'>You have created a post successfully</small> : null}
 
-					{isLoading ? (
-						<small className="create-post-loading-msg">
-							Your post is being created.............
-						</small>
-					) : null}
+					{isLoading ? <small className='create-post-loading-msg'>Your post is being created.............</small> : null}
 				</form>
 			</div>
-			<div className="dashboard-posts-list-container">
-				<h2 className="dashboard-posts-list-container-title">My Posts</h2>
+			<div className='dashboard-posts-list-container'>
+				<h2 className='dashboard-posts-list-container-title'>My Posts</h2>
 				<div>
 					<UserPosts posts={posts} />
 				</div>

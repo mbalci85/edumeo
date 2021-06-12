@@ -10,6 +10,7 @@ const UserPost = ({ post }) => {
 	const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 	const [newTitle, setNewTitle] = useState(post.title);
 	const [newBody, setNewBody] = useState(post.body);
+	const [newImages, setNewImages] = useState([]);
 	const [updateMsg, setUpdateMsg] = useState(false);
 
 	const postId = post._id;
@@ -25,11 +26,56 @@ const UserPost = ({ post }) => {
 		window.location.reload();
 	};
 
+	let indices = [];
+	let urls = post.imageUrls;
+	let remainingUrls = urls;
+
+	const handleDeletePic = (e) => {
+		if (urls.length !== 0) {
+			if (!indices.includes(e.target.value * 1)) {
+				indices.push(e.target.value * 1);
+			} else {
+				const removeIndex = indices.indexOf(e.target.value * 1);
+				indices.splice(removeIndex, 1);
+			}
+
+			remainingUrls = urls.filter((url, index) => !indices.includes(index));
+		}
+		console.log(urls);
+		console.log(remainingUrls);
+		console.log(newImages);
+		console.log(indices);
+	};
+
 	const updatePost = async (e) => {
 		e.preventDefault();
+
+		const formData = new FormData();
+
+		if (newImages.length !== 0) {
+			for (let i = 0; i < newImages.length; i++) {
+				const formsData = new FormData();
+				formsData.append('file', newImages[i]);
+				formsData.append('upload_preset', 'mbalci85');
+
+				await axios
+					.post(`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`, formsData)
+					.then((res) => formData.append('imageUrls', res.data.url))
+					.catch((err) => console.log(err));
+			}
+		}
+
+		const newUrls = formData.getAll('imageUrls');
+
+		const imageUrls = newUrls.concat(remainingUrls);
+		console.log(remainingUrls);
+		console.log(newUrls);
+		console.log(imageUrls);
+
 		const newPost = {
 			title: newTitle,
 			body: newBody,
+			imageUrls: imageUrls,
 		};
 		await axios
 			.put(`http://localhost:5000/posts/${postId}`, newPost)
@@ -56,44 +102,44 @@ const UserPost = ({ post }) => {
 			window.location.reload();
 		}, 500);
 	};
+
 	return (
-		<div className="dashboard-all-posts-container">
-			<div className="dashboard-post-card-container">
-				<h3 className="dashboard-post-card-title">{post.title}</h3>
+		<div className='dashboard-all-posts-container'>
+			<div className='dashboard-post-card-container'>
+				<h3 className='dashboard-post-card-title'>{post.title}</h3>
 
 				<br />
 
 				{post.body.split(' ').length > 50 ? (
-					<p className="dashboard-post-card-body">
+					<p className='dashboard-post-card-body'>
 						{post.body.split(' ').slice(0, 49).join(' ')}...{' '}
 						<small>
 							<a
-								href="https://"
-								className="dashboard-post-card-read-more-btn"
+								href='https://'
+								className='dashboard-post-card-read-more-btn'
 								onClick={(e) => {
 									e.preventDefault();
 									setIsReadMoreModalOpen(true);
-								}}
-							>
+								}}>
 								continue reading &gt;
 							</a>
 						</small>
 					</p>
 				) : (
-					<p className="dashboard-post-card-body">{post.body}</p>
+					<p className='dashboard-post-card-body'>{post.body}</p>
 				)}
 
 				<br />
 
 				{post.imageUrls.length > 5 ? (
 					<>
-						<div className="dashboard-post-card-images-container">
+						<div className='dashboard-post-card-images-container'>
 							{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
 								<img
 									src={imageUrl}
-									alt="pic"
+									alt='pic'
 									key={index}
-									className="dashboard-post-card-image"
+									className='dashboard-post-card-image'
 								/>
 							))}
 						</div>
@@ -101,41 +147,30 @@ const UserPost = ({ post }) => {
 						<div>
 							<small>
 								<a
-									href="/#"
+									href='/#'
 									onClick={(e) => {
 										setIsReadMoreModalOpen(true);
 										e.preventDefault();
-									}}
-								>
+									}}>
 									Click here
 								</a>{' '}
 								to see all images{' '}
 							</small>
 						</div>
 					</>
-				) : (
-					<div className="dashboard-post-card-images-container">
+				) : post.imageUrls.length !== 0 && !post.imageUrls.includes(null) ? (
+					<div className='dashboard-post-card-images-container'>
 						{post.imageUrls.map((imageUrl, index) => (
-							<img
-								src={imageUrl}
-								alt="pic"
-								key={index}
-								className="dashboard-post-card-image"
-							/>
+							<img src={imageUrl} alt='pic' key={index} className='dashboard-post-card-image' />
 						))}
 					</div>
-				)}
+				) : null}
 
 				<br />
 
 				{post.videoUrl.length !== 0 ? (
-					<div className="dashboard-post-card-video-container">
-						<ReactPlayer
-							controls
-							url={post.videoUrl[0]}
-							height="280px"
-							width="500px"
-						/>
+					<div className='dashboard-post-card-video-container'>
+						<ReactPlayer controls url={post.videoUrl[0]} height='280px' width='500px' />
 					</div>
 				) : null}
 
@@ -154,38 +189,39 @@ const UserPost = ({ post }) => {
 							lineHeight: '1.6',
 							textAlign: 'justify',
 						},
-					}}
-				>
-					<h3 className="read-all-modal-title">{post.title}</h3>
+					}}>
+					<h3 className='read-all-modal-title'>{post.title}</h3>
 					<p>{post.body}</p>
-					<div className="read-all-modal-images-container">
-						{post.imageUrls.map((imageUrl, index) => (
-							<img
-								src={imageUrl}
-								alt="pic"
-								key={index}
-								className="read-all-modal-single-image"
-							/>
-						))}
-					</div>
+					{!post.imageUrls.includes(null) ? (
+						<div className='read-all-modal-images-container'>
+							{post.imageUrls.map((imageUrl, index) => (
+								<img
+									src={imageUrl}
+									alt='pic'
+									key={index}
+									className='read-all-modal-single-image'
+								/>
+							))}
+						</div>
+					) : null}
 
-					<div className="read-all-modal-go-back-btn-container">
+					<div className='read-all-modal-go-back-btn-container'>
 						<button
-							className="read-all-modal-go-back-btn"
-							onClick={() => setIsReadMoreModalOpen(false)}
-						>
+							className='read-all-modal-go-back-btn'
+							onClick={() => setIsReadMoreModalOpen(false)}>
 							Go Back
 						</button>
 					</div>
 				</Modal>
-				<div className="dashboard-post-card-btn-container">
+
+				<div className='dashboard-post-card-btn-container'>
 					<button
-						type="button"
-						className="dashboard-post-card-btn"
-						onClick={() => setIsUpdateModalOpen(true)}
-					>
+						type='button'
+						className='dashboard-post-card-btn'
+						onClick={() => setIsUpdateModalOpen(true)}>
 						Update
 					</button>
+
 					<Modal
 						isOpen={isUpdateModalOpen}
 						onRequestClose={() => setIsUpdateModalOpen(false)}
@@ -194,83 +230,76 @@ const UserPost = ({ post }) => {
 								backgroundColor: '#f5f5f5',
 							},
 							content: {
-								width: '60%',
+								width: '65%',
 								height: '75%',
 								margin: 'auto',
 								padding: '30px 50px',
 								lineHeight: '1.6',
 								textAlign: 'justify',
 							},
-						}}
-					>
-						<form
-							className="update-post-modal-form"
-							onSubmit={updatePost}
-						>
-							<input
-								value={newTitle}
-								onChange={(e) => setNewTitle(e.target.value)}
-							/>
-							<textarea
-								value={newBody}
-								onChange={(e) => setNewBody(e.target.value)}
-							/>
+						}}>
+						<form className='update-post-modal-form' onSubmit={updatePost}>
+							<input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+							<textarea value={newBody} onChange={(e) => setNewBody(e.target.value)} />
 
 							<input
-								type="file"
-								className="update-post-modal-form-add-media"
+								type='file'
+								multiple
+								className='update-post-modal-form-add-media'
+								onChange={(e) => setNewImages(e.target.files)}
 							/>
-							<small
-								className="update-post-modal-form-add-media-note"
-								style={{ color: 'red' }}
-							>
-								When you upload new images, previous one(s) will be
-								removed if you have already added
-							</small>
 
-							<div className="update-post-modal-form-images-container">
-								{post.imageUrls.map((imageUrl, index) => (
-									<img
-										src={imageUrl}
-										alt="pic "
-										key={index}
-										height="200px"
-										width="275px"
-										className="update-post-modal-form-image"
-									/>
-								))}
-							</div>
-							<button
-								type="submit"
-								className="update-post-modal-form-btn"
-							>
+							{post.imageUrls.length !== 0 ? (
+								<div className='update-post-modal-form-images-container'>
+									{post.imageUrls.map((imageUrl, index) => (
+										<div style={{ display: 'inline-block' }} key={index}>
+											<img
+												src={imageUrl}
+												alt='pic '
+												height='200px'
+												width='275px'
+												className='update-post-modal-form-image'
+											/>
+											<br />
+											<div className='update-post-modal-delete-pic-container'>
+												<label htmlFor='update-post-modal-delete-pic'>Delete</label>
+												<input
+													type='checkbox'
+													className='update-post-modal-delete-pic'
+													value={index}
+													onChange={handleDeletePic}
+												/>
+											</div>
+										</div>
+									))}
+								</div>
+							) : null}
+							<button type='submit' className='update-post-modal-form-btn'>
 								Update
 							</button>
 							{updateMsg ? (
-								<small className="update-post-modal-form-success-msg">
+								<small className='update-post-modal-form-success-msg'>
 									You have updated your post successfully
 								</small>
 							) : null}
 						</form>
 					</Modal>
+
 					<button
-						type="button"
-						id="dashboard-post-card-delete-btn"
-						className="dashboard-post-card-btn"
-						onClick={() => deletePost(post._id)}
-					>
+						type='button'
+						id='dashboard-post-card-delete-btn'
+						className='dashboard-post-card-btn'
+						onClick={() => deletePost(post._id)}>
 						Delete
 					</button>
 					<input
-						type="checkbox"
-						id="checkbox"
+						type='checkbox'
+						id='checkbox'
 						checked={post.isPublished}
 						onChange={() => publishPost()}
 					/>
-					<label
-						htmlFor="checkbox"
-						className="dashboard-post-card-publish-label"
-					>
+
+					<label htmlFor='checkbox' className='dashboard-post-card-publish-label'>
 						Publish
 					</label>
 				</div>
