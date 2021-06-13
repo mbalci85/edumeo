@@ -14,9 +14,10 @@
 }
 
 .home-page-post-images-container {
-	display: inline-flex;
-	margin-top: 10px;
-	justify-content: left;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }
 
 .home-page-post-image {
@@ -44,7 +45,7 @@
 }
 
 .home-page-post-modal-images-container {
-	display: inline-flex;
+	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	margin-top: 40px;

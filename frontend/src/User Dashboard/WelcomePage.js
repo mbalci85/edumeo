@@ -152,10 +152,20 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 
 					<button className='create-post-btn'>Create Post</button>
 
-					{blankNote ? <small className='create-post-failure-note'>Title or post body can not be blank</small> : null}
-					{createPostNote ? <small className='create-post-success-note'>You have created a post successfully</small> : null}
+					{blankNote ? (
+						<small className='create-post-failure-note'>Title or post body can not be blank</small>
+					) : null}
+					{createPostNote ? (
+						<small className='create-post-success-note'>
+							You have created a post successfully
+						</small>
+					) : null}
 
-					{isLoading ? <small className='create-post-loading-msg'>Your post is being created.............</small> : null}
+					{isLoading ? (
+						<small className='create-post-loading-msg'>
+							Your post is being created.............
+						</small>
+					) : null}
 				</form>
 			</div>
 			<div className='dashboard-posts-list-container'>

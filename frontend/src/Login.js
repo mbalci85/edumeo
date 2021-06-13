@@ -42,29 +42,31 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 		} else {
 			setWrongPasswordEmail(true);
 		}
+		sessionStorage.setItem('remainingUrls', JSON.stringify([]));
+		sessionStorage.setItem('checked', JSON.stringify([]));
 	};
 
 	return (
-		<div className="container">
+		<div className='container'>
 			<h1>Login Form</h1>
-			<form className="login-form" onSubmit={logIn}>
-				<label htmlFor="email">Email</label>
+			<form className='login-form' onSubmit={logIn}>
+				<label htmlFor='email'>Email</label>
 				<input
-					id="email"
-					placeholder="Enter your email"
+					id='email'
+					placeholder='Enter your email'
 					value={email}
 					required
-					type="email"
+					type='email'
 					onChange={(e) => {
 						setEmail(e.target.value);
 						setWrongPasswordEmail(false);
 					}}
 				/>
-				<label htmlFor="password">Password</label>
+				<label htmlFor='password'>Password</label>
 				<input
-					id="password"
-					type="password"
-					placeholder="Enter password"
+					id='password'
+					type='password'
+					placeholder='Enter password'
 					value={password}
 					required
 					onChange={(e) => {
@@ -73,26 +75,24 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 					}}
 				/>
 
-				<button type="submit" className="login-btn">
+				<button type='submit' className='login-btn'>
 					Log In
 				</button>
 				{isLoading ? (
-					<small className="login-form-loading-msg">
+					<small className='login-form-loading-msg'>
 						Checking your credentials ................
 					</small>
 				) : null}
 				{!isLoading ? (
 					<p style={{ textAlign: 'center' }}>
 						Don't have an account?{' '}
-						<a href="/register" className="sign-up-link">
+						<a href='/register' className='sign-up-link'>
 							Sign Up
 						</a>
 					</p>
 				) : null}
 				{wrongPasswordEmail ? (
-					<small className="wrong-email-password">
-						Wrong email or password!!!
-					</small>
+					<small className='wrong-email-password'>Wrong email or password!!!</small>
 				) : null}
 			</form>
 		</div>

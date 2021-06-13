@@ -61,13 +61,13 @@ const App = () => {
 				setSignOutMessage={setSignOutMessage}
 			/>
 			<Switch>
-				<div className="container">
-					<Route exact path="/" render={() => <Posts posts={posts} />} />
+				<div className='container'>
+					<Route exact path='/' render={() => <Posts posts={posts} />} />
 
 					{token.length === 0 ? (
 						<Route
 							exact
-							path="/login"
+							path='/login'
 							render={() => (
 								<Login
 									welcomeMessage={setShowWelcomeMessage}
@@ -77,13 +77,13 @@ const App = () => {
 							)}
 						/>
 					) : (
-						<Route path="/" />
+						<Route path='/' />
 					)}
 
 					{token.length === 0 ? (
 						<Route
 							exact
-							path="/register"
+							path='/register'
 							render={() => (
 								<RegistrationForm
 									welcomeMessage={setShowWelcomeMessage}
@@ -93,13 +93,13 @@ const App = () => {
 							)}
 						/>
 					) : (
-						<Route path="/" />
+						<Route path='/' />
 					)}
 
 					{token.length !== 0 ? (
 						<Route
 							exact
-							path="/dashboard/"
+							path='/dashboard/'
 							render={() => (
 								<WelcomePage
 									welcomeMessage={setShowWelcomeMessage}

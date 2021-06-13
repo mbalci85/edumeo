@@ -26,25 +26,23 @@ const UserPost = ({ post }) => {
 		window.location.reload();
 	};
 
-	let indices = [];
-	let urls = post.imageUrls;
-	let remainingUrls = urls;
-
 	const handleDeletePic = (e) => {
-		if (urls.length !== 0) {
-			if (!indices.includes(e.target.value * 1)) {
-				indices.push(e.target.value * 1);
-			} else {
-				const removeIndex = indices.indexOf(e.target.value * 1);
-				indices.splice(removeIndex, 1);
-			}
+		let indices = [];
+		let checked = [];
+		let remainingUrls = [];
 
-			remainingUrls = urls.filter((url, index) => !indices.includes(index));
+		if (!indices.includes(e.target.value * 1)) {
+			indices.push(e.target.value * 1);
+		} else {
+			const removeIndex = indices.indexOf(e.target.value * 1);
+			indices.splice(removeIndex, 1);
 		}
-		console.log(urls);
-		console.log(remainingUrls);
-		console.log(newImages);
-		console.log(indices);
+
+		checked.push(e.target.checked);
+
+		remainingUrls = post.imageUrls.filter((url, index) => !indices.includes(index));
+		sessionStorage.setItem('remainingUrls', JSON.stringify(remainingUrls));
+		sessionStorage.setItem('checked', JSON.stringify(checked));
 	};
 
 	const updatePost = async (e) => {
@@ -66,11 +64,16 @@ const UserPost = ({ post }) => {
 		}
 
 		const newUrls = formData.getAll('imageUrls');
+		const savedUrls = JSON.parse(sessionStorage.getItem('remainingUrls'));
+		const numberChecked = JSON.parse(sessionStorage.getItem('checked'));
 
-		const imageUrls = newUrls.concat(remainingUrls);
-		console.log(remainingUrls);
-		console.log(newUrls);
-		console.log(imageUrls);
+		let imageUrls = [];
+
+		if (savedUrls.length !== 0 || numberChecked.length !== 0) {
+			imageUrls = newUrls.concat(savedUrls);
+		} else {
+			imageUrls = newUrls.concat(post.imageUrls);
+		}
 
 		const newPost = {
 			title: newTitle,
@@ -81,7 +84,11 @@ const UserPost = ({ post }) => {
 			.put(`http://localhost:5000/posts/${postId}`, newPost)
 			.then((res) => res.data)
 			.catch((err) => console.log(err));
+
 		setUpdateMsg(true);
+		sessionStorage.setItem('checked', JSON.stringify([]));
+		sessionStorage.setItem('remainingUrls', JSON.stringify([]));
+
 		setTimeout(() => {
 			setIsUpdateModalOpen(false);
 		}, 2000);
@@ -239,14 +246,29 @@ const UserPost = ({ post }) => {
 							},
 						}}>
 						<form className='update-post-modal-form' onSubmit={updatePost}>
-							<input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-							<textarea value={newBody} onChange={(e) => setNewBody(e.target.value)} />
+							<input
+								value={newTitle}
+								onChange={(e) => {
+									e.preventDefault();
+									setNewTitle(e.target.value);
+								}}
+							/>
+							<textarea
+								value={newBody}
+								onChange={(e) => {
+									e.preventDefault();
+									setNewBody(e.target.value);
+								}}
+							/>
 
 							<input
 								type='file'
 								multiple
 								className='update-post-modal-form-add-media'
-								onChange={(e) => setNewImages(e.target.files)}
+								onChange={(e) => {
+									setNewImages(e.target.files);
+									e.preventDefault();
+								}}
 							/>
 
 							{post.imageUrls.length !== 0 ? (

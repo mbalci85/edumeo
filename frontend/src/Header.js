@@ -15,13 +15,13 @@ const Header = ({
 	setSignOutMessage,
 }) => {
 	return (
-		<div className="container">
-			<h1 className="home-page-title">EDUMEO</h1>
+		<div className='container'>
+			<h1 className='home-page-title'>EDUMEO</h1>
 
-			<div className="home-page-links">
+			<div className='home-page-links'>
 				<Link
-					to="/"
-					className="home-page-links"
+					to='/'
+					className='home-page-links'
 					onClick={() => {
 						if (isLoggedIn === false) {
 							setShowPageLinks(true);
@@ -29,36 +29,31 @@ const Header = ({
 							setDashboardLink(true);
 						}
 						setShowWelcomeMessage(true);
-					}}
-				>
+					}}>
 					Home{' '}
 				</Link>
 
 				{showPageLinks ? (
 					<>
-						<Link to="/register" className="home-page-links">
+						<Link to='/register' className='home-page-links'>
 							| Register |
 						</Link>
-						<Link to="/login" className="home-page-links">
+						<Link to='/login' className='home-page-links'>
 							Log In
 						</Link>
 					</>
 				) : null}
 
 				{isLoggedIn === true && dashboardLink === true ? (
-					<Link
-						to="/dashboard"
-						className="home-page-links"
-						onClick={() => setDashboardLink(false)}
-					>
+					<Link to='/dashboard' className='home-page-links' onClick={() => setDashboardLink(false)}>
 						| Go to Dashboard
 					</Link>
 				) : null}
 
 				{isLoggedIn === true ? (
 					<Link
-						to="/"
-						className="home-page-links"
+						to='/'
+						className='home-page-links'
 						onClick={() => {
 							setShowWelcomeMessage(true);
 							setShowPageLinks(true);
@@ -67,11 +62,13 @@ const Header = ({
 							setSignOutMessage(true);
 							localStorage.setItem('token', []);
 							localStorage.setItem('userInfo', {});
+							sessionStorage.setItem('remainingUrls', JSON.stringify([]));
+							sessionStorage.setItem('checked', JSON.stringify([]));
+
 							setTimeout(() => {
 								window.location.reload();
 							}, 1750);
-						}}
-					>
+						}}>
 						{' '}
 						| Log Out
 					</Link>
@@ -79,14 +76,12 @@ const Header = ({
 			</div>
 
 			{signOutMessage === true ? (
-				<div className="homepage-signout-msg">
+				<div className='homepage-signout-msg'>
 					<small>You have signed out successfully.</small>
 				</div>
 			) : null}
 
-			{showWelcomeMessage ? (
-				<h1 className="home-page-welcome-message">Welcome to Edumeo!</h1>
-			) : null}
+			{showWelcomeMessage ? <h1 className='home-page-welcome-message'>Welcome to Edumeo!</h1> : null}
 		</div>
 	);
 };
