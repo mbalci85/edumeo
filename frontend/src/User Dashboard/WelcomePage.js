@@ -92,9 +92,11 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				return res.data;
 			})
 			.catch((err) => console.log(err));
+
 		setTitle('');
 		setBody('');
 		setCreatePostNote(true);
+
 		setTimeout(() => {
 			window.location.reload();
 		}, 1250);

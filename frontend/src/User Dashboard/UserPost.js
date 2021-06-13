@@ -11,7 +11,9 @@ const UserPost = ({ post }) => {
 	const [newTitle, setNewTitle] = useState(post.title);
 	const [newBody, setNewBody] = useState(post.body);
 	const [newImages, setNewImages] = useState([]);
+	const [newVideo, setNewVideo] = useState([]);
 	const [updateMsg, setUpdateMsg] = useState(false);
+	const [deleteVideo, setDeleteVideo] = useState(false);
 
 	const postId = post._id;
 
@@ -45,6 +47,10 @@ const UserPost = ({ post }) => {
 		sessionStorage.setItem('checked', JSON.stringify(checked));
 	};
 
+	const handleDeleteVideo = (e) => {
+		setDeleteVideo(e.target.checked);
+	};
+
 	const updatePost = async (e) => {
 		e.preventDefault();
 
@@ -63,9 +69,26 @@ const UserPost = ({ post }) => {
 			}
 		}
 
+		console.log(newVideo);
+
+		if (newVideo.length !== 0) {
+			const formVideoData = new FormData();
+			formVideoData.append('file', newVideo);
+			formVideoData.append('upload_preset', 'mbalci85');
+
+			await axios
+				.post('https://api.cloudinary.com/v1_1/mustafabalci/auto/upload', formVideoData)
+				.then((res) => formData.append('videoUrl', res.data.url))
+				.catch((err) => console.log(err));
+		}
+
 		const newUrls = formData.getAll('imageUrls');
 		const savedUrls = JSON.parse(sessionStorage.getItem('remainingUrls'));
 		const numberChecked = JSON.parse(sessionStorage.getItem('checked'));
+
+		const videoUrl = formData.getAll('videoUrl');
+
+		console.log(videoUrl);
 
 		let imageUrls = [];
 
@@ -79,7 +102,9 @@ const UserPost = ({ post }) => {
 			title: newTitle,
 			body: newBody,
 			imageUrls: imageUrls,
+			videoUrl: deleteVideo ? [] : videoUrl,
 		};
+
 		await axios
 			.put(`http://localhost:5000/posts/${postId}`, newPost)
 			.then((res) => res.data)
@@ -249,27 +274,39 @@ const UserPost = ({ post }) => {
 							<input
 								value={newTitle}
 								onChange={(e) => {
-									e.preventDefault();
 									setNewTitle(e.target.value);
 								}}
 							/>
 							<textarea
 								value={newBody}
 								onChange={(e) => {
-									e.preventDefault();
 									setNewBody(e.target.value);
 								}}
 							/>
 
+							<label htmlFor='update-post-modal-form-add-image'>Add Image(s)</label>
 							<input
 								type='file'
 								multiple
-								className='update-post-modal-form-add-media'
+								className='update-post-modal-form-add-image'
 								onChange={(e) => {
 									setNewImages(e.target.files);
-									e.preventDefault();
 								}}
 							/>
+
+							{post.videoUrl.length === 0 ? (
+								<>
+									<label htmlFor='update-post-modal-form-add-video'>Add a Video</label>
+									<input
+										type='file'
+										id='update-post-modal-form-add-video'
+										className='update-post-modal-form-add-video'
+										onChange={(e) => {
+											setNewVideo(e.target.files[0]);
+										}}
+									/>
+								</>
+							) : null}
 
 							{post.imageUrls.length !== 0 ? (
 								<div className='update-post-modal-form-images-container'>
@@ -296,6 +333,29 @@ const UserPost = ({ post }) => {
 									))}
 								</div>
 							) : null}
+
+							{post.videoUrl.length !== 0 ? (
+								<div style={{ display: 'inline-block' }}>
+									<div className='update-post-modal-form-video-container'>
+										<ReactPlayer
+											controls
+											url={post.videoUrl[0]}
+											height='280px'
+											width='500px'
+										/>
+									</div>
+									<div className='update-post-modal-delete-video-container'>
+										<label htmlFor='update-post-modal-delete-video'>Delete</label>
+										<input
+											type='checkbox'
+											id='update-post-modal-delete-video'
+											className='update-post-modal-delete-video'
+											onChange={handleDeleteVideo}
+										/>
+									</div>
+								</div>
+							) : null}
+
 							<button type='submit' className='update-post-modal-form-btn'>
 								Update
 							</button>
