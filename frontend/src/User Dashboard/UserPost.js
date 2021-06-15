@@ -28,8 +28,9 @@ const UserPost = ({ post }) => {
 		window.location.reload();
 	};
 
+	let indices = [];
+
 	const handleDeletePic = (e) => {
-		let indices = [];
 		let checked = [];
 		let remainingUrls = [];
 
@@ -69,8 +70,6 @@ const UserPost = ({ post }) => {
 			}
 		}
 
-		console.log(newVideo);
-
 		if (newVideo.length !== 0) {
 			const formVideoData = new FormData();
 			formVideoData.append('file', newVideo);
@@ -87,8 +86,6 @@ const UserPost = ({ post }) => {
 		const numberChecked = JSON.parse(sessionStorage.getItem('checked'));
 
 		const videoUrl = formData.getAll('videoUrl');
-
-		console.log(videoUrl);
 
 		let imageUrls = [];
 
@@ -153,7 +150,7 @@ const UserPost = ({ post }) => {
 									e.preventDefault();
 									setIsReadMoreModalOpen(true);
 								}}>
-								continue reading &gt;
+								continue reading &raquo;
 							</a>
 						</small>
 					</p>

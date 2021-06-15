@@ -42,7 +42,7 @@ const SinglePost = ({ post }) => {
 								e.preventDefault();
 								setIsPostModalOpen(true);
 							}}>
-							continue reading &gt;
+							continue reading &raquo;
 						</a>
 					</small>
 				</p>
