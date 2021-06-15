@@ -4,7 +4,10 @@ const PostModel = require('../models/Post.model');
 
 exports.getAllPosts = async (req, res) => {
 	try {
-		const response = await PostModel.find();
+		const { page, limit } = req.query;
+		const response = await PostModel.find()
+			.limit(limit * 1)
+			.skip((page - 1) * limit);
 		res.json(response);
 	} catch (error) {
 		res.status(500).json(error);
@@ -42,8 +45,7 @@ exports.getPostsByUserId = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
-	const { title, body, author, isPublished, userId, imageUrls, videoUrl } =
-		req.body;
+	const { title, body, author, isPublished, userId, imageUrls, videoUrl } = req.body;
 	const newPost = new PostModel({
 		title,
 		body,
@@ -60,36 +62,24 @@ exports.createPost = async (req, res) => {
 				message: 'New post is created successfully',
 				response,
 			})
-			.catch((error) => res.json({ status: false, message: error })),
+			.catch((error) => res.json({ status: false, message: error }))
 	);
 };
 
 exports.updatePost = async (req, res) => {
-	await PostModel.findByIdAndUpdate(
-		{ _id: req.params.postid },
-		{ $set: req.body },
-	)
-		.then((data) =>
-			res.json({ message: 'Post is successfully updated', data }),
-		)
+	await PostModel.findByIdAndUpdate({ _id: req.params.postid }, { $set: req.body })
+		.then((data) => res.json({ message: 'Post is successfully updated', data }))
 		.catch((err) => res.json({ message: err }));
 };
 
 exports.publishPost = async (req, res) => {
-	await PostModel.findByIdAndUpdate(
-		{ _id: req.params.postid },
-		{ isPublished: true },
-	)
-		.then((data) =>
-			res.json({ message: 'Post is successfully removed', data }),
-		)
+	await PostModel.findByIdAndUpdate({ _id: req.params.postid }, { isPublished: true })
+		.then((data) => res.json({ message: 'Post is successfully removed', data }))
 		.catch((err) => res.json({ message: err }));
 };
 
 exports.deletePost = async (req, res) => {
 	await PostModel.findByIdAndDelete({ _id: req.params.postid })
-		.then((data) =>
-			res.json({ message: 'Post is successfully deleted', data }),
-		)
+		.then((data) => res.json({ message: 'Post is successfully deleted', data }))
 		.catch((err) => res.json({ message: err }));
 };
