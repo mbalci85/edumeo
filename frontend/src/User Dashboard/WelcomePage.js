@@ -197,13 +197,17 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						e.preventDefault();
 						console.log(page);
 					}}>
-					<label>Go to Page {page}</label>
+					<label className='dashboard-posts-list-pagination-label'>
+						Go to Page {page}
+					</label>
+					<br />
 					1
 					<input
 						type='range'
 						min='1'
 						max={Math.ceil(numberOfPosts / limit)}
 						value={page}
+						className='dashboard-posts-list-pagination-input'
 						onChange={(e) => {
 							e.preventDefault();
 							setPage(e.target.value);

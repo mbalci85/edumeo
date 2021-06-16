@@ -80,3 +80,12 @@
 .dashboard-posts-list-container-title {
 	margin: 40px 0;
 }
+
+.dashboard-posts-list-pagination-label {
+	margin: 10px;
+}
+
+.dashboard-posts-list-pagination-input {
+	margin: 10px;
+	width: 250px;
+}
