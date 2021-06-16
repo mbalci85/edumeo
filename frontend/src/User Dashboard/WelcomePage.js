@@ -15,6 +15,9 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [uploadedImages, setUploadedImages] = useState([]);
 	const [uploadedVideo, setUploadedVideo] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [page, setPage] = useState(1);
+	const [limit, setLimit] = useState(5);
+	const [numberOfPosts, setNumberOfPosts] = useState();
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
@@ -31,17 +34,26 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	useEffect(() => {
 		let mounted = true;
 
+		if (page) {
+			axios
+				.get(
+					`http://localhost:5000/posts/userid/${userId}?page=${page}&limit=${limit}`
+				)
+				.then((res) => {
+					if (mounted) {
+						return setPosts(res.data);
+					}
+				})
+				.catch((err) => console.log(err));
+		}
+
 		axios
-			.get(`http://localhost:5000/posts/userid/${userId}`)
-			.then((res) => {
-				if (mounted) {
-					return setPosts(res.data);
-				}
-			})
+			.get(`http://localhost:5000/posts/`)
+			.then((res) => setNumberOfPosts(res.data.total))
 			.catch((err) => console.log(err));
 
 		return () => (mounted = false);
-	}, [userId]);
+	}, [userId, page, limit]);
 
 	const createPost = async (e) => {
 		e.preventDefault();
@@ -57,7 +69,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 					formsData.append('upload_preset', 'mbalci85');
 
 					await axios
-						.post(`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`, formsData)
+						.post(
+							`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`,
+							formsData
+						)
 						.then((res) => formData.append('imageUrls', res.data.url))
 						.catch((err) => console.log(err));
 				}
@@ -68,7 +83,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 				formVideoData.append('upload_preset', 'mbalci85');
 
 				await axios
-					.post('https://api.cloudinary.com/v1_1/mustafabalci/auto/upload', formVideoData)
+					.post(
+						'https://api.cloudinary.com/v1_1/mustafabalci/auto/upload',
+						formVideoData
+					)
 					.then((res) => formData.append('videoUrl', res.data.url))
 					.catch((err) => console.log(err));
 			}
@@ -155,7 +173,9 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 					<button className='create-post-btn'>Create Post</button>
 
 					{blankNote ? (
-						<small className='create-post-failure-note'>Title or post body can not be blank</small>
+						<small className='create-post-failure-note'>
+							Title or post body can not be blank
+						</small>
 					) : null}
 					{createPostNote ? (
 						<small className='create-post-success-note'>
@@ -172,6 +192,25 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			</div>
 			<div className='dashboard-posts-list-container'>
 				<h2 className='dashboard-posts-list-container-title'>My Posts</h2>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						console.log(page);
+					}}>
+					<label>Go to Page {page}</label>
+					1
+					<input
+						type='range'
+						min='1'
+						max={Math.ceil(numberOfPosts / limit)}
+						value={page}
+						onChange={(e) => {
+							e.preventDefault();
+							setPage(e.target.value);
+						}}
+					/>
+					{Math.ceil(numberOfPosts / limit)}
+				</form>
 				<div>
 					<UserPosts posts={posts} />
 				</div>

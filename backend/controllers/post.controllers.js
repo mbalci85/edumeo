@@ -8,7 +8,7 @@ exports.getAllPosts = async (req, res) => {
 		const response = await PostModel.find()
 			.limit(limit * 1)
 			.skip((page - 1) * limit);
-		res.json(response);
+		res.json({ total: response.length, response });
 	} catch (error) {
 		res.status(500).json(error);
 	}
@@ -35,13 +35,16 @@ exports.getPostsByTitle = async (req, res) => {
 };
 
 exports.getPostsByUserId = async (req, res) => {
+	const { page, limit } = req.query;
 	await PostModel.find({ userId: req.params.userid }, (err, data) => {
 		if (err) {
 			res.json({ message: err });
 		} else {
 			res.json(data);
 		}
-	});
+	})
+		.limit(limit * 1)
+		.skip((page - 1) * limit);
 };
 
 exports.createPost = async (req, res) => {

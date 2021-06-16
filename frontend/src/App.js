@@ -27,7 +27,7 @@ const App = () => {
 			.get('http://localhost:5000/posts/')
 			.then((res) => {
 				if (mounted) {
-					return setPosts(res.data.filter((post) => post.isPublished));
+					return setPosts(res.data.response.filter((post) => post.isPublished));
 				}
 			})
 			.catch((err) => console.log(err));
