@@ -35,6 +35,20 @@ exports.getPostsByTitle = async (req, res) => {
 	});
 };
 
+exports.getPublishedPosts = async (req, res) => {
+	const { page, limit } = req.query;
+	await PostModel.find({ isPublished: req.params.ispublished }, (err, data) => {
+		if (err) {
+			res.json({ message: err });
+		} else {
+			res.json(data);
+		}
+	})
+		.sort({ $natural: -1 })
+		.limit(limit * 1)
+		.skip((page - 1) * limit);
+};
+
 exports.getPostsByUserId = async (req, res) => {
 	const { page, limit } = req.query;
 	await PostModel.find({ userId: req.params.userid }, (err, data) => {

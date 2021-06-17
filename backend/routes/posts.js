@@ -7,6 +7,7 @@ router.get('/posts', postsControllers.getAllPosts);
 router.get('/posts/:postid', postsControllers.getPostById);
 router.get('/posts/title/:title', postsControllers.getPostsByTitle);
 router.get('/posts/userid/:userid', postsControllers.getPostsByUserId);
+router.get('/posts/ispublished/:ispublished', postsControllers.getPublishedPosts);
 router.post('/posts', postsControllers.createPost);
 router.put('/posts/:postid', postsControllers.updatePost);
 router.delete('/posts/:postid', postsControllers.publishPost);

@@ -16,7 +16,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [uploadedVideo, setUploadedVideo] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(5);
+	const [limit, setLimit] = useState(3);
 	const [numberOfPosts, setNumberOfPosts] = useState();
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -198,7 +198,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						console.log(page);
 					}}>
 					<label className='dashboard-posts-list-pagination-label'>
-						Go to Page {page}
+						Page <strong>{page}</strong>
 					</label>
 					<br />
 					1

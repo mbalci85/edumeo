@@ -2,5 +2,26 @@
 	border: solid 1px lightgray;
 	border-radius: 5px;
 	padding: 15px;
-	margin: 0 80px;
+	margin: 30px 80px;
+	width: 85%;
+}
+
+.home-page-all-posts-title {
+	text-align: center;
+}
+
+.home-page-all-posts-go-to-page-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+	width: 100%;
+}
+
+.home-page-all-posts-go-to-page-label {
+	margin: 10px;
+}
+
+.home-page-all-posts-go-to-page-input {
+	margin: 10px 0px 25px 0px;
 }

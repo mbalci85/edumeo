@@ -17,23 +17,36 @@ const App = () => {
 	const [token, setToken] = useState('');
 	const [signOutMessage, setSignOutMessage] = useState(false);
 	const [posts, setPosts] = useState([]);
+	const [page, setPage] = useState(1);
+	const [limit, setLimit] = useState(2);
+	const [numberOfPublishedPosts, setNumberOfPublishedPosts] = useState();
 
 	useEffect(() => {
 		if (token === null) {
 			localStorage.setItem('token', []);
 		}
 		let mounted = true;
+		if (page) {
+			axios
+				.get(
+					`http://localhost:5000/posts/ispublished/true?page=${page}&limit=${limit}`
+				)
+				.then((res) => {
+					if (mounted) {
+						return setPosts(res.data);
+					}
+				})
+				.catch((err) => console.log(err));
+		}
 		axios
-			.get('http://localhost:5000/posts/')
+			.get(`http://localhost:5000/posts/ispublished/true`)
 			.then((res) => {
-				if (mounted) {
-					return setPosts(res.data.response.filter((post) => post.isPublished));
-				}
+				setNumberOfPublishedPosts(res.data.length);
 			})
 			.catch((err) => console.log(err));
 
 		return () => (mounted = false);
-	}, [token]);
+	}, [token, page, limit]);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -62,7 +75,18 @@ const App = () => {
 			/>
 			<Switch>
 				<div className='container'>
-					<Route exact path='/' render={() => <Posts posts={posts} />} />
+					<Route
+						exact
+						path='/'
+						render={() => (
+							<Posts
+								posts={posts}
+								setPage={setPage}
+								page={page}
+								numberOfPages={Math.ceil(numberOfPublishedPosts / limit)}
+							/>
+						)}
+					/>
 
 					{token.length === 0 ? (
 						<Route
