@@ -16,7 +16,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [uploadedVideo, setUploadedVideo] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(3);
+	const [limit, setLimit] = useState(5);
 	const [numberOfPosts, setNumberOfPosts] = useState();
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -139,6 +139,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 							setTitle(e.target.value);
 							setCreatePostNote(false);
 							setBlankNote(false);
+							setIsLoading(false);
 						}}
 					/>
 					<label htmlFor='body'>Post</label>
@@ -151,6 +152,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 							setBody(e.target.value);
 							setCreatePostNote(false);
 							setBlankNote(false);
+							setIsLoading(false);
 						}}
 					/>
 					<label id='post-form-add-image'>Add Image(s)</label>
@@ -159,7 +161,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						multiple
 						id='post-form-add-image'
 						className='post-form-add-media'
-						onChange={(e) => setUploadedImages(e.target.files)}
+						onChange={(e) => {
+							setUploadedImages(e.target.files);
+							setIsLoading(false);
+						}}
 					/>
 
 					<label id='post-form-add-video'>Add a Video</label>
@@ -167,7 +172,10 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						type='file'
 						id='post-form-add-video'
 						className='post-form-add-media'
-						onChange={(e) => setUploadedVideo(e.target.files[0])}
+						onChange={(e) => {
+							setUploadedVideo(e.target.files[0]);
+							setIsLoading(false);
+						}}
 					/>
 
 					<button className='create-post-btn'>Create Post</button>
@@ -183,7 +191,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						</small>
 					) : null}
 
-					{isLoading ? (
+					{isLoading && !blankNote ? (
 						<small className='create-post-loading-msg'>
 							Your post is being created.............
 						</small>
@@ -201,19 +209,21 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						Page <strong>{page}</strong>
 					</label>
 					<br />
-					1
-					<input
-						type='range'
-						min='1'
-						max={Math.ceil(numberOfPosts / limit)}
-						value={page}
-						className='dashboard-posts-list-pagination-input'
-						onChange={(e) => {
-							e.preventDefault();
-							setPage(e.target.value);
-						}}
-					/>
-					{Math.ceil(numberOfPosts / limit)}
+					<div>
+						1{' '}
+						<input
+							type='range'
+							min='1'
+							max={Math.ceil(numberOfPosts / limit)}
+							value={page}
+							className='dashboard-posts-list-pagination-input'
+							onChange={(e) => {
+								e.preventDefault();
+								setPage(e.target.value);
+							}}
+						/>{' '}
+						{Math.ceil(numberOfPosts / limit)}
+					</div>
 				</form>
 				<div>
 					<UserPosts posts={posts} />

@@ -18,7 +18,7 @@ const App = () => {
 	const [signOutMessage, setSignOutMessage] = useState(false);
 	const [posts, setPosts] = useState([]);
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(2);
+	const [limit, setLimit] = useState(5);
 	const [numberOfPublishedPosts, setNumberOfPublishedPosts] = useState();
 
 	useEffect(() => {

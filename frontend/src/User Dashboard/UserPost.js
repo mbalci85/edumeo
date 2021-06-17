@@ -14,6 +14,7 @@ const UserPost = ({ post }) => {
 	const [newVideo, setNewVideo] = useState([]);
 	const [updateMsg, setUpdateMsg] = useState(false);
 	const [deleteVideo, setDeleteVideo] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const postId = post._id;
 
@@ -54,6 +55,7 @@ const UserPost = ({ post }) => {
 
 	const updatePost = async (e) => {
 		e.preventDefault();
+		setIsLoading(true);
 
 		const formData = new FormData();
 
@@ -64,7 +66,10 @@ const UserPost = ({ post }) => {
 				formsData.append('upload_preset', 'mbalci85');
 
 				await axios
-					.post(`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`, formsData)
+					.post(
+						`https://api.cloudinary.com/v1_1/mustafabalci/image/upload`,
+						formsData
+					)
 					.then((res) => formData.append('imageUrls', res.data.url))
 					.catch((err) => console.log(err));
 			}
@@ -76,7 +81,10 @@ const UserPost = ({ post }) => {
 			formVideoData.append('upload_preset', 'mbalci85');
 
 			await axios
-				.post('https://api.cloudinary.com/v1_1/mustafabalci/auto/upload', formVideoData)
+				.post(
+					'https://api.cloudinary.com/v1_1/mustafabalci/auto/upload',
+					formVideoData
+				)
 				.then((res) => formData.append('videoUrl', res.data.url))
 				.catch((err) => console.log(err));
 		}
@@ -104,7 +112,10 @@ const UserPost = ({ post }) => {
 
 		await axios
 			.put(`http://localhost:5000/posts/${postId}`, newPost)
-			.then((res) => res.data)
+			.then((res) => {
+				setIsLoading(false);
+				return res.data;
+			})
 			.catch((err) => console.log(err));
 
 		setUpdateMsg(true);
@@ -190,7 +201,12 @@ const UserPost = ({ post }) => {
 				) : post.imageUrls.length !== 0 && !post.imageUrls.includes(null) ? (
 					<div className='dashboard-post-card-images-container'>
 						{post.imageUrls.map((imageUrl, index) => (
-							<img src={imageUrl} alt='pic' key={index} className='dashboard-post-card-image' />
+							<img
+								src={imageUrl}
+								alt='pic'
+								key={index}
+								className='dashboard-post-card-image'
+							/>
 						))}
 					</div>
 				) : null}
@@ -199,7 +215,12 @@ const UserPost = ({ post }) => {
 
 				{post.videoUrl.length !== 0 ? (
 					<div className='dashboard-post-card-video-container'>
-						<ReactPlayer controls url={post.videoUrl[0]} height='280px' width='500px' />
+						<ReactPlayer
+							controls
+							url={post.videoUrl[0]}
+							height='280px'
+							width='500px'
+						/>
 					</div>
 				) : null}
 
@@ -281,7 +302,9 @@ const UserPost = ({ post }) => {
 								}}
 							/>
 
-							<label htmlFor='update-post-modal-form-add-image'>Add Image(s)</label>
+							<label htmlFor='update-post-modal-form-add-image'>
+								Add Image(s)
+							</label>
 							<input
 								type='file'
 								multiple
@@ -293,7 +316,9 @@ const UserPost = ({ post }) => {
 
 							{post.videoUrl.length === 0 ? (
 								<>
-									<label htmlFor='update-post-modal-form-add-video'>Add a Video</label>
+									<label htmlFor='update-post-modal-form-add-video'>
+										Add a Video
+									</label>
 									<input
 										type='file'
 										id='update-post-modal-form-add-video'
@@ -308,7 +333,9 @@ const UserPost = ({ post }) => {
 							{post.imageUrls.length !== 0 ? (
 								<div className='update-post-modal-form-images-container'>
 									{post.imageUrls.map((imageUrl, index) => (
-										<div style={{ display: 'inline-block' }} key={index}>
+										<div
+											style={{ display: 'inline-block' }}
+											key={index}>
 											<img
 												src={imageUrl}
 												alt='pic '
@@ -318,7 +345,9 @@ const UserPost = ({ post }) => {
 											/>
 											<br />
 											<div className='update-post-modal-delete-pic-container'>
-												<label htmlFor='update-post-modal-delete-pic'>Delete</label>
+												<label htmlFor='update-post-modal-delete-pic'>
+													Delete
+												</label>
 												<input
 													type='checkbox'
 													className='update-post-modal-delete-pic'
@@ -342,7 +371,9 @@ const UserPost = ({ post }) => {
 										/>
 									</div>
 									<div className='update-post-modal-delete-video-container'>
-										<label htmlFor='update-post-modal-delete-video'>Delete</label>
+										<label htmlFor='update-post-modal-delete-video'>
+											Delete
+										</label>
 										<input
 											type='checkbox'
 											id='update-post-modal-delete-video'
@@ -359,6 +390,12 @@ const UserPost = ({ post }) => {
 							{updateMsg ? (
 								<small className='update-post-modal-form-success-msg'>
 									You have updated your post successfully
+								</small>
+							) : null}
+
+							{isLoading ? (
+								<small className='update-post-modal-form-loading-msg'>
+									Your post is being updated.............
 								</small>
 							) : null}
 						</form>
@@ -378,7 +415,9 @@ const UserPost = ({ post }) => {
 						onChange={() => publishPost()}
 					/>
 
-					<label htmlFor='checkbox' className='dashboard-post-card-publish-label'>
+					<label
+						htmlFor='checkbox'
+						className='dashboard-post-card-publish-label'>
 						Publish
 					</label>
 				</div>

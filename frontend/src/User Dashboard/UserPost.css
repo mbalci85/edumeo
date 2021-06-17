@@ -126,8 +126,9 @@
 	padding: 3px;
 }
 
-.update-post-modal-form-add-video {
+#update-post-modal-form-add-video {
 	padding: 3px;
+	margin-bottom: 50px;
 }
 
 .update-post-modal-form-add-media-note {
@@ -154,7 +155,7 @@
 }
 
 .update-post-modal-form-btn {
-	margin: 0 auto;
+	margin: 10px auto;
 	border: none;
 	border-radius: 5px;
 	background-color: #d1d2f3;
@@ -165,7 +166,12 @@
 
 .update-post-modal-form-success-msg {
 	color: green;
-	margin: 15px auto 25px auto;
+	margin: 15px auto;
+}
+
+.update-post-modal-form-loading-msg {
+	color: red;
+	margin: 15px auto;
 }
 
 .dashboard-post-card-publish-label {
