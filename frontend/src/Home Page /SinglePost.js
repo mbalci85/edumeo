@@ -6,12 +6,19 @@ import './SinglePost.css';
 
 Modal.setAppElement('#root');
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, userName }) => {
 	const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 	const [name, setName] = useState('');
+	const [numberOfLikes, setNumberOfLikes] = useState(post.likes.length);
+	const [liked, setLiked] = useState(false);
+
+	const postId = post._id;
+	const likes = post.likes;
 
 	useEffect(() => {
 		let mounted = true;
+		console.log(userName);
+
 		axios
 			.get(`http://localhost:5000/users/${post.userId}`)
 			.then((res) => {
@@ -24,6 +31,25 @@ const SinglePost = ({ post }) => {
 			});
 		return () => (mounted = false);
 	}, [post.userId]);
+
+	const handleLikes = async () => {
+		if (liked && !likes.includes(userName)) {
+			setNumberOfLikes(numberOfLikes + 1);
+			likes.push(userName);
+		} else {
+			setNumberOfLikes(numberOfLikes - 1);
+			likes.splice(likes.indexOf(userName), 1);
+		}
+
+		const newPost = {
+			likes: likes,
+		};
+
+		axios
+			.put(`http://localhost:5000/posts/${postId}`, newPost)
+			.then((res) => res.data)
+			.catch((err) => console.log(err));
+	};
 
 	return (
 		<div className='home-page-single-post-container'>
@@ -56,7 +82,12 @@ const SinglePost = ({ post }) => {
 				<>
 					<div div className='home-page-post-images-container '>
 						{post.imageUrls.slice(0, 5).map((imageUrl, index) => (
-							<img src={imageUrl} alt='pic' key={index} className='home-page-post-image' />
+							<img
+								src={imageUrl}
+								alt='pic'
+								key={index}
+								className='home-page-post-image'
+							/>
 						))}
 					</div>
 					<div style={{ textAlign: 'center' }}>
@@ -76,7 +107,12 @@ const SinglePost = ({ post }) => {
 			) : (
 				<div className='home-page-post-images-container '>
 					{post.imageUrls.map((imageUrl, index) => (
-						<img src={imageUrl} alt='pic' key={index} className='home-page-post-image' />
+						<img
+							src={imageUrl}
+							alt='pic'
+							key={index}
+							className='home-page-post-image'
+						/>
 					))}
 				</div>
 			)}
@@ -85,10 +121,35 @@ const SinglePost = ({ post }) => {
 
 			{post.videoUrl.length !== 0 ? (
 				<div className='home-page-post-video-container'>
-					<ReactPlayer controls url={post.videoUrl[0]} height='280px' width='500px' />
+					<ReactPlayer
+						controls
+						url={post.videoUrl[0]}
+						height='280px'
+						width='500px'
+					/>
 				</div>
 			) : null}
+			{likes.includes(userName) ? (
+				<button
+					onClick={() => {
+						handleLikes();
+						setLiked(!liked);
+					}}>
+					Liked
+				</button>
+			) : (
+				<button
+					onClick={() => {
+						handleLikes();
+						setLiked(!liked);
+					}}>
+					Like
+				</button>
+			)}
 
+			<p>{numberOfLikes}</p>
+
+			<br />
 			<hr />
 			<br />
 

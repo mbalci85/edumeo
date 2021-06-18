@@ -45,7 +45,10 @@ const Header = ({
 				) : null}
 
 				{isLoggedIn === true && dashboardLink === true ? (
-					<Link to='/dashboard' className='home-page-links' onClick={() => setDashboardLink(false)}>
+					<Link
+						to='/dashboard'
+						className='home-page-links'
+						onClick={() => setDashboardLink(false)}>
 						| Go to Dashboard
 					</Link>
 				) : null}
@@ -61,7 +64,7 @@ const Header = ({
 							setDashboardLink(false);
 							setSignOutMessage(true);
 							localStorage.setItem('token', []);
-							localStorage.setItem('userInfo', {});
+							localStorage.setItem('userInfo', JSON.stringify({}));
 							sessionStorage.setItem('remainingUrls', JSON.stringify([]));
 							sessionStorage.setItem('checked', JSON.stringify([]));
 
@@ -81,7 +84,9 @@ const Header = ({
 				</div>
 			) : null}
 
-			{showWelcomeMessage ? <h1 className='home-page-welcome-message'>Welcome to Edumeo!</h1> : null}
+			{showWelcomeMessage ? (
+				<h1 className='home-page-welcome-message'>Welcome to Edumeo!</h1>
+			) : null}
 		</div>
 	);
 };

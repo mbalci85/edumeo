@@ -3,16 +3,37 @@ const mongoose = require('mongoose');
 const PostModel = require('../models/Post.model');
 
 exports.getAllPosts = async (req, res) => {
-	try {
-		const { page, limit } = req.query;
-		const response = await PostModel.find()
-			.sort({ $natural: -1 })
-			.limit(limit * 1)
-			.skip((page - 1) * limit);
-		res.json({ total: response.length, response });
-	} catch (error) {
-		res.status(500).json(error);
-	}
+	// try {
+	// 	const { page, limit } = req.query;
+	// 	const response = await PostModel.find()
+	// 		.sort({ $natural: -1 })
+	// 		.limit(limit * 1)
+	// 		.skip((page - 1) * limit);
+	// 	res.json({ total: response.length, response });
+	// } catch (error) {
+	// 	res.status(500).json(error);
+	// }
+	const { page = 1, limit = 5 } = req.query;
+	await PostModel.aggregate(
+		[
+			{
+				$skip: (page - 1) * limit,
+			},
+			{
+				$limit: limit * 1,
+			},
+			{
+				$sort: { createdAt: -1 },
+			},
+		],
+		(err, results) => {
+			if (err) {
+				res.status(500).json(err);
+			} else {
+				res.json({ total: results.length, results });
+			}
+		}
+	);
 };
 
 exports.getPostById = async (req, res) => {
@@ -64,7 +85,8 @@ exports.getPostsByUserId = async (req, res) => {
 };
 
 exports.createPost = async (req, res) => {
-	const { title, body, author, isPublished, userId, imageUrls, videoUrl } = req.body;
+	const { title, body, author, isPublished, userId, imageUrls, videoUrl, likes } =
+		req.body;
 	const newPost = new PostModel({
 		title,
 		body,
@@ -73,6 +95,7 @@ exports.createPost = async (req, res) => {
 		userId,
 		imageUrls,
 		videoUrl,
+		likes,
 	});
 	newPost.save().then((response) =>
 		res

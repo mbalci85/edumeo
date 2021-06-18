@@ -11,8 +11,9 @@ const PostSchema = new Schema(
 		userId: { type: mongoose.Types.ObjectId, ref: 'users' },
 		imageUrls: { type: Array },
 		videoUrl: { type: Array },
+		likes: { type: Array },
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
 module.exports = mongoose.model('post', PostSchema);

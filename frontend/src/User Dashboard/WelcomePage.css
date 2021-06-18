@@ -14,7 +14,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: left;
-	width: 70%;
+	width: 65%;
 	margin-left: 17%;
 	margin-bottom: 50px;
 }
@@ -33,7 +33,6 @@
 }
 
 .post-form > input.post-form-add-media {
-	width: 50%;
 	padding: 4px;
 }
 

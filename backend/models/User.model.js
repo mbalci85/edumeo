@@ -8,7 +8,7 @@ const UserSchema = new Schema(
 		password: { type: String, required: true },
 		role: { type: String, default: 'user' },
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
 module.exports = mongoose.model('user', UserSchema);

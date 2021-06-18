@@ -1,7 +1,7 @@
 import SinglePost from './SinglePost';
 import './Posts.css';
 
-const Posts = ({ posts, setPage, page, numberOfPages }) => {
+const Posts = ({ posts, setPage, page, numberOfPages, userName }) => {
 	return (
 		<div className='home-page-all-posts-container'>
 			<h1 className='home-page-all-posts-title'>Recent Posts</h1>
@@ -30,7 +30,9 @@ const Posts = ({ posts, setPage, page, numberOfPages }) => {
 			</div>
 
 			{posts.length !== 0 &&
-				posts.map((post) => <SinglePost post={post} key={post._id} />)}
+				posts.map((post) => (
+					<SinglePost post={post} key={post._id} userName={userName} />
+				))}
 		</div>
 	);
 };

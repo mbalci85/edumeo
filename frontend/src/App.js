@@ -19,13 +19,21 @@ const App = () => {
 	const [posts, setPosts] = useState([]);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(5);
+	const [userName, setUserName] = useState('');
 	const [numberOfPublishedPosts, setNumberOfPublishedPosts] = useState();
 
 	useEffect(() => {
+		let mounted = true;
+		const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+		if (Object.entries(userInfo).length !== 0) {
+			setUserName(userInfo.fullName);
+			console.log(userName);
+		}
 		if (token === null) {
 			localStorage.setItem('token', []);
 		}
-		let mounted = true;
+
 		if (page) {
 			axios
 				.get(
@@ -81,6 +89,7 @@ const App = () => {
 						render={() => (
 							<Posts
 								posts={posts}
+								userName={userName}
 								setPage={setPage}
 								page={page}
 								numberOfPages={Math.ceil(numberOfPublishedPosts / limit)}
