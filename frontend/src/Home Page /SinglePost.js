@@ -17,13 +17,12 @@ const SinglePost = ({ post, userName }) => {
 
 	useEffect(() => {
 		let mounted = true;
-		console.log(userName);
 
 		axios
 			.get(`http://localhost:5000/users/${post.userId}`)
 			.then((res) => {
 				if (mounted) {
-					return setName(res.data.fullName);
+					return setName(res.data.username);
 				}
 			})
 			.catch((err) => {

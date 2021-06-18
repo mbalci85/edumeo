@@ -27,8 +27,7 @@ const App = () => {
 		const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 		if (Object.entries(userInfo).length !== 0) {
-			setUserName(userInfo.fullName);
-			console.log(userName);
+			setUserName(userInfo.username);
 		}
 		if (token === null) {
 			localStorage.setItem('token', []);
@@ -92,7 +91,11 @@ const App = () => {
 								userName={userName}
 								setPage={setPage}
 								page={page}
-								numberOfPages={Math.ceil(numberOfPublishedPosts / limit)}
+								numberOfPages={
+									numberOfPublishedPosts === 0
+										? 1
+										: Math.ceil(numberOfPublishedPosts / limit)
+								}
 							/>
 						)}
 					/>

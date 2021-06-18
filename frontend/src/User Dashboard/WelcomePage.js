@@ -22,7 +22,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 
 	useEffect(() => {
 		if (userInfo) {
-			setName(JSON.parse(localStorage.getItem('userInfo')).fullName);
+			setName(JSON.parse(localStorage.getItem('userInfo')).firstname);
 			setUserId(JSON.parse(localStorage.getItem('userInfo')).id);
 		}
 		welcomeMessage(false);
@@ -222,7 +222,7 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 								setPage(e.target.value);
 							}}
 						/>{' '}
-						{Math.ceil(numberOfPosts / limit)}
+						{numberOfPosts === 0 ? 1 : Math.ceil(numberOfPosts / limit)}
 					</div>
 				</form>
 				<div>

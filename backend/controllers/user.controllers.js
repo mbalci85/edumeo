@@ -7,7 +7,11 @@ const UserModel = require('../models/User.model');
 
 exports.getAllUsers = async (req, res) => {
 	try {
-		const response = await UserModel.find();
+		const { page, limit } = req.query;
+		const response = await UserModel.find()
+			.sort({ natural: -1 })
+			.limit(limit * 1)
+			.skip((page - 1) * limit);
 		res.json(response);
 	} catch (error) {
 		res.status(500).json(error);
@@ -25,13 +29,15 @@ exports.getUserById = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-	const { fullName, email, password } = req.body;
+	const { username, firstname, lastname, email, password } = req.body;
 
 	const salt = await bcrypt.genSalt(16);
 	const hashedPassword = await bcrypt.hash(password, salt);
 
 	const newUser = await new UserModel({
-		fullName,
+		username,
+		firstname,
+		lastname,
 		email,
 		password: hashedPassword,
 	});
@@ -43,7 +49,7 @@ exports.createUser = async (req, res) => {
 				status: true,
 				message: 'Signed up successfully',
 				response,
-			}),
+			})
 		)
 		.catch((err) => res.json({ status: false, message: err }));
 };
@@ -59,11 +65,13 @@ exports.signIn = async (req, res) => {
 					process.env.ACCESS_TOKEN_SECRET,
 					{
 						expiresIn: '1h',
-					},
+					}
 				);
 				res.json({
 					status: true,
-					fullName: data.fullName,
+					username: data.username,
+					firstname: data.firstname,
+					lastname: data.lastname,
 					email: data.email,
 					id: data._id,
 					token: token,
@@ -72,16 +80,11 @@ exports.signIn = async (req, res) => {
 				res.json({ status: false, message: 'You entered wrong password' });
 			}
 		})
-		.catch((err) =>
-			res.json({ message: 'This email does not exist..', err }),
-		);
+		.catch((err) => res.json({ message: 'This email does not exist..', err }));
 };
 
 exports.updateUser = async (req, res) => {
-	await UserModel.findByIdAndUpdate(
-		{ _id: req.params.userid },
-		{ $set: req.body },
-	)
+	await UserModel.findByIdAndUpdate({ _id: req.params.userid }, { $set: req.body })
 		.then((data) => res.json({ message: 'Successfully updated', data }))
 		.catch((err) => res.json({ message: err }));
 };

@@ -92,7 +92,9 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 					</p>
 				) : null}
 				{wrongPasswordEmail ? (
-					<small className='wrong-email-password'>Wrong email or password!!!</small>
+					<small className='wrong-email-password'>
+						Wrong email or password!!!
+					</small>
 				) : null}
 			</form>
 		</div>

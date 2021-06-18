@@ -9,7 +9,7 @@ router.get('/users', usersControllers.getAllUsers);
 router.get('/users/:userid', usersControllers.getUserById);
 router.post('/users/signup', usersControllers.createUser);
 router.post('/users/signin', usersControllers.signIn);
-router.put('/users/:userid', isAdmin, usersControllers.updateUser);
-router.delete('/users/:userid', isAdmin, usersControllers.removeUser);
+router.put('/users/:userid', usersControllers.updateUser);
+router.delete('/users/:userid', usersControllers.removeUser);
 
 module.exports = router;
