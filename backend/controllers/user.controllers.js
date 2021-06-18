@@ -51,7 +51,12 @@ exports.createUser = async (req, res) => {
 				response,
 			})
 		)
-		.catch((err) => res.json({ status: false, message: err }));
+		.catch((err) =>
+			res.json({
+				status: false,
+				message: err,
+			})
+		);
 };
 
 exports.signIn = async (req, res) => {

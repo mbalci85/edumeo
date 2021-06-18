@@ -22,7 +22,7 @@ const SinglePost = ({ post, userName }) => {
 			.get(`http://localhost:5000/users/${post.userId}`)
 			.then((res) => {
 				if (mounted) {
-					return setName(res.data.username);
+					return setName(res.data.firstname + ' ' + res.data.lastname);
 				}
 			})
 			.catch((err) => {
@@ -53,7 +53,9 @@ const SinglePost = ({ post, userName }) => {
 	return (
 		<div className='home-page-single-post-container'>
 			<h3 className='home-page-post-title'>{post.title}</h3>
-			<h5>Author: {name}</h5>
+			<h5>
+				Author: {name} ({userName})
+			</h5>
 
 			<br />
 

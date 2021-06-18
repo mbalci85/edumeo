@@ -12,6 +12,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [passwordNotMatch, setPasswordNotMatch] = useState(false);
 	const [emailExists, setEmailExists] = useState(false);
+	const [usernameExists, setUsernameExists] = useState(false);
 	const [registered, setRegistered] = useState(false);
 	const [blankUsername, setBlankUsername] = useState(false);
 	const [passwordLength, setPasswordLength] = useState(false);
@@ -41,8 +42,19 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							password,
 						})
 						.then(async (res) => {
-							if (!res.data.status) {
+							if (!res.data.status && res.data.message === 'email') {
 								setEmailExists(true);
+								setUsernameExists(false);
+								setPassword('');
+								setConfirmPassword('');
+								setPasswordNotMatch(false);
+								setIsLoading(false);
+							} else if (
+								!res.data.status &&
+								res.data.message === 'username'
+							) {
+								setEmailExists(false);
+								setUsernameExists(true);
 								setPassword('');
 								setConfirmPassword('');
 								setPasswordNotMatch(false);
@@ -76,6 +88,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 					setPasswordLength(false);
 					setBlankUsername(false);
 					setEmailExists(false);
+					setUsernameExists(false);
 				}
 			} else {
 				setIsLoading(false);
@@ -83,6 +96,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 				setBlankUsername(false);
 				setEmailExists(false);
 				setPasswordNotMatch(false);
+				setUsernameExists(false);
 			}
 		} else {
 			setIsLoading(false);
@@ -90,6 +104,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 			setEmailExists(false);
 			setPasswordNotMatch(false);
 			setPasswordLength(false);
+			setUsernameExists(false);
 		}
 		e.preventDefault();
 	};
@@ -106,7 +121,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							placeholder='Enter a username'
 							value={username}
 							onChange={(e) => {
-								setUsername(e.target.value);
+								setUsername(e.target.value.trim());
 								setBlankUsername(false);
 								setPasswordNotMatch(false);
 								setPasswordLength(false);
@@ -120,17 +135,24 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							</small>
 						) : null}
 
+						{usernameExists ? (
+							<small className='register-form-validation-warning'>
+								This username exists. Enter another one!
+							</small>
+						) : null}
+
 						<label htmlFor='firstname'>First Name</label>
 						<input
 							id='firstname'
 							placeholder='Enter your first name'
 							value={firstname}
 							onChange={(e) => {
-								setFirstname(e.target.value);
+								setFirstname(e.target.value.trim());
 								setBlankUsername(false);
 								setPasswordNotMatch(false);
 								setPasswordLength(false);
 								setEmailExists(false);
+								setUsernameExists(false);
 							}}
 							required
 						/>
@@ -141,11 +163,12 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							placeholder='Enter your last name'
 							value={lastname}
 							onChange={(e) => {
-								setLastname(e.target.value);
+								setLastname(e.target.value.trim());
 								setBlankUsername(false);
 								setPasswordNotMatch(false);
 								setPasswordLength(false);
 								setEmailExists(false);
+								setUsernameExists(false);
 							}}
 							required
 						/>
@@ -157,11 +180,12 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							placeholder='Enter your email'
 							value={email}
 							onChange={(e) => {
-								setEmail(e.target.value);
+								setEmail(e.target.value.trim());
 								setEmailExists(false);
 								setPasswordNotMatch(false);
 								setPasswordLength(false);
 								setBlankUsername(false);
+								setUsernameExists(false);
 							}}
 							required
 						/>
@@ -170,6 +194,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 								This email address exists. Enter another one!
 							</small>
 						) : null}
+
 						<label htmlFor='password'>Password</label>
 						<input
 							id='password'
@@ -177,11 +202,12 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							placeholder='Enter your password'
 							value={password}
 							onChange={(e) => {
-								setPassword(e.target.value);
+								setPassword(e.target.value.trim());
 								setPasswordLength(false);
 								setEmailExists(false);
 								setPasswordNotMatch(false);
 								setBlankUsername(false);
+								setUsernameExists(false);
 							}}
 							required
 						/>
@@ -197,11 +223,12 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							placeholder='Confirm your password'
 							value={confirmPassword}
 							onChange={(e) => {
-								setConfirmPassword(e.target.value);
+								setConfirmPassword(e.target.value.trim());
 								setPasswordNotMatch(false);
 								setPasswordLength(false);
 								setEmailExists(false);
 								setBlankUsername(false);
+								setUsernameExists(false);
 							}}
 							required
 						/>
