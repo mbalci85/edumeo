@@ -93,6 +93,14 @@
 	cursor: pointer;
 }
 
+.dashboard-likes-list-link {
+	text-decoration: none;
+}
+
+.dashboard-likes-list-modal-title {
+	text-align: center;
+}
+
 .update-post-modal-form {
 	display: flex;
 	flex-direction: column;

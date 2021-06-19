@@ -12,7 +12,7 @@ exports.getAllUsers = async (req, res) => {
 			.sort({ createdAt: -1 })
 			.limit(limit * 1)
 			.skip((page - 1) * limit);
-		res.json(response);
+		res.json({ total: response.length, response });
 	} catch (error) {
 		res.status(500).json(error);
 	}
@@ -85,6 +85,7 @@ exports.signIn = async (req, res) => {
 					email: data.email,
 					id: data._id,
 					token: token,
+					role: data.role,
 				});
 			} else {
 				res.json({ status: false, message: 'You entered wrong password' });

@@ -270,7 +270,9 @@ const UserPost = ({ post }) => {
 				</Modal>
 
 				<div className='dashboard-post-card-btn-container'>
-					<Link onClick={() => setIsLikesListModalOpen(true)}>
+					<Link
+						onClick={() => setIsLikesListModalOpen(true)}
+						className='dashboard-likes-list-link'>
 						<FcLike /> {post.likes.length}{' '}
 					</Link>
 
@@ -290,7 +292,9 @@ const UserPost = ({ post }) => {
 								textAlign: 'left',
 							},
 						}}>
-						<h1 style={{ textAlign: 'center' }}>Who Liked This Post?</h1>
+						<h1 className='dashboard-likes-list-modal-title'>
+							Who Liked This Post?
+						</h1>
 						<br />
 						{post.likes.map((username, index) => (
 							<h4 key={index}>
