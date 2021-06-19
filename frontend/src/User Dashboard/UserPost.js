@@ -3,11 +3,16 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import './UserPost.css';
 import ReactPlayer from 'react-player';
+import { Link } from 'react-router-dom';
+
+import { FcLike } from 'react-icons/fc';
+
 Modal.setAppElement('#root');
 
 const UserPost = ({ post }) => {
 	const [isReadMoreModalOpen, setIsReadMoreModalOpen] = useState(false);
 	const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+	const [isLikesListModalOpen, setIsLikesListModalOpen] = useState(false);
 	const [newTitle, setNewTitle] = useState(post.title);
 	const [newBody, setNewBody] = useState(post.body);
 	const [newImages, setNewImages] = useState([]);
@@ -265,13 +270,41 @@ const UserPost = ({ post }) => {
 				</Modal>
 
 				<div className='dashboard-post-card-btn-container'>
+					<Link onClick={() => setIsLikesListModalOpen(true)}>
+						<FcLike /> {post.likes.length}{' '}
+					</Link>
+
+					<Modal
+						isOpen={isLikesListModalOpen}
+						onRequestClose={() => setIsLikesListModalOpen(false)}
+						style={{
+							overlay: {
+								backgroundColor: '#f5f5f5',
+							},
+							content: {
+								width: '40%',
+								height: '75%',
+								margin: 'auto',
+								padding: '30px 50px',
+								lineHeight: '1.6',
+								textAlign: 'left',
+							},
+						}}>
+						<h1 style={{ textAlign: 'center' }}>Who Liked This Post?</h1>
+						<br />
+						{post.likes.map((username, index) => (
+							<h4 key={index}>
+								{index + 1}. {username}
+							</h4>
+						))}
+					</Modal>
+
 					<button
 						type='button'
 						className='dashboard-post-card-btn'
 						onClick={() => setIsUpdateModalOpen(true)}>
 						Update
 					</button>
-
 					<Modal
 						isOpen={isUpdateModalOpen}
 						onRequestClose={() => setIsUpdateModalOpen(false)}
@@ -400,7 +433,6 @@ const UserPost = ({ post }) => {
 							) : null}
 						</form>
 					</Modal>
-
 					<button
 						type='button'
 						id='dashboard-post-card-delete-btn'
@@ -414,7 +446,6 @@ const UserPost = ({ post }) => {
 						checked={post.isPublished}
 						onChange={() => publishPost()}
 					/>
-
 					<label
 						htmlFor='checkbox'
 						className='dashboard-post-card-publish-label'>

@@ -33,9 +33,27 @@
 	margin: 50px auto;
 }
 
-.home-page-post-read-more-btn:hover {
-	background-color: #6b70f1;
+.home-page-post-likes-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.home-page-liked-btn {
+	padding: 8px 9px;
+	border-radius: 7px;
+	border: none;
+	background-color: coral;
 	color: white;
+	font-weight: bold;
+}
+.home-page-like-btn {
+	padding: 8px 9px;
+	border: none;
+	border-radius: 7px;
+	background-color: #a1a1a1;
+	color: white;
+	font-weight: bold;
 }
 
 .home-page-post-modal-title {

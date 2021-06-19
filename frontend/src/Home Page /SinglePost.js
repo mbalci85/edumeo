@@ -13,6 +13,7 @@ const SinglePost = ({ post, userName }) => {
 	const [numberOfLikes, setNumberOfLikes] = useState(post.likes.length);
 	const [liked, setLiked] = useState('');
 	const [likeButtonText, setLikeButtonText] = useState('');
+	const [likedButtonClass, setLikedButtonClass] = useState();
 
 	const postId = post._id;
 	const likes = post.likes;
@@ -21,9 +22,11 @@ const SinglePost = ({ post, userName }) => {
 		if (likes.includes(userName)) {
 			setLiked(true);
 			setLikeButtonText('Liked');
+			setLikedButtonClass('home-page-liked-btn');
 		} else {
 			setLiked(false);
 			setLikeButtonText('Like');
+			setLikedButtonClass('home-page-like-btn');
 		}
 		console.log(userName);
 	}, [likes, userName]);
@@ -52,10 +55,12 @@ const SinglePost = ({ post, userName }) => {
 				setNumberOfLikes(numberOfLikes + 1);
 				likes.push(userName);
 				setLikeButtonText('Liked');
+				setLikedButtonClass('home-page-liked-btn');
 			} else if (liked === true && likes.includes(userName)) {
 				setNumberOfLikes(numberOfLikes - 1);
 				likes.splice(likes.indexOf(userName), 1);
 				setLikeButtonText('Like');
+				setLikedButtonClass('home-page-like-btn');
 			}
 
 			const newPost = {
@@ -142,24 +147,25 @@ const SinglePost = ({ post, userName }) => {
 				</div>
 			) : null}
 
-			{userName === '' ? (
-				<p>
-					<FcLike /> Likes
-				</p>
-			) : (
-				<button
-					onClick={() => {
-						setLiked(!liked);
-						setTimeout(() => {
-							handleLikes();
-						}, 100);
-					}}>
-					{likeButtonText}
-				</button>
-			)}
+			<div className='home-page-post-likes-container'>
+				{userName === '' ? (
+					<p>
+						<FcLike /> <span> Likes {numberOfLikes}</span>
+					</p>
+				) : (
+					<button
+						className={likedButtonClass}
+						onClick={() => {
+							setLiked(!liked);
+							setTimeout(() => {
+								handleLikes();
+							}, 100);
+						}}>
+						{likeButtonText} {numberOfLikes}
+					</button>
+				)}
+			</div>
 
-			{console.log(liked)}
-			<p>{numberOfLikes}</p>
 			<br />
 			<hr />
 			<br />

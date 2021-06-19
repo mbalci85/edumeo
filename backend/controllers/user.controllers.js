@@ -54,7 +54,12 @@ exports.createUser = async (req, res) => {
 		.catch((err) =>
 			res.json({
 				status: false,
-				message: err,
+				message:
+					err.keyPattern.username === 1
+						? 'username'
+						: err.keyPattern.email === 1
+						? 'email'
+						: err,
 			})
 		);
 };
@@ -90,12 +95,12 @@ exports.signIn = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
 	await UserModel.findByIdAndUpdate({ _id: req.params.userid }, { $set: req.body })
-		.then((data) => res.json({ message: 'Successfully updated', data }))
+		.then((data) => res.json({ message: 'This user is successfully updated', data }))
 		.catch((err) => res.json({ message: err }));
 };
 
 exports.removeUser = async (req, res) => {
 	await UserModel.findByIdAndDelete({ _id: req.params.userid })
-		.then((data) => res.json({ message: 'Successfully removed', data }))
+		.then((data) => res.json({ message: 'This user is successfully removed', data }))
 		.catch((err) => res.json({ message: err }));
 };
