@@ -6,7 +6,7 @@ exports.getAllPosts = async (req, res) => {
 	// try {
 	// 	const { page, limit } = req.query;
 	// 	const response = await PostModel.find()
-	// 		.sort({ $natural: -1 })
+	// 		.sort({ createdAt: -1})
 	// 		.limit(limit * 1)
 	// 		.skip((page - 1) * limit);
 	// 	res.json({ total: response.length, response });

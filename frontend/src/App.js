@@ -30,7 +30,7 @@ const App = () => {
 			setUserName(userInfo.username);
 		}
 		if (token === null) {
-			localStorage.setItem('token', []);
+			localStorage.setItem('token', JSON.stringify([]));
 		}
 
 		if (page) {

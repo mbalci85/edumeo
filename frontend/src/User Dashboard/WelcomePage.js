@@ -214,7 +214,11 @@ const WelcomePage = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 						<input
 							type='range'
 							min='1'
-							max={Math.ceil(numberOfPosts / limit)}
+							max={
+								numberOfPosts === 0
+									? '1'
+									: Math.ceil(numberOfPosts / limit).toString()
+							}
 							value={page}
 							className='dashboard-posts-list-pagination-input'
 							onChange={(e) => {

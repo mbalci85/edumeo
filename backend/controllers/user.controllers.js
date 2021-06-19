@@ -9,7 +9,7 @@ exports.getAllUsers = async (req, res) => {
 	try {
 		const { page, limit } = req.query;
 		const response = await UserModel.find()
-			.sort({ natural: -1 })
+			.sort({ createdAt: -1 })
 			.limit(limit * 1)
 			.skip((page - 1) * limit);
 		res.json(response);

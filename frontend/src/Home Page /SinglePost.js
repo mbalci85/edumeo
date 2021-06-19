@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
 import './SinglePost.css';
+import { FcLike } from 'react-icons/fc';
 
 Modal.setAppElement('#root');
 
@@ -10,10 +11,22 @@ const SinglePost = ({ post, userName }) => {
 	const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 	const [name, setName] = useState('');
 	const [numberOfLikes, setNumberOfLikes] = useState(post.likes.length);
-	const [liked, setLiked] = useState(false);
+	const [liked, setLiked] = useState('');
+	const [likeButtonText, setLikeButtonText] = useState('');
 
 	const postId = post._id;
 	const likes = post.likes;
+
+	useEffect(() => {
+		if (likes.includes(userName)) {
+			setLiked(true);
+			setLikeButtonText('Liked');
+		} else {
+			setLiked(false);
+			setLikeButtonText('Like');
+		}
+		console.log(userName);
+	}, [likes, userName]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -22,7 +35,7 @@ const SinglePost = ({ post, userName }) => {
 			.get(`http://localhost:5000/users/${post.userId}`)
 			.then((res) => {
 				if (mounted) {
-					return setName(res.data.firstname + ' ' + res.data.lastname);
+					return setName(res.data.username);
 				}
 			})
 			.catch((err) => {
@@ -31,34 +44,36 @@ const SinglePost = ({ post, userName }) => {
 		return () => (mounted = false);
 	}, [post.userId]);
 
-	const handleLikes = async () => {
-		if (liked && !likes.includes(userName)) {
-			setNumberOfLikes(numberOfLikes + 1);
-			likes.push(userName);
-		} else {
-			setNumberOfLikes(numberOfLikes - 1);
-			likes.splice(likes.indexOf(userName), 1);
-		}
+	let handleLikes = Function;
 
-		const newPost = {
-			likes: likes,
+	if (userName !== '') {
+		handleLikes = () => {
+			if (liked === false && !likes.includes(userName)) {
+				setNumberOfLikes(numberOfLikes + 1);
+				likes.push(userName);
+				setLikeButtonText('Liked');
+			} else if (liked === true && likes.includes(userName)) {
+				setNumberOfLikes(numberOfLikes - 1);
+				likes.splice(likes.indexOf(userName), 1);
+				setLikeButtonText('Like');
+			}
+
+			const newPost = {
+				likes: likes,
+			};
+
+			axios
+				.put(`http://localhost:5000/posts/${postId}`, newPost)
+				.then((res) => res.data)
+				.catch((err) => console.log(err));
 		};
-
-		axios
-			.put(`http://localhost:5000/posts/${postId}`, newPost)
-			.then((res) => res.data)
-			.catch((err) => console.log(err));
-	};
+	}
 
 	return (
 		<div className='home-page-single-post-container'>
 			<h3 className='home-page-post-title'>{post.title}</h3>
-			<h5>
-				Author: {name} ({userName})
-			</h5>
-
+			<h5>Author: {name}</h5>
 			<br />
-
 			{post.body.split(' ').length > 50 ? (
 				<p className='home-page-post-body'>
 					{post.body.split(' ').slice(0, 49).join(' ')}...{' '}
@@ -76,9 +91,7 @@ const SinglePost = ({ post, userName }) => {
 			) : (
 				<p className='home-page-post-body'>{post.body}</p>
 			)}
-
 			<br />
-
 			{post.imageUrls.length > 5 ? (
 				<>
 					<div div className='home-page-post-images-container '>
@@ -117,9 +130,7 @@ const SinglePost = ({ post, userName }) => {
 					))}
 				</div>
 			)}
-
 			<br />
-
 			{post.videoUrl.length !== 0 ? (
 				<div className='home-page-post-video-container'>
 					<ReactPlayer
@@ -130,30 +141,28 @@ const SinglePost = ({ post, userName }) => {
 					/>
 				</div>
 			) : null}
-			{likes.includes(userName) ? (
-				<button
-					onClick={() => {
-						handleLikes();
-						setLiked(!liked);
-					}}>
-					Liked
-				</button>
+
+			{userName === '' ? (
+				<p>
+					<FcLike /> Likes
+				</p>
 			) : (
 				<button
 					onClick={() => {
-						handleLikes();
 						setLiked(!liked);
+						setTimeout(() => {
+							handleLikes();
+						}, 100);
 					}}>
-					Like
+					{likeButtonText}
 				</button>
 			)}
 
+			{console.log(liked)}
 			<p>{numberOfLikes}</p>
-
 			<br />
 			<hr />
 			<br />
-
 			<Modal
 				isOpen={isPostModalOpen}
 				onRequestClose={() => setIsPostModalOpen(false)}

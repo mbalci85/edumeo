@@ -17,7 +17,7 @@ const Posts = ({ posts, setPage, page, numberOfPages, userName }) => {
 						id='home-page-all-posts-go-to-page-input'
 						type='range'
 						min='1'
-						max={numberOfPages}
+						max={numberOfPages.toString()}
 						value={page}
 						className='home-page-all-posts-go-to-page-input'
 						onChange={(e) => {
