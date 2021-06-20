@@ -4,7 +4,6 @@ import Modal from 'react-modal';
 import './UserPost.css';
 import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
-
 import { FcLike } from 'react-icons/fc';
 
 Modal.setAppElement('#root');
