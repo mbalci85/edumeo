@@ -39,29 +39,10 @@ const AdminDashboard = ({ welcomeMessage, dashboardLink }) => {
 				<h4 className='dashboard-welcome-msg'>Welcome {userInfo.firstname}</h4>
 			</div>
 			<div className='admin-dashboard-tables-container'>
-				<div
-					className='admin-dashboard-users-table'
-					onClick={() => setIsUsersTableOpen(true)}>
+				<div className='admin-dashboard-users-table'>
 					<h1>USERS</h1>
 					<h3>{users.length}</h3>
 				</div>
-
-				<Modal
-					isOpen={isUsersTableOpen}
-					onRequestClose={() => setIsUsersTableOpen(false)}
-					style={{
-						overlay: {
-							backgroundColor: '#f5f5f5',
-						},
-						content: {
-							width: '60%',
-							height: '75%',
-							margin: 'auto',
-							padding: '30px 50px',
-							lineHeight: '1.6',
-							textAlign: 'justify',
-						},
-					}}></Modal>
 
 				<div className='admin-dashboard-posts-table'>
 					<h1>POSTS</h1>
