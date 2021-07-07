@@ -8,7 +8,7 @@ const PostSchema = new Schema(
 		body: { type: String, required: true },
 		author: { type: String },
 		isPublished: { type: Boolean, default: false },
-		userId: { type: mongoose.Types.ObjectId, ref: 'users' },
+		userId: { type: Schema.Types.ObjectId, ref: 'user' },
 		imageUrls: { type: Array },
 		videoUrl: { type: Array },
 		likes: { type: Array },

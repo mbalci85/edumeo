@@ -14,6 +14,8 @@ const Header = ({
 	setDashboardLink,
 	setSignOutMessage,
 }) => {
+	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
 	return (
 		<div className='container'>
 			<h1 className='home-page-title'>EDUMEO</h1>

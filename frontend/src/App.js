@@ -5,9 +5,10 @@ import axios from 'axios';
 
 import './App.css';
 import RegistrationForm from './RegistrationForm';
-import WelcomePage from './User Dashboard/WelcomePage';
+import UserDashboard from './User Dashboard/UserDashboard';
 import Posts from './Home Page /Posts';
 import Header from './Header';
+import AdminDashboard from '../src/User Dashboard/AdminDashboard';
 
 const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
@@ -137,10 +138,23 @@ const App = () => {
 							exact
 							path='/dashboard/'
 							render={() => (
-								<WelcomePage
+								<UserDashboard
 									welcomeMessage={setShowWelcomeMessage}
 									pageLinks={setShowPageLinks}
 									logIn={setIsLoggedIn}
+									dashboardLink={setDashboardLink}
+								/>
+							)}
+						/>
+					) : null}
+
+					{token.length !== 0 ? (
+						<Route
+							exact
+							path='/admin-dashboard'
+							render={() => (
+								<AdminDashboard
+									welcomeMessage={setShowWelcomeMessage}
 									dashboardLink={setDashboardLink}
 								/>
 							)}
