@@ -135,7 +135,6 @@ const App = () => {
 
 					{token.length !== 0 ? (
 						<Route
-							exact
 							path='/dashboard/'
 							render={() => (
 								<UserDashboard

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import AdminDashboard from './AdminDashboard';
+import { Link } from 'react-router-dom';
 import PostBoard from './PostBoard';
 import './UserDashboard.css';
 
 const UserDashboard = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 	const [name, setName] = useState('');
-	const [showPostBoard, setShowPostBoard] = useState(true);
 
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -26,12 +24,10 @@ const UserDashboard = ({ welcomeMessage, pageLinks, logIn, dashboardLink }) => {
 			</div>
 
 			{userInfo.role === 'admin' ? (
-				<Link
-					to='/admin-dashboard'
-					onClick={() => {
-						setShowPostBoard(false);
-					}}>
-					Admin Dashboard
+				<Link to='/admin-dashboard'>
+					<button className='user-dashboard-admin-dashboard-btn'>
+						Admin Dashboard
+					</button>
 				</Link>
 			) : null}
 

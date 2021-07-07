@@ -1,0 +1,25 @@
+.admin-dashboard-tables-container {
+	display: flex;
+}
+
+.admin-dashboard-users-table {
+	margin: 40px 60px;
+	padding: 30px 50px;
+	border: solid black 2px;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 50px;
+	color: coral;
+	cursor: pointer;
+}
+
+.admin-dashboard-posts-table {
+	margin: 40px 60px;
+	padding: 30px 50px;
+	border: solid black 2px;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 50px;
+	color: coral;
+	cursor: pointer;
+}

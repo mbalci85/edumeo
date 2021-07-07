@@ -38,7 +38,7 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 				window.location.reload();
 			}, 0.0001);
 
-			history.push(`/dashboard/`);
+			history.push(`/dashboard/${response.username}`);
 		} else {
 			setWrongPasswordEmail(true);
 		}

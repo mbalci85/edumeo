@@ -48,7 +48,7 @@ const Header = ({
 
 				{isLoggedIn === true && dashboardLink === true ? (
 					<Link
-						to='/dashboard'
+						to={`/dashboard/${userInfo.username}`}
 						className='home-page-links'
 						onClick={() => setDashboardLink(false)}>
 						| Go to Dashboard
