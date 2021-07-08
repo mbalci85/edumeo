@@ -9,6 +9,7 @@ import UserDashboard from './User Dashboard/UserDashboard';
 import Posts from './Home Page /Posts';
 import Header from './Header';
 import AdminDashboard from '../src/User Dashboard/AdminDashboard';
+import AdminUsers from './User Dashboard/AdminUsers';
 
 const App = () => {
 	const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
@@ -159,6 +160,17 @@ const App = () => {
 							)}
 						/>
 					) : null}
+
+					<Route
+						exact
+						path='/admin-dashboard/users'
+						render={() => (
+							<AdminUsers
+								welcomeMessage={setShowWelcomeMessage}
+								dashboardLink={setDashboardLink}
+							/>
+						)}
+					/>
 				</div>
 			</Switch>
 		</Router>

@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Modal from 'react-modal';
 import './AdminDashboard.css';
-
-Modal.setAppElement('#root');
+import { useHistory } from 'react-router';
 
 const AdminDashboard = ({ welcomeMessage, dashboardLink }) => {
 	const [users, setUsers] = useState('');
 	const [posts, setPosts] = useState('');
-	const [isUsersTableOpen, setIsUsersTableOpen] = useState(false);
-	const [isPostsTableOpen, setIsPostsTableOpen] = useState(false);
 
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+	const history = useHistory();
 
 	useEffect(() => {
 		axios
@@ -25,7 +22,6 @@ const AdminDashboard = ({ welcomeMessage, dashboardLink }) => {
 			.get('http://localhost:5000/posts')
 			.then((res) => {
 				setPosts(res.data.results);
-				console.log(res.data.results);
 			})
 			.catch((err) => console.log(err));
 
@@ -39,7 +35,9 @@ const AdminDashboard = ({ welcomeMessage, dashboardLink }) => {
 				<h4 className='dashboard-welcome-msg'>Welcome {userInfo.firstname}</h4>
 			</div>
 			<div className='admin-dashboard-tables-container'>
-				<div className='admin-dashboard-users-table'>
+				<div
+					className='admin-dashboard-users-table'
+					onClick={() => history.push(`/admin-dashboard/users`)}>
 					<h1>USERS</h1>
 					<h3>{users.length}</h3>
 				</div>

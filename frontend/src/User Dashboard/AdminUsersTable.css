@@ -1,0 +1,23 @@
+.admin-user-table-container {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px;
+	border: 1px dashed black;
+	padding: 15px 5px;
+	width: 100%;
+	border-radius: 5px;
+}
+
+.admin-user-table-user-btn {
+	margin: 3px;
+	padding: 8px 6px;
+	border: none;
+	border-radius: 3px;
+	background-color: #d1d2f3;
+	cursor: pointer;
+}
+
+.admin-user-table-user-modal-title {
+	text-align: center;
+	color: coral;
+}
