@@ -86,8 +86,21 @@ const AdminUsersTable = ({ user }) => {
 						posts.map((post, index) => {
 							return (
 								<>
-									<h1 key={index}>{post.title}</h1>
+									<h1
+										key={index}
+										className='admin-user-table-user-modal-post-title'>
+										{post.title}
+									</h1>
 									<p key={index}>{post.body}</p>
+									<div className='admin-user-table-user-modal-post-img-container'>
+										{post.imageUrls.length > 0 ? (
+											<img
+												src={post.imageUrls}
+												alt='pic'
+												className='admin-user-table-user-modal-post-img'
+											/>
+										) : null}
+									</div>
 									<br />
 								</>
 							);
@@ -95,7 +108,7 @@ const AdminUsersTable = ({ user }) => {
 				</Modal>
 
 				<button type='submit' className='admin-user-table-user-btn'>
-					Update
+					Edit
 				</button>
 				<button type='submit' className='admin-user-table-user-btn'>
 					Delete

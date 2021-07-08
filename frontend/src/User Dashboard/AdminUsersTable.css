@@ -21,3 +21,18 @@
 	text-align: center;
 	color: coral;
 }
+
+.admin-user-table-user-modal-post-title {
+	color: coral;
+}
+
+.admin-user-table-user-modal-post-img-container {
+	text-align: center;
+	margin: 0 auto;
+}
+
+.admin-user-table-user-modal-post-img {
+	height: 175px;
+	width: 200px;
+	margin: 30px 0;
+}
