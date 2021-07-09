@@ -8,18 +8,46 @@ const AdminUsersTable = ({ user }) => {
 	const [isUserDetailsOpen, setIsUserDetailsOpen] = useState(false);
 	const [isUserPostsOpen, setIsUserPostsOpen] = useState(false);
 	const [posts, setPosts] = useState('');
+	const [role, setRole] = useState(user.role);
 
 	useEffect(() => {
 		axios.get(`http://localhost:5000/posts/userid/${user._id}`).then((res) => {
 			setPosts(res.data);
 		});
-	});
+	}, [user._id]);
+
+	const handleRole = async (e) => {
+		await axios
+			.put(`http://localhost:5000/users/${user._id}`, {
+				role: e.target.value,
+			})
+			.then((res) => {
+				console.log(res.data);
+				return res.data;
+			})
+			.catch((err) => console.log(err));
+		window.location.reload();
+	};
+
 	return (
 		<div className='admin-user-table-container'>
 			<h2>
 				{user.firstname} {user.lastname}
 			</h2>
 			<div>
+				<small id='admin-dashboard-edit-role'>Edit Role</small>
+				<select
+					id='admin-dashboard-edit-role'
+					value={role}
+					onChange={(e) => {
+						setRole(e.target.value);
+						console.log(e.target.value);
+						console.log(role);
+						handleRole(e);
+					}}>
+					<option value='admin'>Admin</option>
+					<option value='user'>User</option>
+				</select>
 				<button
 					type='submit'
 					className='admin-user-table-user-btn'
@@ -85,13 +113,11 @@ const AdminUsersTable = ({ user }) => {
 					{posts.length !== 0 &&
 						posts.map((post, index) => {
 							return (
-								<>
-									<h1
-										key={index}
-										className='admin-user-table-user-modal-post-title'>
+								<div key={index}>
+									<h1 className='admin-user-table-user-modal-post-title'>
 										{post.title}
 									</h1>
-									<p key={index}>{post.body}</p>
+									<p>{post.body}</p>
 									<div className='admin-user-table-user-modal-post-img-container'>
 										{post.imageUrls.length > 0 ? (
 											<img
@@ -102,14 +128,11 @@ const AdminUsersTable = ({ user }) => {
 										) : null}
 									</div>
 									<br />
-								</>
+								</div>
 							);
 						})}
 				</Modal>
 
-				<button type='submit' className='admin-user-table-user-btn'>
-					Edit
-				</button>
 				<button type='submit' className='admin-user-table-user-btn'>
 					Delete
 				</button>
