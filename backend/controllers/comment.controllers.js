@@ -13,3 +13,26 @@ exports.getAll = async (req, res) => {
 		res.json(error);
 	}
 };
+
+exports.create = async (req, res) => {
+	const { title, content, userId, postId, isActive, isDeleted } = req.body;
+	const newComment = await CommentModel({
+		title,
+		content,
+		userId,
+		postId,
+		isActive,
+		isDeleted,
+	});
+
+	newComment
+		.save()
+		.then((response) =>
+			res.json({
+				status: true,
+				message: 'New comment is created successfully',
+				response,
+			})
+		)
+		.catch((err) => res.json({ status: false, message: err }));
+};
