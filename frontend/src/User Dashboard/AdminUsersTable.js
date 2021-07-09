@@ -29,6 +29,16 @@ const AdminUsersTable = ({ user }) => {
 		window.location.reload();
 	};
 
+	const deleteUser = async () => {
+		await axios
+			.delete(`http://localhost:5000/users/${user._id}`)
+			.then((res) => {
+				return res.data;
+			})
+			.catch((err) => console.log(err));
+		window.location.reload();
+	};
+
 	return (
 		<div className='admin-user-table-container'>
 			<h2>
@@ -133,7 +143,10 @@ const AdminUsersTable = ({ user }) => {
 						})}
 				</Modal>
 
-				<button type='submit' className='admin-user-table-user-btn'>
+				<button
+					type='submit'
+					className='admin-user-table-user-btn'
+					onClick={deleteUser}>
 					Delete
 				</button>
 			</div>
