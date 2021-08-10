@@ -70,7 +70,6 @@ const App = () => {
 				setDashboardLink(true);
 			}
 		}, 0.000001);
-		console.log(token);
 	}, [token]);
 
 	return (

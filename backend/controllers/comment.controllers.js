@@ -4,7 +4,6 @@ exports.getAll = async (req, res) => {
 	try {
 		const { page, limit } = req.query;
 		const response = await CommentModel.find()
-			.sort({ createdAt: -1 })
 			.limit(limit * 1)
 			.skip((page - 1) * limit)
 			.populate('userId', 'username firstname lastname')
@@ -19,13 +18,18 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getCommentByPostId = async (req, res) => {
+	const { page, limit } = req.query;
+	const total = await CommentModel.find({ postId: req.params.postid }).countDocuments();
+	const pages = limit === undefined ? 1 : Math.ceil(total / limit);
 	await CommentModel.find({ postId: req.params.postid }, (err, data) => {
 		if (err) {
 			res.json({ message: err });
 		} else {
-			res.json(data);
+			res.json({ total, pages, data });
 		}
 	})
+		.limit(limit * 1)
+		.skip((page - 1) * limit)
 		.populate('userId', 'username firstname lastname')
 		.populate('postId', 'title');
 };

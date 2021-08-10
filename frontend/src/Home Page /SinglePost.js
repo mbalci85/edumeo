@@ -36,6 +36,15 @@ const SinglePost = ({ post, userName }) => {
 		let mounted = true;
 
 		axios
+			.get(`http://localhost:5000/comments/${postId}`)
+			.then((res) => {
+				if (mounted) {
+					return setComments(res.data.data);
+				}
+			})
+			.catch((err) => console.log(err));
+
+		axios
 			.get(`http://localhost:5000/users/${post.userId}`)
 			.then((res) => {
 				if (mounted) {
@@ -46,7 +55,7 @@ const SinglePost = ({ post, userName }) => {
 				console.log(err);
 			});
 		return () => (mounted = false);
-	}, [post.userId]);
+	}, [post.userId, postId]);
 
 	let handleLikes = Function;
 
@@ -169,6 +178,15 @@ const SinglePost = ({ post, userName }) => {
 
 			<div className='home-page-comments-container'>
 				<h4>Comments</h4>
+				<small>
+					{comments.length !== 0 &&
+						comments.map((comment, index) => (
+							<p>
+								{index + 1}. {comment.content} ({comment.userId.username})
+							</p>
+						))}
+				</small>
+
 				<form>
 					<input placeholder='Write a comment...' />
 					<button type='submit'>Submit</button>
