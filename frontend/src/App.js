@@ -28,9 +28,10 @@ const App = () => {
 		let mounted = true;
 		const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-		if (Object.entries(userInfo).length !== 0) {
+		if (userInfo && Object.entries(userInfo).length !== 0) {
 			setUserName(userInfo.username);
 		}
+
 		if (token === null) {
 			localStorage.setItem('token', JSON.stringify([]));
 		}
@@ -59,13 +60,17 @@ const App = () => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			setToken(localStorage.getItem('token'));
+			if (localStorage.getItem('token')) {
+				setToken(localStorage.getItem('token'));
+			}
+
 			if (token && token.length !== 0) {
 				setShowPageLinks(false);
 				setIsLoggedIn(true);
 				setDashboardLink(true);
 			}
 		}, 0.000001);
+		console.log(token);
 	}, [token]);
 
 	return (

@@ -6,8 +6,10 @@ exports.getAll = async (req, res) => {
 		const response = await CommentModel.find()
 			.sort({ createdAt: -1 })
 			.limit(limit * 1)
-			.skip((page - 1) * limit);
-		const total = await CommentModel.find().length();
+			.skip((page - 1) * limit)
+			.populate('userId', 'username firstname lastname')
+			.populate('postId', 'title');
+		const total = await CommentModel.find().count();
 		res.json({ total: total, response });
 	} catch (error) {
 		res.json(error);
