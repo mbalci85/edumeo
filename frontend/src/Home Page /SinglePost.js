@@ -15,9 +15,11 @@ const SinglePost = ({ post, userName }) => {
 	const [likeButtonText, setLikeButtonText] = useState('');
 	const [likedButtonClass, setLikedButtonClass] = useState();
 	const [comments, setComments] = useState('');
+	const [entry, setEntry] = useState('');
 
 	const postId = post._id;
 	const likes = post.likes;
+	const userId = JSON.parse(localStorage.getItem('userInfo')).id;
 
 	useEffect(() => {
 		if (likes.includes(userName)) {
@@ -29,8 +31,7 @@ const SinglePost = ({ post, userName }) => {
 			setLikeButtonText('Like');
 			setLikedButtonClass('home-page-like-btn');
 		}
-		console.log(userName);
-	}, [likes, userName]);
+	}, [likes, userName, comments, entry]);
 
 	useEffect(() => {
 		let mounted = true;
@@ -55,9 +56,10 @@ const SinglePost = ({ post, userName }) => {
 				console.log(err);
 			});
 		return () => (mounted = false);
-	}, [post.userId, postId]);
+	}, [post.userId, postId, comments, entry]);
 
 	let handleLikes = Function;
+	let handleEntry = Function;
 
 	if (userName !== '') {
 		handleLikes = () => {
@@ -80,6 +82,22 @@ const SinglePost = ({ post, userName }) => {
 			axios
 				.put(`http://localhost:5000/posts/${postId}`, newPost)
 				.then((res) => res.data)
+				.catch((err) => console.log(err));
+		};
+
+		handleEntry = async (e) => {
+			e.preventDefault();
+			const newEntry = {
+				content: entry,
+				userId,
+				postId,
+			};
+			await axios
+				.post('http://localhost:5000/comments/', newEntry)
+				.then((res) => {
+					setEntry('');
+					console.log(res.data);
+				})
 				.catch((err) => console.log(err));
 		};
 	}
@@ -181,14 +199,21 @@ const SinglePost = ({ post, userName }) => {
 				<small>
 					{comments.length !== 0 &&
 						comments.map((comment, index) => (
-							<p>
+							<p key={index}>
 								{index + 1}. {comment.content} ({comment.userId.username})
 							</p>
 						))}
 				</small>
 
-				<form>
-					<input placeholder='Write a comment...' />
+				<form
+					onSubmit={(e) => {
+						handleEntry(e);
+					}}>
+					<input
+						placeholder='Write a comment...'
+						value={entry}
+						onChange={(e) => setEntry(e.target.value)}
+					/>
 					<button type='submit'>Submit</button>
 				</form>
 			</div>

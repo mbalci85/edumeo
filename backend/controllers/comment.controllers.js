@@ -35,9 +35,8 @@ exports.getCommentByPostId = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-	const { title, content, userId, postId, isActive, isDeleted } = req.body;
+	const { content, userId, postId, isActive, isDeleted } = req.body;
 	const newComment = await CommentModel({
-		title,
 		content,
 		userId,
 		postId,
