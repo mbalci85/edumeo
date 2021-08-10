@@ -12,7 +12,9 @@ exports.getAllUsers = async (req, res) => {
 			.sort({ createdAt: -1 })
 			.limit(limit * 1)
 			.skip((page - 1) * limit);
-		res.json({ total: response.length, response });
+		const total = await UserModel.countDocuments();
+		const pages = limit === undefined ? 1 : Math.ceil(total / limit);
+		res.json({ total, pages, response });
 	} catch (error) {
 		res.status(500).json(error);
 	}

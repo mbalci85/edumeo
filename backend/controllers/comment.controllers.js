@@ -9,8 +9,10 @@ exports.getAll = async (req, res) => {
 			.skip((page - 1) * limit)
 			.populate('userId', 'username firstname lastname')
 			.populate('postId', 'title');
-		const total = await CommentModel.find().count();
-		res.json({ total: total, response });
+		const total = await CommentModel.find().countDocuments();
+		const pages = limit === undefined ? 1 : Math.ceil(total / limit);
+
+		res.json({ total, pages, response });
 	} catch (error) {
 		res.json(error);
 	}
