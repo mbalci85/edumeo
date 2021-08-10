@@ -14,6 +14,7 @@ const SinglePost = ({ post, userName }) => {
 	const [liked, setLiked] = useState('');
 	const [likeButtonText, setLikeButtonText] = useState('');
 	const [likedButtonClass, setLikedButtonClass] = useState();
+	const [comments, setComments] = useState('');
 
 	const postId = post._id;
 	const likes = post.likes;
@@ -166,9 +167,18 @@ const SinglePost = ({ post, userName }) => {
 				)}
 			</div>
 
+			<div className='home-page-comments-container'>
+				<h4>Comments</h4>
+				<form>
+					<input placeholder='Write a comment...' />
+					<button type='submit'>Submit</button>
+				</form>
+			</div>
+
 			<br />
 			<hr />
 			<br />
+
 			<Modal
 				isOpen={isPostModalOpen}
 				onRequestClose={() => setIsPostModalOpen(false)}

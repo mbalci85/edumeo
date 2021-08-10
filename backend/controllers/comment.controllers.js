@@ -18,6 +18,18 @@ exports.getAll = async (req, res) => {
 	}
 };
 
+exports.getCommentByPostId = async (req, res) => {
+	await CommentModel.find({ postId: req.params.postid }, (err, data) => {
+		if (err) {
+			res.json({ message: err });
+		} else {
+			res.json(data);
+		}
+	})
+		.populate('userId', 'username firstname lastname')
+		.populate('postId', 'title');
+};
+
 exports.create = async (req, res) => {
 	const { title, content, userId, postId, isActive, isDeleted } = req.body;
 	const newComment = await CommentModel({
