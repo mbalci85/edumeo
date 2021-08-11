@@ -94,3 +94,19 @@
 .home-page-comments-container {
 	margin: 25px 0px 10px 0px;
 }
+
+.home-page-single-comment {
+	margin: 5px;
+}
+
+.home-page-single-comment-nonvisible {
+	display: none;
+}
+
+.home-page-edit-comment-input-nonvisible {
+	display: none;
+}
+
+.home-page-edit-comment-input {
+	display: block;
+}

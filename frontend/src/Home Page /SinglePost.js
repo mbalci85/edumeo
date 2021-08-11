@@ -16,10 +16,16 @@ const SinglePost = ({ post, userName }) => {
 	const [likedButtonClass, setLikedButtonClass] = useState();
 	const [comments, setComments] = useState('');
 	const [entry, setEntry] = useState('');
+	const [singleCommentClass, setSingleCommentClass] = useState(
+		'home-page-single-comment'
+	);
+	const [editCommentInputClass, setEditCommentInputClass] = useState(
+		'home-page-edit-comment-input-nonvisible'
+	);
+	const [userId, setUserId] = useState('');
 
 	const postId = post._id;
 	const likes = post.likes;
-	const userId = JSON.parse(localStorage.getItem('userInfo')).id;
 
 	useEffect(() => {
 		if (likes.includes(userName)) {
@@ -35,6 +41,10 @@ const SinglePost = ({ post, userName }) => {
 
 	useEffect(() => {
 		let mounted = true;
+
+		if (JSON.parse(localStorage.getItem('userInfo'))) {
+			setUserId(JSON.parse(localStorage.getItem('userInfo')).id);
+		}
 
 		axios
 			.get(`http://localhost:5000/comments/${postId}`)
@@ -58,8 +68,9 @@ const SinglePost = ({ post, userName }) => {
 		return () => (mounted = false);
 	}, [post.userId, postId, comments, entry]);
 
-	let handleLikes = Function;
-	let handleEntry = Function;
+	let handleLikes,
+		handleEntry,
+		editComment = Function;
 
 	if (userName !== '') {
 		handleLikes = () => {
@@ -85,20 +96,25 @@ const SinglePost = ({ post, userName }) => {
 				.catch((err) => console.log(err));
 		};
 
-		handleEntry = async (e) => {
+		handleEntry = (e) => {
 			e.preventDefault();
 			const newEntry = {
 				content: entry,
 				userId,
 				postId,
 			};
-			await axios
+			axios
 				.post('http://localhost:5000/comments/', newEntry)
 				.then((res) => {
 					setEntry('');
 					console.log(res.data);
 				})
 				.catch((err) => console.log(err));
+		};
+
+		editComment = () => {
+			setSingleCommentClass('home-page-single-comment-nonvisible');
+			setEditCommentInputClass('home-page-edit-comment-input');
 		};
 	}
 
@@ -199,9 +215,23 @@ const SinglePost = ({ post, userName }) => {
 				<small>
 					{comments.length !== 0 &&
 						comments.map((comment, index) => (
-							<p key={index}>
-								{index + 1}. {comment.content} ({comment.userId.username})
-							</p>
+							<>
+								<p className={singleCommentClass} key={index}>
+									{index + 1}. {comment.content} (
+									{comment.userId.username})
+								</p>
+								<input
+									value={comment.content}
+									className={editCommentInputClass}
+								/>
+								<button
+									onClick={() => {
+										editComment();
+									}}>
+									Edit
+								</button>
+								<button>Delete</button>
+							</>
 						))}
 				</small>
 
