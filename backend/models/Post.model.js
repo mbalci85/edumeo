@@ -11,7 +11,7 @@ const PostSchema = new Schema(
 		userId: { type: Schema.Types.ObjectId, ref: 'user' },
 		imageUrls: { type: Array },
 		videoUrl: { type: Array },
-		likes: { type: Array },
+		likes: Array,
 	},
 	{ timestamps: true }
 );
