@@ -9,7 +9,7 @@ const PostSchema = new Schema(
 		author: String,
 		isPublished: { type: Boolean, default: false },
 		userId: { type: Schema.Types.ObjectId, ref: 'user' },
-		imageUrls: { type: Array },
+		imageUrls: Array,
 		videoUrl: Array,
 		likes: Array,
 	},
