@@ -20,7 +20,7 @@ const AdminDashboard = ({ welcomeMessage, dashboardLink }) => {
 			.catch((err) => console.log(err));
 
 		axios
-			.get('http://localhost:5000/posts')
+			.get(`${API_BASE_URL}/posts`)
 			.then((res) => {
 				setPosts(res.data.results);
 			})
