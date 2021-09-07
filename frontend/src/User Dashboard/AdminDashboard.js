@@ -9,10 +9,11 @@ const AdminDashboard = ({ welcomeMessage, dashboardLink }) => {
 
 	const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 	const history = useHistory();
+	const API_BASE_URL = 'http://localhost:5000';
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:5000/users/')
+			.get(`${API_BASE_URL}/users`)
 			.then((res) => {
 				setUsers(res.data.response);
 			})
