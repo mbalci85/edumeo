@@ -24,6 +24,8 @@ const App = () => {
 	const [userName, setUserName] = useState('');
 	const [numberOfPublishedPosts, setNumberOfPublishedPosts] = useState();
 
+	const API_BASE_URL = 'http://localhost:5000';
+
 	useEffect(() => {
 		let mounted = true;
 		const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -38,9 +40,7 @@ const App = () => {
 
 		if (page) {
 			axios
-				.get(
-					`http://localhost:5000/posts/ispublished/true?page=${page}&limit=${limit}`
-				)
+				.get(`${API_BASE_URL}/posts/ispublished/true?page=${page}&limit=${limit}`)
 				.then((res) => {
 					if (mounted) {
 						return setPosts(res.data);
