@@ -49,7 +49,7 @@ const App = () => {
 				.catch((err) => console.log(err));
 		}
 		axios
-			.get(`http://localhost:5000/posts/ispublished/true`)
+			.get(`${API_BASE_URL}/posts/ispublished/true`)
 			.then((res) => {
 				setNumberOfPublishedPosts(res.data.length);
 			})
