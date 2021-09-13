@@ -243,7 +243,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						</button>
 						{isLoading ? (
 							<small className='register-form-loading-msg'>
-								Checking your credentials ...............
+								Checking your credentials ..................
 							</small>
 						) : null}
 						{!isLoading ? (
