@@ -213,7 +213,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						/>
 						{passwordLength ? (
 							<small className='register-form-validation-warning'>
-								Enter at least 6 characters..
+								Enter at least 6 characters.
 							</small>
 						) : null}
 						<label htmlFor='confirm-password'>Confirm Password</label>
