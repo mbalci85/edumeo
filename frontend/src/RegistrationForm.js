@@ -191,7 +191,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						/>
 						{emailExists ? (
 							<small className='register-form-validation-warning'>
-								This email address exists. Enter another one!
+								This email address exists. Enter another one!!
 							</small>
 						) : null}
 
