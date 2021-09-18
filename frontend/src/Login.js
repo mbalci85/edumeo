@@ -8,6 +8,7 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [password, setPassword] = useState('');
 	const [wrongPasswordEmail, setWrongPasswordEmail] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const API_BASE_URL = 'http://localhost:5000';
 
 	const history = useHistory();
 
@@ -22,7 +23,7 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 		setIsLoading(true);
 		setWrongPasswordEmail(false);
 		const response = await axios
-			.post('http://localhost:5000/users/signin', {
+			.post(`${API_BASE_URL}/users/signin`, {
 				email,
 				password,
 			})
