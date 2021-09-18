@@ -17,6 +17,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 	const [blankUsername, setBlankUsername] = useState(false);
 	const [passwordLength, setPasswordLength] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const API_BASE_URL = 'http://localhost:5000';
 
 	useEffect(() => {
 		welcomeMessage(false);
@@ -34,7 +35,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 			if (password.length > 5) {
 				if (password === confirmPassword) {
 					axios
-						.post('http://localhost:5000/users/signup', {
+						.post(`${API_BASE_URL}/users/signup`, {
 							username,
 							firstname,
 							lastname,
