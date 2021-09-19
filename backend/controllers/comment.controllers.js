@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const CommentModel = require('../models/Comment.model');
 
 exports.getAll = async (req, res) => {
