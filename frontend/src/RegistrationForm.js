@@ -63,7 +63,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 							} else {
 								setRegistered(true);
 								const response = await axios
-									.post('http://localhost:5000/users/signin', {
+									.post(`${API_BASE_URL}/users/signin`, {
 										username,
 										email,
 										password,
