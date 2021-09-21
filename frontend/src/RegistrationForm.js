@@ -132,7 +132,7 @@ const RegistrationForm = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 						/>
 						{blankUsername ? (
 							<small className='register-form-validation-warning'>
-								This field can not be blank
+								This field can not be blank..
 							</small>
 						) : null}
 
