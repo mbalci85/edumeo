@@ -16,7 +16,7 @@ const isAdmin = async (req, res, next) => {
 			next();
 		} else {
 			res.sendStatus(403).json({
-				message: 'You are not authorized to access',
+				message: 'You are not authorized to access..',
 			});
 		}
 	});
