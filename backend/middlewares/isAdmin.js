@@ -10,7 +10,7 @@ const isAdmin = async (req, res, next) => {
 		if (err) {
 			return res
 				.sendStatus(403)
-				.json({ message: 'You are not authorized to access' });
+				.json({ message: 'You are not authorized to access...' });
 		}
 		if (data.role === 'admin') {
 			next();
