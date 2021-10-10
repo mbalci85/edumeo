@@ -122,7 +122,7 @@ const PostBoard = () => {
 					<input
 						id='title'
 						className='post-form-post-title'
-						placeholder='Enter your title...'
+						placeholder='Enter your title'
 						type='text'
 						value={title}
 						onChange={(e) => {
