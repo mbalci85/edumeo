@@ -67,7 +67,7 @@ const Login = ({ welcomeMessage, pageLinks, signOutMessage }) => {
 				<input
 					id='password'
 					type='password'
-					placeholder='Enter password..'
+					placeholder='Enter password...'
 					value={password}
 					required
 					onChange={(e) => {
