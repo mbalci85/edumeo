@@ -183,7 +183,7 @@ const PostBoard = () => {
 
 					{isLoading && !blankNote ? (
 						<small className='create-post-loading-msg'>
-							Your post is being created.............
+							Your post is being created................
 						</small>
 					) : null}
 				</form>
