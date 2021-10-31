@@ -240,7 +240,7 @@ const SinglePost = ({ post, userName }) => {
 						handleEntry(e);
 					}}>
 					<input
-						placeholder='Write a comment...'
+						placeholder='Write a comment....'
 						value={entry}
 						onChange={(e) => setEntry(e.target.value)}
 					/>
